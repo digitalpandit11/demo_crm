@@ -1,0 +1,28 @@
+
+
+Different Status 
+
+Enquiry Status 
+
+	1. Pending
+	2. Offer Created
+	3. Order Created
+	4. Enquiry Loss
+	5. Offer Loss
+	6. Order Canceled
+
+Offer Status
+	
+	1. Pending Enquiry
+	2. Offer Created
+	3. Order Created
+	4. Offer Loss
+	5. Offer Regrated
+	6. Offer Revise
+	7. Order Canceled
+
+Sales Order Status
+
+	1. Pending Offers	
+	2. Order Created
+	3. Order Canceled

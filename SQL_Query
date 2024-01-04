@@ -1,0 +1,113 @@
+ALTER TABLE `call_log` ADD `datestamp` VARCHAR(55) NOT NULL AFTER `entity_id`;
+
+
+-- 20th dec 2023
+--created new tables in crm from support
+
+-- Table structure for table `demo_test_master`
+
+CREATE TABLE `demo_test_master` (
+  `entity_id` int(11) NOT NULL AUTO_INCREMENT,
+  `category_id` int(11) DEFAULT NULL,
+  `test_name` varchar(250) DEFAULT NULL,
+  `product_make` varchar(250) DEFAULT NULL,
+  `product_name` text DEFAULT NULL,
+  `testing_result` varchar(250) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  PRIMARY KEY (`entity_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+
+-- Table structure for table `demotest_attachment`
+
+CREATE TABLE `demotest_attachment` (
+  `entity_id` int(11) NOT NULL AUTO_INCREMENT,
+  `demo_test_id` int(11) DEFAULT NULL,
+  `uploaded_on` varchar(250) DEFAULT NULL,
+  `attachment_name` varchar(250) DEFAULT NULL,
+  PRIMARY KEY (`entity_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+
+-- Table structure for table `predispatch_attachment`
+
+CREATE TABLE `predispatch_attachment` (
+  `entity_id` int(11) NOT NULL AUTO_INCREMENT,
+  `predispatch_id` int(11) DEFAULT NULL,
+  `uploaded_on` varchar(250) DEFAULT NULL,
+  `attachment_name` varchar(250) DEFAULT NULL,
+  PRIMARY KEY (`entity_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+
+-- Table structure for table `predispatch_master`
+
+CREATE TABLE `predispatch_master` (
+  `entity_id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) DEFAULT NULL,
+  `contact_person_id` int(11) DEFAULT NULL,
+  `product_make` varchar(250) DEFAULT NULL,
+  `product_name` varchar(250) DEFAULT NULL,
+  `invoice_number` varchar(250) DEFAULT NULL,
+  `serial_number` varchar(250) DEFAULT NULL,
+  `comment` text DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  PRIMARY KEY (`entity_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+-- Table structure for table `ticket_master`
+
+CREATE TABLE `ticket_master` (
+  `entity_id` int(11) NOT NULL AUTO_INCREMENT,
+  `refrance_name` varchar(250) DEFAULT NULL,
+  `ticket_type` int(11) DEFAULT NULL,
+  `customer_id` int(11) DEFAULT NULL,
+  `contact_person_id` int(11) DEFAULT NULL,
+  `product_name` text DEFAULT NULL,
+  `product_make` varchar(250) DEFAULT NULL,
+  `product_code` varchar(250) DEFAULT NULL,
+  `warrantee_status` int(11) DEFAULT NULL,
+  `warrantee_year` varchar(250) DEFAULT NULL,
+  `invoice_number` varchar(250) DEFAULT NULL,
+  `invoice_date` varchar(55) DEFAULT NULL,
+  `product_serial_number` varchar(250) DEFAULT NULL,
+  `ticket_number` varchar(250) DEFAULT NULL,
+  `ticket_date` varchar(55) DEFAULT NULL,
+  `ticket_record` text DEFAULT NULL,
+  `attachment` varchar(250) DEFAULT NULL,
+  `management_decision` text DEFAULT NULL,
+  `close_date` varchar(100) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `refrance_ticket_id` int(11) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  PRIMARY KEY (`entity_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+-- Table structure for table `tracking_master`
+
+CREATE TABLE `tracking_master` (
+  `entity_id` int(11) NOT NULL AUTO_INCREMENT,
+  `ticket_id` int(11) DEFAULT NULL,
+  `tracking_number` varchar(250) DEFAULT NULL,
+  `tracking_date` varchar(55) DEFAULT NULL,
+  `tracking_record` text DEFAULT NULL,
+  `next_action` text DEFAULT NULL,
+  `action_due_date` int(55) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  PRIMARY KEY (`entity_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+-- Table structure for table `tracking_attachment`
+CREATE TABLE `tracking_attachment` (
+  `entity_id` int(11) NOT NULL AUTO_INCREMENT,
+  `tracking_id` int(11) DEFAULT NULL,
+  `ticket_id` int(11) DEFAULT NULL,
+  `attachment` varchar(250) DEFAULT NULL,
+  `uploaded_on` datetime DEFAULT NULL,
+  PRIMARY KEY (`entity_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
