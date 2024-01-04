@@ -729,7 +729,7 @@ class Customer_master extends CI_Controller {
         $sql_details = array(
           'user' => 'root',
           'pass' => '',
-          'db'   => 'bbcpl_crm',
+          'db'   => 'demo_crm',
           'host' => 'localhost'
         );
         // $sql_details = array(
@@ -855,7 +855,7 @@ class Customer_master extends CI_Controller {
         $sql_details = array(
             'user' => 'root',
             'pass' => '',
-            'db'   => 'bbcpl_crm',
+            'db'   => 'demo_crm',
             'host' => 'localhost'
         );
         

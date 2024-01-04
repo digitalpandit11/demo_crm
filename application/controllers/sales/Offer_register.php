@@ -2685,7 +2685,7 @@ class Offer_register extends CI_Controller {
         $price_condition = $master_offer_data[0]['price_condition'];
         if($price_condition == 1)
         {
-            $PC = "Ex Works BluBoxx ";
+            $PC = "Ex Works VBTEK ";
         }elseif($price_condition == 2)
         {
             $PC = "FOR Site";
@@ -3160,7 +3160,7 @@ class Offer_register extends CI_Controller {
                     <tr>
                         <td><h2 style="font-size: 10px;"><b>Bank Details for NEFT/RTGS:</b></h2>
                         <p style="font-size: 7.5px;  text-indent:2em;">Bank Name :  HDFC Bank
-                        <br>Account Name : BluBoxx Communication Pvt. Ltd.
+                        <br>Account Name : VB Digitech Pvt. Ltd.
                         <br>Account No : 50200018071706
                         <br>Account Type :  CC
                         
@@ -3171,9 +3171,9 @@ class Offer_register extends CI_Controller {
                         </p>
                         </td>
                         <td style="width: 40%; text-align:right;">
-                            <h2 style="font-size: 8px;"><b>For BluBoxx Communication Pvt. Ltd.</b></h2>
+                            <h2 style="font-size: 8px;"><b>For VB Digitech Pvt. Ltd.</b></h2>
                             <br><br>
-                            <h3 style="font-size: 8px; text-align:right;"><b>BluBoxx Sales<br> Mobile No: +91 7875432180</b></h3>
+                            <h3 style="font-size: 8px; text-align:right;"><b>VBTEK Sales<br> Mobile No: +91 7875432180</b></h3>
 
                         </td>
                     </tr>
@@ -3189,7 +3189,7 @@ class Offer_register extends CI_Controller {
         
         $pdf->AddPage();
         $html = '<br><br><br><br>
-                    <h3 style="font-size: 10px;text-align:center;"><b><u>BluBoxx Warranty Policy</u></b></h3>
+                    <h3 style="font-size: 10px;text-align:center;"><b><u>VBTEK Warranty Policy</u></b></h3>
                     <table cellpadding="2" width="100%">
                         <tr>
                             <td>
@@ -3224,8 +3224,8 @@ class Offer_register extends CI_Controller {
                             <td>
                                 <h3 style="font-size: 10px;"><b>For Faulty Products under Warranty:</b></h3>
                                 <p style="font-size: 9px;">
-                                    Products to be sent to BluBoxx for inspection. BluBoxx Engineer will first inspect the product. If needed products will be
-                                    further sent to Principles for servicing or repair. To & Fro Freight Charges will be borne by BluBoxx for under warranty
+                                    Products to be sent to VBTEK for inspection. VBTEK Engineer will first inspect the product. If needed products will be
+                                    further sent to Principles for servicing or repair. To & Fro Freight Charges will be borne by VBTEK for under warranty
                                     products.
                                 </p>
                                 <p style="font-size: 9px;">
@@ -3247,7 +3247,7 @@ class Offer_register extends CI_Controller {
                             <td>
                                 <h3 style="font-size: 10px;"><b>NPF (No Problem Found):</b></h3>
                                 <p style="font-size: 9px;">
-                                    If NPF is detected from merchandise, BluBoxx reserves the right to have necessary charges.
+                                    If NPF is detected from merchandise, VBTEK reserves the right to have necessary charges.
                                 </p>
                             </td>
                         </tr>
@@ -3255,11 +3255,11 @@ class Offer_register extends CI_Controller {
                             <td>
                                 <h3 style="font-size: 10px;"><b>Note:</b></h3>
                                 <p style="font-size: 9px;">
-                                    BluBoxx has the right to destroy or recycle the product(s) to allay our storage costs without incurring any liability if
+                                    VBTEK has the right to destroy or recycle the product(s) to allay our storage costs without incurring any liability if
                                         customers do not respond to a request of the payment or return of goods within 60 days from the date of the request.
                                 </p>
                                 <p style="font-size: 9px;">
-                                    BluBoxx reserves the right to modify or cancel the policy at any time. Neither BluBoxx nor any of its entities will be
+                                    VBTEK reserves the right to modify or cancel the policy at any time. Neither VBTEK nor any of its entities will be
                                     responsible for any damages caused by such modifications or cancellation.
                                 </p>
                             </td>
@@ -3411,7 +3411,7 @@ class Offer_register extends CI_Controller {
         $price_condition = $master_offer_data[0]['price_condition'];
         if($price_condition == 1)
         {
-            $PC = "Ex Works BluBoxx";
+            $PC = "Ex Works VBTEK";
         }elseif($price_condition == 2)
         {
             $PC = "FOR Site";
@@ -3874,7 +3874,7 @@ class Offer_register extends CI_Controller {
                     <tr COLSPAN=2>
                         <td style="width: 60%;">
                         <p style="font-size: 7.5px;  text-indent:2em;">Bank Name :  HDFC Bank
-                        <br>Account Name : BluBoxx Communication Pvt. Ltd.
+                        <br>Account Name : VB Digitech Pvt. Ltd.
                         <br>Account No : 50200018071706
                         <br>Account Type :  CC
                         
@@ -3885,7 +3885,7 @@ class Offer_register extends CI_Controller {
                         </p>
                         </td>
                         <td style="width: 40%; text-align:right;">
-                            <h2 style="font-size: 8px;"><b>For BluBoxx Communication Pvt. Ltd.</b></h2>
+                            <h2 style="font-size: 8px;"><b>For VB Digitech Pvt. Ltd.</b></h2>
 
                         </td>
                     </tr>
@@ -3894,7 +3894,7 @@ class Offer_register extends CI_Controller {
                             <h3 style="font-size: 10px;"><b>“This Document is computer generated. No signature is required”</b></h3>
                         </td>
                         <td style="width: 25%;">
-                            <h3 style="font-size: 8px; text-align:right;"><b>BluBoxx Sales<br> Mobile No: +91 7875432180</b></h3>
+                            <h3 style="font-size: 8px; text-align:right;"><b>VBTEK Sales<br> Mobile No: +91 7875432180</b></h3>
                         </td>
                     </tr>
                      </table>';
@@ -3902,7 +3902,7 @@ class Offer_register extends CI_Controller {
         
         $pdf->AddPage();
         $html = '<br><br><br><br>
-                    <h3 style="font-size: 10px;text-align:center;"><b><u>BluBoxx Warranty Policy</u></b></h3>
+                    <h3 style="font-size: 10px;text-align:center;"><b><u>VBTEK Warranty Policy</u></b></h3>
                     <table cellpadding="2" width="100%">
                         <tr>
                             <td>
@@ -3937,8 +3937,8 @@ class Offer_register extends CI_Controller {
                             <td>
                                 <h3 style="font-size: 10px;"><b>For Faulty Products under Warranty:</b></h3>
                                 <p style="font-size: 9px;">
-                                    Products to be sent to BluBoxx for inspection. BluBoxx Engineer will first inspect the product. If needed products will be
-                                    further sent to Principles for servicing or repair. To & Fro Freight Charges will be borne by BluBoxx for under warranty
+                                    Products to be sent to VBTEK for inspection. VBTEK Engineer will first inspect the product. If needed products will be
+                                    further sent to Principles for servicing or repair. To & Fro Freight Charges will be borne by VBTEK for under warranty
                                     products.
                                 </p>
                                 <p style="font-size: 9px;">
@@ -3960,7 +3960,7 @@ class Offer_register extends CI_Controller {
                             <td>
                                 <h3 style="font-size: 10px;"><b>NPF (No Problem Found):</b></h3>
                                 <p style="font-size: 9px;">
-                                    If NPF is detected from merchandise, BluBoxx reserves the right to have necessary charges.
+                                    If NPF is detected from merchandise, VBTEK reserves the right to have necessary charges.
                                 </p>
                             </td>
                         </tr>
@@ -3968,11 +3968,11 @@ class Offer_register extends CI_Controller {
                             <td>
                                 <h3 style="font-size: 10px;"><b>Note:</b></h3>
                                 <p style="font-size: 9px;">
-                                    BluBoxx has the right to destroy or recycle the product(s) to allay our storage costs without incurring any liability if
+                                    VBTEK has the right to destroy or recycle the product(s) to allay our storage costs without incurring any liability if
                                         customers do not respond to a request of the payment or return of goods within 60 days from the date of the request.
                                 </p>
                                 <p style="font-size: 9px;">
-                                    BluBoxx reserves the right to modify or cancel the policy at any time. Neither BluBoxx nor any of its entities will be
+                                    VBTEK reserves the right to modify or cancel the policy at any time. Neither VBTEK nor any of its entities will be
                                     responsible for any damages caused by such modifications or cancellation.
                                 </p>
                             </td>
@@ -4642,7 +4642,7 @@ class Offer_register extends CI_Controller {
                     <tr COLSPAN=2>
                         <td style="width: 60%;">
                         <p style="font-size: 7.5px;  text-indent:2em;">Bank Name :  HDFC Bank
-                        <br>Account Name : BluBoxx Communication Pvt. Ltd.
+                        <br>Account Name : VBTEK Communication Pvt. Ltd.
                         <br>Account No : 50200018071706
                         <br>Account Type :  CC
                         
@@ -4653,7 +4653,7 @@ class Offer_register extends CI_Controller {
                         </p>
                         </td>
                         <td style="width: 40%; text-align:right;">
-                            <h2 style="font-size: 8px;"><b>For BluBoxx Communication Pvt. Ltd.</b></h2>
+                            <h2 style="font-size: 8px;"><b>For VBTEK Communication Pvt. Ltd.</b></h2>
 
                         </td>
                     </tr>
@@ -4662,7 +4662,7 @@ class Offer_register extends CI_Controller {
                             <h3 style="font-size: 10px;"><b>“This Document is computer generated. No signature is required”</b></h3>
                         </td>
                         <td style="width: 25%;">
-                            <h3 style="font-size: 8px; text-align:right;"><b>BluBoxx Sales<br> Mobile No: +91 7875432180</b></h3>
+                            <h3 style="font-size: 8px; text-align:right;"><b>VBTEK Sales<br> Mobile No: +91 7875432180</b></h3>
                         </td>
                     </tr>
                      </table>';
@@ -4670,7 +4670,7 @@ class Offer_register extends CI_Controller {
         
         $pdf->AddPage();
         $html = '<br><br><br><br>
-                    <h3 style="font-size: 10px;text-align:center;"><b><u>BluBoxx Warranty Policy</u></b></h3>
+                    <h3 style="font-size: 10px;text-align:center;"><b><u>VBTEK Warranty Policy</u></b></h3>
                     <table cellpadding="2" width="100%">
                         <tr>
                             <td>
@@ -4705,8 +4705,8 @@ class Offer_register extends CI_Controller {
                             <td>
                                 <h3 style="font-size: 10px;"><b>For Faulty Products under Warranty:</b></h3>
                                 <p style="font-size: 9px;">
-                                    Products to be sent to BluBoxx for inspection. BluBoxx Engineer will first inspect the product. If needed products will be
-                                    further sent to Principles for servicing or repair. To & Fro Freight Charges will be borne by BluBoxx for under warranty
+                                    Products to be sent to VBTEK for inspection. VBTEK Engineer will first inspect the product. If needed products will be
+                                    further sent to Principles for servicing or repair. To & Fro Freight Charges will be borne by VBTEK for under warranty
                                     products.
                                 </p>
                                 <p style="font-size: 9px;">
@@ -4728,7 +4728,7 @@ class Offer_register extends CI_Controller {
                             <td>
                                 <h3 style="font-size: 10px;"><b>NPF (No Problem Found):</b></h3>
                                 <p style="font-size: 9px;">
-                                    If NPF is detected from merchandise, BluBoxx reserves the right to have necessary charges.
+                                    If NPF is detected from merchandise, VBTEK reserves the right to have necessary charges.
                                 </p>
                             </td>
                         </tr>
@@ -4736,11 +4736,11 @@ class Offer_register extends CI_Controller {
                             <td>
                                 <h3 style="font-size: 10px;"><b>Note:</b></h3>
                                 <p style="font-size: 9px;">
-                                    BluBoxx has the right to destroy or recycle the product(s) to allay our storage costs without incurring any liability if
+                                    VBTEK has the right to destroy or recycle the product(s) to allay our storage costs without incurring any liability if
                                         customers do not respond to a request of the payment or return of goods within 60 days from the date of the request.
                                 </p>
                                 <p style="font-size: 9px;">
-                                    BluBoxx reserves the right to modify or cancel the policy at any time. Neither BluBoxx nor any of its entities will be
+                                    VBTEK reserves the right to modify or cancel the policy at any time. Neither VBTEK nor any of its entities will be
                                     responsible for any damages caused by such modifications or cancellation.
                                 </p>
                             </td>
@@ -4767,7 +4767,7 @@ class Offer_register extends CI_Controller {
         $Company_design = $path_img."/assets/company_logo/logo.png";
 
         $message = '<html><header>
-            <h1 style="text-align: center;">BluBoxx Communication Pvt. Ltd.</h1>
+            <h1 style="text-align: center;">VB Digitech Pvt. Ltd.</h1>
             <center><P><img src="http://crm.bbcpl.in/assets/company_logo/logo.png" style="width:100px; height: 80px;"></P></center>
             <br>'.strip_tags($customer_name).'.,'.'<br><br>
 
@@ -4785,7 +4785,7 @@ class Offer_register extends CI_Controller {
             <img src="http://crm.bbcpl.in/assets/company_logo/mail_pic.png" style="width:100px; height: 80px;">
             <br>
             <p style="color:blue;"><i>We help you Connect !!</i><br>
-            <b>Team BluBoxx Communication Pvt. Ltd.</b><br>
+            <b>Team VB Digitech Pvt. Ltd.</b><br>
             <b>An ISO 9001 :2015 Certified Company</b>
             </p><br>
             102/B, Surekha Apartment, Pune Satara Road,<br>
@@ -5003,7 +5003,7 @@ class Offer_register extends CI_Controller {
         $sql_details = array(
           'user' => 'root',
           'pass' => '',
-          'db'   => 'bbcpl_crm',
+          'db'   => 'demo_crm',
           'host' => 'localhost'
         );
 
@@ -5146,7 +5146,7 @@ class Offer_register extends CI_Controller {
         $sql_details = array(
           'user' => 'root',
           'pass' => '',
-          'db'   => 'bbcpl_crm',
+          'db'   => 'demo_crm',
           'host' => 'localhost'
         );
         

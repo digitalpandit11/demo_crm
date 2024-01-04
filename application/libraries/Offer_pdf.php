@@ -14,15 +14,15 @@ class Offer_pdf extends TCPDF {
         $this->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
         
         //// Shreemat
-        $image_file = K_PATH_IMAGES.'bbcpl_logo.png';
-        $this->Image($image_file, 20, 20, 55, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+        $image_file = K_PATH_IMAGES.'vbtek_logo.png';
+        $this->Image($image_file, 20, 20, 50, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
         // Set font
         
         // Title
         /*$this->SetFont('helvetica', '', 5);
         $html = '<h3 style="text-indent:5em; margin-top: 50px; ">Registered Office</h3>';*/
-        $this->SetFont('helvetica', 'B', 17);
-        $html = '<h3 style="text-indent:5em; margin-top: 50px;">BluBoxx Communication Pvt. Ltd.</h3>
+        $this->SetFont('helvetica', 'B', 12);
+        $html = '<h3 style="text-indent:10em; margin-top: 50px;">Venkatesh Balaji Digital Technology Pvt. Ltd.</h3>
                  ';
 
         $this->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);

@@ -61,7 +61,7 @@ class Enquiry_register extends CI_Controller {
         $sql_details = array(
             'user' => 'root',
             'pass' => '',
-            'db'   => 'bbcpl_crm',
+            'db'   => 'demo_crm',
             'host' => 'localhost'
         );
 
@@ -1113,7 +1113,7 @@ class Enquiry_register extends CI_Controller {
         $sql_details = array(
             'user' => 'root',
             'pass' => '',
-            'db'   => 'bbcpl_crm',
+            'db'   => 'demo_crm',
             'host' => 'localhost'
         );
 

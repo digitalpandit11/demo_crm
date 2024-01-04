@@ -118,7 +118,7 @@ if (!$_SESSION['user_name']) {
 		<!-- Brand Logo -->
 		<a href="" class="brand-link">
 			<img src="<?php echo base_url() . 'assets/company_logo/construction.jpg' ?>" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-			<span class="brand-text font-weight-light"><b>BluBoxx CRM</b></span>
+			<span class="brand-text font-weight-light"><b>VBTEK CRM</b></span>
 		</a>
 		<!-- Sidebar -->
 		<div class="sidebar">
