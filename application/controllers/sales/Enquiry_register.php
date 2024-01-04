@@ -66,9 +66,9 @@ class Enquiry_register extends CI_Controller {
         // );
 
         $sql_details = array(
-            'username' => 'u117003035_vbtek',
-            'password' => 'S@14vbtek',
-            'database' => 'u117003035_demo_crm',
+           'user' => 'u117003035_vbtek',
+            'pass' => 'S@14vbtek',
+            'db' => 'u117003035_demo_crm',
             'host' => 'localhost'
         );
          
@@ -1104,9 +1104,9 @@ class Enquiry_register extends CI_Controller {
         // SQL server connection information
         
         $sql_details = array(
-            'username' => 'u117003035_vbtek',
-            'password' => 'S@14vbtek',
-            'database' => 'u117003035_demo_crm',
+           'user' => 'u117003035_vbtek',
+            'pass' => 'S@14vbtek',
+            'db' => 'u117003035_demo_crm',
             'host' => 'localhost'
         );
       
