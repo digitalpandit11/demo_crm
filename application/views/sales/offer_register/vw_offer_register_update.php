@@ -36,6 +36,17 @@ if (!$_SESSION['user_name']) {
 	<link rel="stylesheet" href="<?php echo base_url() . 'assets/dist/css/adminlte.min.css' ?>">
 	<!-- Google Font: Source Sans Pro -->
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+	<style>
+		#error_message {
+		display: none;
+		background-color: #dc3545; /* Red background color */
+		color: white; /* White text color */
+		padding: 5px; /* Padding around the content */
+		margin-bottom: 15px; /* Bottom margin */
+		border-radius: 5px; /* Rounded corners */
+		margin-top: 25px;
+	    }
+	</style>
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -485,6 +496,14 @@ if (!$_SESSION['user_name']) {
 															</a>
 
 														</div>
+
+														<div class="btn-group" style="margin-top: 15px; margin-left: 20px;">
+															<a data-toggle="modal" data-target="#modal-lg-upload-template" class="btn btn-block btn-success" style="background-color: #5cb85c; border-color: #4cae4c; color: #ffff;">
+																Upload Template
+															</a>
+
+														</div>
+
 														<p style="color: #FF0000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Please Check HSN Code Of Product Before Submiting Offer</p>
 
 
@@ -917,6 +936,35 @@ if (!$_SESSION['user_name']) {
 		</div>
 	</div>
 
+	<div class="modal fade" id="modal-lg-upload-template">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Upload Template</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form role="form" name="template_form" id="template_form" enctype="multipart/form-data">
+						<input type="hidden" id="offer_id" name="offer_id" value="<?php echo $offer_id; ?>" required>
+						<input type="file" name="template_file" id="template_file" accept=".csv,.xlsx,.xls"><br>
+
+						<div id="error_message" style="display: none;" class="alert alert-danger"></div>
+
+						<div class="modal-footer justify-content-between">
+							<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+							<input id="upload_template" class="btn btn-success" type="button" value="Upload" name="upload_template">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
 	<div class="modal fade" id="modal-lg-product-add">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -927,7 +975,7 @@ if (!$_SESSION['user_name']) {
 					</button>
 				</div>
 				<div class="modal-body">
-					<form role="form" name="product_pop_up_form" id="product_pop_up_form" method="post">
+					<form role="form"  name="product_pop_up_form" id="product_pop_up_form" method="post">
 
 						<div class="row">
 							<div class="col-sm-4">
@@ -1373,6 +1421,46 @@ if (!$_SESSION['user_name']) {
 		$(document).ready(function() {
 			bsCustomFileInput.init();
 		});
+	</script>
+
+	<script type="text/javascript">
+		$(document).on('click', '#upload_template', function() {
+			var offer_id = $('#offer_id').val();
+			var formData = new FormData();
+			formData.append('offer_id', offer_id);
+			formData.append('template_file', $('#template_file')[0].files[0]);
+
+			$.ajax({
+				url: "<?php echo site_url('sales/offer_register/upload_template'); ?>",
+				method: "POST",
+				data: formData,
+				processData: false,
+				contentType: false,
+				dataType: 'json',
+				success: function(response) {
+					if (response.success) {
+						
+						// Redirect to success page or do any other necessary action
+						window.location.reload();
+						// window.location.href = response.redirect_url;
+					} else {
+						$('#error_message').html(response.error);
+						$('#error_message').show();
+						$('#modal-lg-upload-template').modal('show'); // Show the modal
+						$('.modal-footer').append('<button type="button" class="btn btn-primary" onclick="goBack()">Go Back</button>');
+						$('#upload_template').prop('disabled', true);
+					}
+				},
+				error: function(xhr, status, error) {
+					console.error(xhr.responseText);
+				}
+				
+			});
+		});
+
+		function goBack() {
+			window.location.href = "<?php echo base_url() . 'update_offer_data/' . $offer_id; ?>";
+		}
 	</script>
 
 	<script type="text/javascript">

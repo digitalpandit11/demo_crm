@@ -990,5 +990,11 @@ class Offer_register_model extends CI_Model{
         $query = $this->db->get_where('customer_contact_master', array('customer_id' => $customer_id));
         return $query;
     }
+
+   
+   
 }
+
+
+
 ?>
