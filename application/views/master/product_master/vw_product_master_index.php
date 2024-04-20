@@ -85,10 +85,12 @@ if(!$_SESSION['user_name'])
                                             <div class="btn-group" style="margin-top: 15px; margin-left: 15px;">
                                                 <?php $product_attachment = "price_csv.csv"; ?>
                                                 <button style="width: 200px; margin: auto;" type="button" class="btn btn-block btn-danger float-right">
-                                                        <a style="color: white;" target="_blank" href="<?php echo base_url('assets/price_csv.csv'); ?>">
-                                                    Download Example Sheet</a>
+                                                    <a style="color: white;" href="<?php echo base_url('assets/price_csv.csv'); ?>" download>
+                                                        Download Example Sheet
+                                                    </a>
                                                 </button>
-                                            </div>       
+                                            </div>
+   
 
                                         </div>
                                         <div class="card-body">
