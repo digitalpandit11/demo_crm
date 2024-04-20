@@ -76,7 +76,20 @@ if(!$_SESSION['user_name'])
                                                 <a href="create_product_master" class="btn btn-block btn-primary">
                                                 Create Product
                                                 </a>
+                                            </div>	
+
+                                            <div class="btn-group" style="margin-top: 15px; margin-left: 15px;">
+                                                 <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#importModal">Update Product Price</button>                                        
                                             </div>
+
+                                            <div class="btn-group" style="margin-top: 15px; margin-left: 15px;">
+                                                <?php $product_attachment = "price_csv.csv"; ?>
+                                                <button style="width: 200px; margin: auto;" type="button" class="btn btn-block btn-danger float-right">
+                                                        <a style="color: white;" target="_blank" href="<?php echo base_url('assets/price_csv.csv'); ?>">
+                                                    Download Example Sheet</a>
+                                                </button>
+                                            </div>       
+
                                         </div>
                                         <div class="card-body">
                                             <div  class="table-responsive">
@@ -139,6 +152,34 @@ if(!$_SESSION['user_name'])
                             </div>
                         </div>
                     </section>
+                </div>
+
+                <div class="modal fade" id="importModal" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Upload Csv file</h4>
+                            </div>
+                            <form role="form" name="client_info" action="<?php echo site_url('master/Product_master/uploadData'); ?>" method="post" enctype="multipart/form-data">
+                                <div class="modal-body">
+
+                                    
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <input type="file" name="csv_file" id="csv_file" class="filestyle" data-icon="false">
+                                        </div>
+                                    </div>
+
+                                    
+                                </div>
+                                <div class="modal-footer form-group">
+
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <input type='submit' value='Upload' name='upload'>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             <?php $this->load->view('footer');?>
             <!-- Control Sidebar -->

@@ -133,5 +133,64 @@ class Product_master extends CI_Controller {
             }
         }
     }
+
+    public function uploadData()
+    {
+        $config['upload_path']   = 'assets/product_price/';
+        $config['allowed_types'] = 'csv';
+        $config['max_size']      = 2048; // Adjust as needed
+    
+        $this->load->library('upload', $config);
+    
+        if (!$this->upload->do_upload('csv_file')) {
+            $error = array('error' => $this->upload->display_errors());
+            // Log or provide user feedback for the error
+        } else {
+            $data = $this->upload->data();
+            $file_path = 'assets/product_price/' . $data['file_name'];
+    
+            // Load CSV data
+            $csv_data = array_map('str_getcsv', file($file_path));
+    
+            // Remove header
+            $header = array_shift($csv_data);
+    
+            // Begin transaction
+            $this->db->trans_start();
+    
+            // Process each row
+            foreach ($csv_data as $row) {
+                // Assuming part_code is the first column and price is the second column
+                $product_part_code = $row[0];
+                $price = $row[1];
+    
+                $this->db->select('entity_id');
+                $this->db->from('product_master');
+                $this->db->where('product_id', $product_part_code);
+                $product_entity = $this->db->get();
+                $product_entity_row = $product_entity->row();
+
+                $product_id = $product_entity_row->entity_id;
+
+
+                // Update price if the product exists
+                $this->db->where('product_id', $product_id);
+                $this->db->update('product_pricelist_master', ['price' => $price]);
+            }
+    
+            // Commit transaction
+            $this->db->trans_complete();
+    
+            // Check for errors
+            if ($this->db->trans_status() === FALSE) {
+                // Transaction failed, handle errors
+            } else {
+                // Transaction successful, redirect or show success message
+                redirect('product_master');
+            }
+        }
+    }
+    
+
 }
 ?>

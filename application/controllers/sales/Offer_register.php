@@ -627,24 +627,25 @@ public function upload_template()
 
             if ($existing_product) {
                 // Existing product, add to existing products array
-                if (!empty($row[0]) && !empty($row[1]) && !empty($row[2])) {
+                if (!empty($row[0]) && !empty($row[1]) && !empty($row[2]) && !empty($row[3])) {
                     $existing_products[] = $row;
                 }
             } else {
                 // New product, add to new products array
-                if (!empty($row[0]) && !empty($row[1]) && !empty($row[2]) && !empty($row[3]) && !empty($row[4]) && !empty($row[5]) && !empty($row[6]) && !empty($row[7]) && !empty($row[8])) {
+                if (!empty($row[0]) && !empty($row[1]) && !empty($row[2]) && !empty($row[3]) && !empty($row[4]) && !empty($row[5]) && !empty($row[6]) && !empty($row[7]) && !empty($row[8])&& !empty($row[9])) {
                     $new_products[] = $row;
                 }
+                
             }
 
             if ($existing_product) {
                 // Existing product, add to existing products array
-                if (empty($row[0]) || empty($row[1]) || empty($row[2])) {
+                if (empty($row[0]) || empty($row[1]) || empty($row[2]) || empty($row[3])) {
                     $error_messages_existing[] = "Incomplete data for existing part code:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $product_custom_part_no . "<br>";
                 }
             } else {
                 // New product, add to new products array
-                if (empty($row[0]) || empty($row[1]) || empty($row[2]) || empty($row[3]) || empty($row[4]) || empty($row[5]) || empty($row[6]) || empty($row[7]) || empty($row[8])) {
+                if (empty($row[0]) || empty($row[1]) || empty($row[2]) || empty($row[3]) || empty($row[4]) || empty($row[5]) || empty($row[6]) || empty($row[7]) || empty($row[8])|| empty($row[9])) {
                     $error_messages_new[] = "Incomplete data for new part code: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $product_custom_part_no . "<br>";
                 }
             }
@@ -667,8 +668,9 @@ public function upload_template()
         {
             // Fetch additional details from database and insert into offer_product_relation
             $product_custom_part_no = trim($row[0]);
-            $qty = trim($row[1]);
-            $discount = trim($row[2]);
+            $product_make = trim($row[1]);
+            $qty = trim($row[2]);
+            $discount = trim($row[3]);
 
             $this->db->select('entity_id');
             $this->db->from('product_master');
@@ -686,13 +688,13 @@ public function upload_template()
             $product_master = $this->db->get();
             $product_master_result = $product_master->row();
 
-            // Fetch product details from product_master and product_hsn_master tables
-            $this->db->select('product_master.*, product_hsn_master.total_gst_percentage, product_hsn_master.cgst, product_hsn_master.sgst, product_hsn_master.igst');
+            // Fetch product details from product_master and product_make_master tables
+            $this->db->select('product_master.*, product_make_master.make_name');
             $this->db->from('product_master');
-            $this->db->join('product_hsn_master', 'product_master.hsn_id = product_hsn_master.entity_id','inner');
+            $this->db->join('product_make_master', 'product_master.product_make = product_make_master.entity_id','inner');
             $this->db->where('product_master.entity_id', $product_id); 
-            $product_master = $this->db->get();
-            $product_master_result = $product_master->row();
+            $product_make_master = $this->db->get();
+            $product_make_result = $product_make_master->row();
 
             // echo '<pre>'; print_r($product_master_result);die;
             @$gst_percentage = $product_master_result->total_gst_percentage;                     
@@ -700,6 +702,9 @@ public function upload_template()
             @$hsn_id = $product_master_result->hsn_id;      
             @$igst_percentage = $product_master_result->igst;
 
+            @$product_make =  $product_make_result->product_make;
+            // echo '<pre>'; print_r($product_make);die;
+           
             //Fetch latest price from product_pricelist_master table
             $this->db->select('price');
             $this->db->from('product_pricelist_master');
@@ -734,6 +739,7 @@ public function upload_template()
             $insert_array = array(
                 "product_id" => $product_id,
                 "offer_id" => $offer_id,
+                "product_make" => $product_make,
                 "product_custom_part_no" => $product_custom_part_no,
                 "product_custom_description" => $product_custom_description,
                 "rfq_qty" => $qty, 
@@ -776,14 +782,15 @@ public function upload_template()
         foreach ($new_products as $row) {
             // Extract product details from CSV row
             $product_custom_part_no = trim($row[0]);
-            $qty = trim($row[1]);
-            $discount = trim($row[2]);
-            $product_custom_description = trim($row[3]);
-            $price = trim($row[8]);
-            $hsn_code = trim($row[6]);
-            $unit = trim($row[4]);
-            $warranty = trim($row[5]);
-            $category = trim($row[7]);
+            $product_make = trim($row[1]);
+            $qty = trim($row[2]);
+            $discount = trim($row[3]);
+            $product_custom_description = trim($row[4]);
+            $price = trim($row[9]);
+            $hsn_code = trim($row[7]);
+            $unit = trim($row[5]);
+            $warranty = trim($row[6]);
+            $category = trim($row[8]);
 
             // Check if category exists, insert if not
             $category_id = $this->get_or_create_category_id($category);
@@ -794,14 +801,17 @@ public function upload_template()
             // Check if HSN code exists, insert if not
             $hsn_id = $this->get_or_create_hsn_id($hsn_code);
 
+            // Check if  Product make exists, insert if not
+            $product_make = $this->get_or_create_product_make_id($product_make);
+
             // Insert new product into product_master table
-            $new_product_id = $this->insert_new_product($product_custom_part_no, $product_custom_description, $category_id, $unit_id, $hsn_id, $warranty);
+            $new_product_id = $this->insert_new_product($product_custom_part_no, $product_custom_description, $category_id, $unit_id, $hsn_id, $product_make, $warranty);
 
             // Insert price details into product_pricelist_master
             $this->insert_price_details($new_product_id, $price);
 
             // Insert into offer_product_relation
-            $response = $this->insert_offer_product_relation($new_product_id, $offer_id, $product_custom_part_no, $product_custom_description, $unit_id, $warranty, $hsn_id, $price,$qty, $discount);
+            $response = $this->insert_offer_product_relation($new_product_id, $offer_id, $product_custom_part_no, $product_custom_description, $unit_id, $warranty, $hsn_id, $product_make, $price,$qty, $discount);
           // Check if insertion was successful
             if ($response['success']) {
                 // Set additional success response
@@ -835,6 +845,26 @@ public function upload_template()
         }
     }
 
+    // Function to get or create product make ID
+    public function get_or_create_product_make_id($product_make)
+    {
+        $user_id = $_SESSION['user_id'];
+        $product_make_query = $this->db->get_where('product_make_master', array('make_name' => $product_make));
+        $product_make_row = $product_make_query->row_array();
+        if (!$product_make_row) {
+            $product_make_data = array(
+                'make_name' => $product_make,
+                'user_id' => $user_id,
+                'status' => 1
+            );
+            $this->db->insert('product_make_master', $product_make_data);
+            return $this->db->insert_id();
+        } else {
+            return $product_make_row['entity_id'];
+        }
+    }
+
+ 
     // Function to get or create unit ID
     public function get_or_create_unit_id($unit)
     {
@@ -872,10 +902,11 @@ public function upload_template()
     }
 
     // Function to insert new product into product_master table
-    public function insert_new_product($product_custom_part_no, $product_custom_description, $category_id, $unit_id, $hsn_id, $warranty)
+    public function insert_new_product($product_custom_part_no, $product_custom_description, $category_id, $unit_id, $hsn_id,$product_make, $warranty)
     {
         $product_data = array(
             'product_id' => $product_custom_part_no,
+            'product_make' => $product_make,
             'product_name' => $product_custom_description,
             'category_id' => $category_id,
             'unit' => $unit_id,
@@ -898,7 +929,7 @@ public function upload_template()
     }
 
     // Function to insert into offer_product_relation
-    public function insert_offer_product_relation($product_id, $offer_id, $product_custom_part_no, $product_custom_description, $warranty, $hsn_id, $price,$qty, $discount)
+    public function insert_offer_product_relation($product_id, $offer_id, $product_custom_part_no, $product_custom_description, $warranty, $hsn_id, $price, $product_make,$qty, $discount)
     {
         $response = array();
         // Check if the product already exists for the given offer ID
@@ -927,10 +958,12 @@ public function upload_template()
         $insert_array = array(
             'product_id' =>  $product_id,
             'offer_id' => $offer_id,
+            'product_make' => $product_make,
             'product_custom_part_no' => $product_custom_part_no,
             'product_custom_description' => $product_custom_description,
             'product_warranty' => $warranty,
             'hsn_id' => $hsn_id,
+            "rfq_qty" => $qty, 
             'price' => $price,
             'discount' => $discount,
             'discount_amt' => $discount_amt,
