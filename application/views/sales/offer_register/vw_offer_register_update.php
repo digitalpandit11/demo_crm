@@ -505,9 +505,9 @@ if (!$_SESSION['user_name']) {
 														</div>
 
 														<div class="btn-group" style="margin-top: 15px; margin-left: 15px;">
-														<?php $product_attachment = "price_csv.csv"; ?>
+														<?php $product_attachment = "demo_csv.csv"; ?>
 														<button style="width: 200px; margin: auto;" type="button" class="btn btn-block btn-danger float-right">
-															<a style="color: white;" href="<?php echo base_url('assets/price_csv.csv'); ?>" download>
+														<a style="color: white;" href="<?php echo base_url('assets/'.$product_attachment); ?>" download="<?php echo $product_attachment; ?>">
 																Download Example Sheet
 															</a>
 														</button>
