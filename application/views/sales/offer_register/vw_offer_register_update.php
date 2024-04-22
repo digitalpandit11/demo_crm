@@ -505,13 +505,13 @@ if (!$_SESSION['user_name']) {
 														</div>
 
 														<div class="btn-group" style="margin-top: 15px; margin-left: 15px;">
-														<?php $product_attachment = "demo_csv.csv"; ?>
-														<button style="width: 200px; margin: auto;" type="button" class="btn btn-block btn-danger float-right">
-														<a style="color: white;" href="<?php echo base_url('assets/'.$product_attachment); ?>" download="<?php echo $product_attachment; ?>">
-																Download Example Sheet
-															</a>
-														</button>
-													</div>
+															<?php $product_attachment = "demo_csv.csv"; ?>
+															<button style="width: 200px; margin: auto;" type="button" class="btn btn-block btn-danger float-right">
+															<a style="color: white;" href="<?php echo base_url('assets/'.$product_attachment); ?>" download="<?php echo $product_attachment; ?>">
+																	Download Example Sheet
+																</a>
+															</button>
+														</div>
    
 
 														<p style="color: #FF0000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Please Check HSN Code Of Product Before Submiting Offer</p>
