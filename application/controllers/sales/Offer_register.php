@@ -9,6 +9,7 @@ class Offer_register extends CI_Controller {
         $this->load->model('offer_datatable_model');
         $this->load->library('session');
         $this->load->library("Offer_pdf");
+        $this->load->library("Offer2_pdf");
         $this->load->library('email');
     }
 
@@ -91,59 +92,61 @@ class Offer_register extends CI_Controller {
 
     public function fetch_working_offers(){
 
-      $fetch_data = $this->offer_datatable_model->make_datatables();
-      $data = array();
-      $no = 0;
-      foreach($fetch_data as $row)
-      {
-      $no++;
-      $entity_id = $row->entity_id;
-      $base_url = base_url();
-      $Status_data = $row->status;
-      $offer_value = number_format($row->total_amount_with_gst);
+    $fetch_data = $this->offer_datatable_model->make_datatables();
+    $data = array();
+    $no = 0;
+    foreach($fetch_data as $row)
+    {
+        $no++;
+        $entity_id = $row->entity_id;
+        $base_url = base_url();
+        $Status_data = $row->status;
+        $offer_value = number_format($row->total_amount_with_gst);
 
-      if($Status_data == 1)
-      {
-          $Status = "Pending Offer Creation";
-      }elseif($Status_data == 2)
-      {
-          $Status = "Offer Created";
-      }elseif($Status_data == 3)
-      {
-          $Status = "Active";
-      }elseif($Status_data == 4)
-      {
-          $Status = "Offer Lost";
-      }elseif($Status_data == 5)
-      {
-          $Status = "Offer Regrated";
-      }elseif($Status_data == 6)
-      {
-          $Status = "Win";
-      }elseif($Status_data == 7)
-      {
-          $Status = "InActive";
-      }elseif($Status_data == 8)
-      {
-          $Status = "A";
-      }elseif($Status_data == 9)
-      {
-          $Status = "B";
-      }elseif($Status_data == 10)
-      {
-          $Status = "Offer Revised";
-      }else{
-          $Status = "NA";
-      }
-  
-  $edit_button = '<a href="'.$base_url.'update_offer_data/'.$entity_id.'"><span class="btn btn-sm btn-info"><i class="fa fa-edit"></i></span></a>';
-  
-  $view_button = '<a href="'.$base_url.'view_offer_data/'.$entity_id.'"><span class="btn btn-sm btn-success"><i class="fas fa-eye"></i></span></a>';
-  
-  $print_button = '<a href="'.$base_url.'download_offer/'.$entity_id.'" target="_blank"><span class="btn btn-sm btn-secondary">@Print</span></a>';
+        if($Status_data == 1)
+        {
+            $Status = "Pending Offer Creation";
+        }elseif($Status_data == 2)
+        {
+            $Status = "Offer Created";
+        }elseif($Status_data == 3)
+        {
+            $Status = "Active";
+        }elseif($Status_data == 4)
+        {
+            $Status = "Offer Lost";
+        }elseif($Status_data == 5)
+        {
+            $Status = "Offer Regrated";
+        }elseif($Status_data == 6)
+        {
+            $Status = "Win";
+        }elseif($Status_data == 7)
+        {
+            $Status = "InActive";
+        }elseif($Status_data == 8)
+        {
+            $Status = "A";
+        }elseif($Status_data == 9)
+        {
+            $Status = "B";
+        }elseif($Status_data == 10)
+        {
+            $Status = "Offer Revised";
+        }else{
+            $Status = "NA";
+        }
 
-  $set_order_button = '<a href="'.$base_url.'setorder/'.$entity_id.'"><span class="btn btn-sm btn-info"><i class="fa fa-edit"></i> Set Order</span></a>';
-  $revision_button = '<a href="'.$base_url.'set_revision_offer/'.$entity_id.'"><span class="btn btn-sm btn-success">Revise</span></a>';
+        $edit_button = '<a href="'.$base_url.'update_offer_data/'.$entity_id.'"><span class="btn btn-sm btn-info"><i class="fa fa-edit"></i></span></a>';
+
+        $view_button = '<a href="'.$base_url.'view_offer_data/'.$entity_id.'"><span class="btn btn-sm btn-success"><i class="fas fa-eye"></i></span></a>';
+
+        $print_button = '<a href="'.$base_url.'download_offer/'.$entity_id.'" target="_blank"><span class="btn btn-sm btn-secondary">@Print</span></a>';
+
+        $set_order_button = '<a href="'.$base_url.'setorder/'.$entity_id.'"><span class="btn btn-sm btn-info"><i class="fa fa-edit"></i> Set Order</span></a>';
+        $revision_button = '<a href="'.$base_url.'set_revision_offer/'.$entity_id.'"><span class="btn btn-sm btn-success">Revise</span></a>';
+
+        $print_withoutgst_button = '<a href="'.$base_url.'download_offer_without_gst/'.$entity_id.'" target="_blank"><span class="btn btn-sm btn-danger"><i class="fas fa-print"></i> </span></a>';
 
         $sub_array = array();
         $sub_array[] = $no;
@@ -160,22 +163,23 @@ class Offer_register extends CI_Controller {
         $sub_array[] = $offer_value;
         $sub_array[] = $edit_button.$view_button;
         $sub_array[] = $revision_button.$print_button;
-  
-
+        // $sub_array[] = ''; // Placeholder for the column before print_withoutgst_button
+        $sub_array[] = $print_withoutgst_button; // Column for print_withoutgst_button
 
         $data[] = $sub_array;
-      }
-  
-      $output = array(
+    }
+
+    $output = array(
         "draw" => intval($_POST["draw"]),
         "recordsTotal" => $this->offer_datatable_model->get_all_data(),
         "recordsFiltered" => $this->offer_datatable_model->get_filtered_data(),
         "data" => $data
-      );
-  
-      echo json_encode($output);
-    
-    }
+    );
+
+    echo json_encode($output);
+
+}
+
 
     public function vw_all_offer_data()
     {
@@ -3537,8 +3541,8 @@ public function upload_template()
         $total_gst_product_taxable_amount = 0;
         $total_gst_product_taxable_amount_format = 0;
 
-        $final_gst_product_amount_with_gst = 0;
-        $final_gst_product_amount_with_gst_format = 0; 
+        $final_gst_product_amount_without_gst = 0;
+        $final_gst_product_amount_without_gst_format = 0; 
 
         $product_gst_amount=0;
         $product_gst_amount_format=0;  
@@ -3549,11 +3553,11 @@ public function upload_template()
         $total_gst_service_taxable_amount = 0;
         $total_gst_service_taxable_amount_format = 0;
 
-        $final_gst_service_amount_with_gst = 0;
-        $final_gst_service_amount_with_gst_format = 0; 
+        $final_gst_service_amount_without_gst = 0;
+        $final_gst_service_amount_without_gst_format = 0; 
 
-        $service_gst_amount=0;
-        $service_gst_amount_format=0;
+        $service_without_gst_amount=0;
+        $service_without_gst_amount_format=0;
 
         if($data_offer_product_count > 0)
         {
@@ -3739,27 +3743,27 @@ public function upload_template()
         }
 
 
-        $Total_Amount_format =  $final_gst_product_amount_with_gst + $final_gst_service_amount_with_gst; 
+        $Total_Amount_format =  $final_gst_product_amount_without_gst + $final_gst_service_amount_without_gst; 
 
         $Total_Amount = number_format((float)$Total_Amount_format, 2, '.', '');
 
         $this->load->library('numbertowordconvertsconver');
-        $Final_invoice_amount_in_word = $this->numbertowordconvertsconver->convert_number($final_gst_product_amount_with_gst);
+        $Final_invoice_amount_in_word = $this->numbertowordconvertsconver->convert_number($final_gst_product_amount_without_gst);
 
-        $P_amount = amountFormat($final_gst_product_amount_with_gst);
+        $P_amount = amountFormat($final_gst_product_amount_without_gst);
         if(empty($P_amount))
         {
-            $F_P_Amount = strip_tags($final_gst_product_amount_with_gst);
+            $F_P_Amount = strip_tags($final_gst_product_amount_without_gst);
         }else{
-            $F_P_Amount = amountFormat($final_gst_product_amount_with_gst);
+            $F_P_Amount = amountFormat($final_gst_product_amount_without_gst);
         }
 
-        $S_amount = amountFormat($final_gst_service_amount_with_gst);
+        $S_amount = amountFormat($final_gst_service_amount_without_gst);
         if(empty($S_amount))
         {
-            $F_S_Amount = strip_tags($final_gst_service_amount_with_gst);
+            $F_S_Amount = strip_tags($final_gst_service_amount_without_gst);
         }else{
-            $F_S_Amount = amountFormat($final_gst_service_amount_with_gst);
+            $F_S_Amount = amountFormat($final_gst_service_amount_without_gst);
         }
 
         $T_amount = amountFormat($Total_Amount);
@@ -3976,6 +3980,483 @@ public function upload_template()
                     </table>';
         $pdf->writeHTML($html, true, false, true, false, '');
         
+        
+        $pdf->Output($filename, 'I');
+       // $pdf->Output('offer'.date('Y-m-d-H:i:s').'.pdf', 'I');        
+    }
+    
+
+    public function download_offer_without_gst()
+    {
+        ob_start();
+        $entity_id = $this->uri->segment(2);
+
+        $en_id=$this->db->select('enquiry_id')->from('offer_register')->where('entity_id',$entity_id)->get()->row_array();
+        $id=$en_id['enquiry_id'];
+        if ($id == NUll) {
+            $enquiry_nm= "NA";
+            $enquiry_date= "NA";
+        }else{
+            $ml_id = $this->db->select('enquiry_no,enquiry_date')->from('enquiry_register')->where('entity_id',$id)->get()->row_array();
+            $enquiry_nm = $ml_id['enquiry_no'];
+        $enquiry_date = date("d-m-Y",strtotime($ml_id['enquiry_date']));
+            
+        }
+        $this->db->select('customer_master.customer_name AS Customer_name,
+                          customer_master.entity_id AS Customer_id,
+                          customer_master.address AS Customer_address,
+                          customer_master.pin_code AS Pin_code,
+                          customer_master.gst_no AS Gst_no,
+                          customer_master.state_code AS State_code,
+                          offer_register.entity_id AS Entity_id,
+                          offer_register.offer_no AS Offer_no,
+                          offer_register.offer_description AS Offer_description,
+                          offer_register.offer_engg_name AS Offer_engg_name,
+                          offer_register.offer_date AS Offer_date,
+                          offer_register.offer_close_date AS Offer_close_date,
+                          offer_register.warranty_id AS Warranty,
+                          offer_register.payment_term AS Payment_term,
+                          offer_register.loading AS Loading,
+                          offer_register.unloading_scope AS Unloading_scope,
+                          offer_register.unloading_price AS Unloading_price,
+                          offer_register.site_preparation AS Site_preparation,
+                          offer_register.installation AS Installation,
+                          offer_register.Transportation AS Transportation,
+                          offer_register.transportation_price AS Transportation_price,
+                          offer_register.insurance AS Insurance,
+                          offer_register.insurance_price AS Insurance_price,
+                          offer_register.packing_forwarding AS Packing_forwarding,
+                          offer_register.packing_forwarding_price AS Packing_forwarding_price,
+                          offer_register.delivery_period AS Delivery_period,
+                          offer_register.delivery_instruction AS Delivery_instruction,
+                          offer_register.transportation AS Offer_freight,
+                          offer_register.price_condition AS price_condition,
+                          offer_register.note AS note,
+                          offer_register.special_packing,
+                          offer_register.salutation AS Salutation,
+                          offer_register.price_basis AS Price_basis,
+                          offer_register.transport_insurance AS Transport_insurance,
+                          offer_register.tax AS Tax,
+                          offer_register.delivery_schedule AS Delivery_schedule,
+                          offer_register.mode_of_payment AS Mode_of_payment,
+                          offer_register.mode_of_transport AS Mode_of_transport,
+                          offer_register.guarantee_warrenty AS Guarantee_warrenty,
+                          offer_register.validity AS Validity,
+                          offer_register.your_reference AS Your_reference,
+                          offer_register.contact_person_id AS Contact_id,
+                          offer_register.offer_company_name AS offer_company_name,
+                          employee_master.emp_first_name AS Emp_first_name,
+                          employee_master.emp_middle_name AS Emp_middle_name,
+                          employee_master.emp_last_name AS Emp_last_name,
+                          employee_master.mobile_no AS Mobile_no,
+                          state_master.state_name AS State_name');
+        $this->db->from('offer_register');
+        $this->db->join('customer_master', 'customer_master.entity_id = offer_register.customer_id', 'INNER');
+        $this->db->join('employee_master', 'offer_register.offer_engg_name = employee_master.entity_id', 'INNER');
+        $this->db->join('state_master', 'customer_master.state_id = state_master.entity_id', 'INNER');
+        $where = '(offer_register.entity_id = "'.$entity_id.'")';
+        $this->db->where($where);
+        $query_master_offer_data = $this->db->get();
+        $master_offer_data = $query_master_offer_data->result_array();
+
+        $offer_company_name = $master_offer_data[0]['offer_company_name'];
+
+        $customer_id = $master_offer_data[0]['Customer_id'];
+        $Contact_id = $master_offer_data[0]['Contact_id'];
+
+        $this->db->select('customer_contact_master.contact_person AS Contact_person_name,
+        customer_contact_master.email_id AS Customer_email_id,
+        customer_contact_master.first_contact_no AS Contact_no,');
+        $this->db->from('customer_contact_master');
+        $where = '(customer_contact_master.entity_id = "'.$Contact_id.'")';
+        $this->db->where($where);
+        $customer_contact_master = $this->db->get();
+        $customer_contact_master_result = $customer_contact_master->row_array();
+
+        $contact_person_name = $customer_contact_master_result['Contact_person_name'];
+        $email = $customer_contact_master_result['Customer_email_id'];
+        $contact_no1 = $customer_contact_master_result['Contact_no'];
+        
+        $offer_no = $master_offer_data[0]['Offer_no'];
+        $enquiry_no = $enquiry_nm;
+
+        $Pin_code = $master_offer_data[0]['Pin_code'];
+        $Gst_no = $master_offer_data[0]['Gst_no'];
+        $State_code = $master_offer_data[0]['State_code'];
+        $State_name = $master_offer_data[0]['State_name'];
+        
+        
+        $offer_description = $master_offer_data[0]['Offer_description'];
+
+        $special_packing = $master_offer_data[0]['special_packing'];
+
+        $offer_description_limited = substr($offer_description, 0, 100);
+
+        $date_of_offer = $master_offer_data[0]['Offer_date'];
+        $offer_date = date("d-m-Y",strtotime($date_of_offer));
+
+        $date_of_offer_close = $master_offer_data[0]['Offer_close_date'];
+        $offer_close_date = date("d-m-Y",strtotime($date_of_offer_close));
+
+        $installation = $master_offer_data[0]['Installation'];
+        $transportation = $master_offer_data[0]['Transportation'];
+        $transportation_price = $master_offer_data[0]['Transportation_price'];
+        $unloading_scope = $master_offer_data[0]['Unloading_scope'];
+        $unloading_price = $master_offer_data[0]['Unloading_price'];
+        $packing_forwarding = $master_offer_data[0]['Packing_forwarding'];
+        $packing_forwarding_price = $master_offer_data[0]['Packing_forwarding_price'];
+        $insurance = $master_offer_data[0]['Insurance'];
+        $insurance_price = $master_offer_data[0]['Insurance_price'];
+        $payment_term = $master_offer_data[0]['Payment_term'];
+        
+        if(!empty($offer_company_name))
+        {
+            $customer_name = $offer_company_name;
+        }else{
+            $customer_name = $master_offer_data[0]['Customer_name'];
+        }
+        
+        $Validity = $master_offer_data[0]['Validity'];
+        $Customer_address = $master_offer_data[0]['Customer_address'];
+        
+        $Delivery_instruction = $master_offer_data[0]['Delivery_instruction'];
+        $Offer_freight = $master_offer_data[0]['Offer_freight'];
+
+        $price_condition = $master_offer_data[0]['price_condition'];
+        if($price_condition == 1)
+        {
+            $PC = "Ex Works VBTEK ";
+        }elseif($price_condition == 2)
+        {
+            $PC = "FOR Site";
+        }elseif($price_condition == 3)
+        {
+            $PC = "Other- Please refer note";
+        }else{
+            $PC = "NA";
+        }
+        
+        $note = $master_offer_data[0]['note'];
+    
+        $Salutation = $master_offer_data[0]['Salutation'];
+        $Price_basis = $master_offer_data[0]['Price_basis'];
+        $Transport_insurance = $master_offer_data[0]['Transport_insurance'];
+        $Tax = $master_offer_data[0]['Tax'];
+        $Delivery_schedule = $master_offer_data[0]['Delivery_schedule'];
+        $Mode_of_payment = $master_offer_data[0]['Mode_of_payment'];
+        $Mode_of_transport = $master_offer_data[0]['Mode_of_transport'];
+        $Guarantee_warrenty = $master_offer_data[0]['Guarantee_warrenty'];
+        $Your_reference = $master_offer_data[0]['Your_reference'];
+
+        $Emp_first_name = $master_offer_data[0]['Emp_first_name'];
+        $Emp_middle_name = $master_offer_data[0]['Emp_middle_name'];
+        $Emp_last_name = $master_offer_data[0]['Emp_last_name'];
+        $Mobile_no = $master_offer_data[0]['Mobile_no'];
+
+        $this->db->select('employee_master.emp_first_name AS Full_name,
+                          employee_master.email_id AS Email_id,
+                          employee_master.mobile_no AS Phone_number,
+                          employee_master.date_of_birth AS Date_of_birth,
+                          employee_master.joining_date AS Date_of_joining, enquiry_register.enquiry_source AS Enquiry_source');
+                          // delete ftom select above = enquiry_register.enquiry_source AS Enquiry_source
+        $this->db->from('offer_register');
+        $this->db->join('enquiry_register', 'offer_register.enquiry_id = enquiry_register.entity_id', 'LEFT');
+        $this->db->join('employee_master', 'offer_register.offer_engg_name = employee_master.entity_id', 'INNER');
+        $where = '(offer_register.entity_id = "'.$entity_id.'")';
+        $this->db->where($where);
+        $query_master_employeedata = $this->db->get();
+        $master_employee_data = $query_master_employeedata->row_array();
+        //print_r($master_employee_data); echo "<br>"; echo "<br>";
+       
+        $Full_name = $master_employee_data['Full_name'];
+        $Email_id = $master_employee_data['Email_id'];
+        $Phone_number = $master_employee_data['Phone_number'];
+        $Date_of_birth = $master_employee_data['Date_of_birth'];
+        $Date_of_joining = $master_employee_data['Date_of_joining'];
+        $Enquiry_source = $master_employee_data['Enquiry_source'];
+
+        $this->db->select('offer_product_relation.*,
+            product_make_master.make_name AS product_make,
+            product_master.product_id AS PRODUCT_ID,
+            product_master.product_name,
+            unit_master.unit_name AS unit,
+            product_hsn_master.hsn_code AS Hsn_code');
+        $this->db->from('offer_product_relation');
+        $this->db->join('product_master', 'offer_product_relation.product_id = product_master.entity_id', 'INNER');
+        $this->db->join('unit_master', 'product_master.unit = unit_master.entity_id', 'INNER');
+        $this->db->join('product_make_master', 'offer_product_relation.product_make = product_make_master.entity_id', 'INNER');
+        $this->db->join('product_hsn_master', 'product_master.hsn_id = product_hsn_master.entity_id', 'INNER');
+        $where = '(offer_product_relation.offer_id = "'.$entity_id.'")';
+        $this->db->where($where);
+        $offer_product_data = $this->db->get();
+        $data_offer_product = $offer_product_data->result_array(); 
+        $data_offer_product_count = $offer_product_data->num_rows();
+
+        //print_r($data_offer_product_count);
+        //die();
+        //$location_id = $_SESSION['location_id'];
+
+        $pdf = new Offer2_pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        $pdf->SetCreator(PDF_CREATOR);
+        // $pdf->SetPrintHeader(true);
+        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+        
+
+        // set default header data
+        // $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
+                
+        // set auto page breaks
+        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+        // set image scale factor
+        $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+        // set font
+        $pdf->SetFont('dejavusans', '', 10);
+
+        $path_img = getcwd();
+        $path = getcwd();
+       
+        $year = date('Y'); // You may need to adjust this based on your academic year
+        $formatted_date = date('Y-m-d-H:i:s');
+      
+        // Construct the filename based on the offer number
+        $filename = $path . "/assets/offer_attachment/" . str_replace('/', '_', $offer_no) . ".pdf";
+
+        // Output the PDF file
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: attachment; filename="' . basename($filename) . '"');
+
+
+        $pdf->AddPage();
+
+        // $image_file = K_PATH_IMAGES.'intact_logo.png';
+        // $pdf->Image($image_file, 30, 100, 150, 120, 'PNG', '', '', false, 0, '', false, false, 0);
+       
+        $html = '<br><br><h2 style="text-align: left;color:#3a4494;text-indent:2em; font-size:10px;">Quotation </h2><br><br>
+                    <table>
+                    <tbody>
+                        <tr>
+                            <td style="color:#3a4494; font-size:10px;width:70%;"><b>Type : &nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:8px;color: black;">Automation</span></b> </td>
+                            <td style="font-size: 10px; width: 30%;"> <b style="color: #3a4494;">Submitted on: &nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:8px;color: black;">' . strip_tags($offer_date) . '</span></b></td>
+                        </tr>
+                        <tr>
+                            <td style="color:#3a4494; font-size:10px;width:70%;"><b>Series :&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:8px;color: black;">Product Sales </span></b></td>
+                            <td style="color:#3a4494; font-size:10px;width:30%;"><b>Quotation No : &nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:8px;color: black;">' . strip_tags($offer_no) . '</span></b> </td>
+                        </tr>
+                    </tbody>
+                </table>';
+
+         $pdf->writeHTML($html, true, false, true, false, ''); 
+        
+
+            $html = '<br><br><h2 style="text-align: left;color:#3a4494; font-size:10px;">Quotation For </h2>
+            <table>
+            <tbody>
+                <tr>
+                <td style="font-size: 8px; width: 70%;"><b>Company</b>: &nbsp;&nbsp;&nbsp;&nbsp; <span style=" border-bottom: 1px solid black; border-width: 70%;"> '. strip_tags($customer_name) . '</span></td>
+                <td style=" font-size:8px;width:30%;"><b>RM Name </b> :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;Moorthy</td>
+                </tr><br>
+                <tr>
+                    <td style="font-size:8px;width:70%;"><b>Name </b> :  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.strip_tags($contact_person_name).' </td>
+                    <td style="font-size:8px;width:30%;"><b>RM Contact No </b>:&nbsp;&nbsp;&nbsp;&nbsp;9307908825 </td>
+                </tr><br>
+                <tr>
+                    <td style="font-size:8px;width:70%;"><b>Contact No </b>: &nbsp;&nbsp;'.strip_tags($contact_no1).' </td>
+                    <td style="font-size:8px;width:30%;"><b>CRM Name </b>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Aishwarya B </td>
+               </tr><br>
+               <tr>
+               <td style="font-size:8px;width:70%;"><b>Email Id  </b> :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.strip_tags($email).' </td>
+               <td style="font-size:8px;width:30%;"><b>CRM Contact No:</b>: &nbsp;&nbsp;&nbsp;9022929109 </td>
+          </tr>
+            </tbody>
+        </table><br>
+        <hr style="width: 100%;color:#3a4494; height: 1px;">';
+
+        $pdf->writeHTML($html, true, false, true, false, ''); 
+
+    
+        $all_product_total = 0;
+        $all_product_sub_total = 0;
+        $all_product_gst = 0;
+        $Quotation_amount = 0;
+        foreach ($data_offer_product as $value_data)
+        {   
+                       
+            $product_price_format = $value_data['price'];
+            $product_price = number_format((float)$product_price_format, 2, '.', '');
+            $product_qty = $value_data['rfq_qty'];
+
+            $total_format = $product_price * $product_qty;
+
+            $total = number_format((float)$total_format, 2, '.', '');
+
+            $all_product_total += $total;
+
+            $all_product_total = number_format((float)$all_product_total, 2, '.', '');
+
+            $amount_without_gst_format = $value_data['total_amount_without_gst'];
+            $amount_without_gst = number_format((float)$amount_without_gst_format, 2, '.', '');
+
+            $all_product_sub_total += $amount_without_gst;
+
+            $all_product_sub_total = number_format((float)$all_product_sub_total, 2, '.', '');
+
+            }
+
+        $html = '<br>
+            <table>
+            <tbody>
+            
+            <tr>
+            <td style="font-size:10px;text-align:right;"><b> GRAND  TOTAL : </b>₹'. strip_tags($all_product_sub_total). '</td>
+        </tr>
+            </tbody>
+        </table><br>
+        <hr style="width: 100%;color:#3a4494; height: 1.5px;">';
+        $pdf->writeHTML($html, true, false, true, false, ''); 
+
+     
+        $i = 1;
+        $j = 1;
+
+
+        if($data_offer_product_count > 0)
+        {
+            $html = '
+                    <p style="font-size: 9px;  text-indent:2em; color:#3a4494; width: 100%;"><b>PRICE BREAKUP AS BELOW - </b></p>
+
+                    <table border="solid 1px" cellpadding="10" width="100%">
+                        <tr>
+                            <td style="font-size: 8px; width: 8%; color:#3a4494; text-align: center; border-right: solid 1px #5a5a5a; 
+                            border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a; text-indent:2em;"><b>Sr.<br>&nbsp;&nbsp;&nbsp;No</b></td>
+
+                            
+                            <td style="font-size: 8px; width: 35%; color:#3a4494; text-align: center; border-right: solid 1px #5a5a5a; 
+                            border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a;text-indent:2em;"><b> Description</b></td>
+
+                            <td style="font-size: 8px; width: 12%; text-indent:2em;border-right: solid 1px #5a5a5a; 
+                            border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a; color:#3a4494; text-align: left;"><b>Part No.</b></td>
+
+
+                            <td style="font-size: 8px; width: 7%; text-indent:2em; border-right: solid 1px #5a5a5a; 
+                            border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;   border-bottom: solid 1px #5a5a5a; color:#3a4494; text-align: center;"><b>Qty</b></td>
+
+                            <td style="font-size: 8px; width: 12%; text-indent:2em;border-right: solid 1px #5a5a5a; 
+                            border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a; border-bottom: solid 1px #5a5a5a; color:#3a4494; text-align: center;"><b>Stock Avaliability</b></td>
+
+                            <td style="font-size: 8px; width: 12%; text-indent:0em; border-right: solid 1px #5a5a5a; 
+                            border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a; border-bottom: solid 1px #5a5a5a;color:#3a4494; text-align: center;"><b> Discounted Unit Price</b></td>
+
+                            <td style="font-size: 8px; width: 12%; text-indent:0em;border-right: solid 1px #5a5a5a; 
+                            border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;   border-bottom: solid 1px #5a5a5a; color:#3a4494; text-align: center;"><b>Discounted Total Price </b></td>
+
+                        </tr>
+                    </table>';
+                  
+                    foreach ($data_offer_product as $value_data)
+                    {   
+                        $product_name = $value_data['product_name'];
+                        $product_custom_part_no = $value_data['product_custom_part_no'];
+                        $product_custom_description = $value_data['product_custom_description'];
+                        $product_price_format = $value_data['price'];
+                        $product_price = number_format((float)$product_price_format, 2, '.', '');
+                        $product_unit = $value_data['unit'];
+                        $product_qty = $value_data['rfq_qty'];
+
+                        $total_format = $product_price * $product_qty;
+
+                        $total = number_format((float)$total_format, 2, '.', '');
+
+                        $all_product_total += $total;
+
+                        $all_product_total = number_format((float)$all_product_total, 2, '.', '');
+
+                        $PRODUCT_ID = $value_data['PRODUCT_ID'];
+
+                        $product_make = $value_data['product_make'];
+
+                        $remark = $value_data['remark'];
+
+                        $amount_without_gst_format = $value_data['total_amount_without_gst'];
+                        $amount_without_gst = number_format((float)$amount_without_gst_format, 2, '.', '');
+
+                        $all_product_sub_total += $amount_without_gst;
+
+                        $all_product_sub_total = number_format((float)$all_product_sub_total, 2, '.', '');
+
+                      
+
+                        $hsn_code = $value_data['Hsn_code'];
+                        $discount = $value_data['discount'];
+                        $discount_amt = $value_data['unit_discounted_price'];
+
+                        $discount_amt_format = $value_data['unit_discounted_price'];
+                        $discount_amt = number_format((float)$discount_amt_format, 2, '.', '');
+
+                        /*$total_amount_with_gst = $value_data['total_amount_with_gst'];*/
+
+                        // $total_amount_with_gst = $all_gst + $amount_without_gst;
+
+                        $Quotation_amount += $amount_without_gst;
+                        $Quotation_amount = number_format((float)$Quotation_amount, 2, '.', '');
+
+                        $html .='<table cellpadding="10" width="100%">
+                                    <tr>
+                                        <td style="font-size: 7.8px;color:black; text-align: center; width: 8%; border-right: solid 1px #5a5a5a; 
+                                        border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a;text-indent:2em;">'.strip_tags($i).'</td>
+
+                                        <td style="font-size: 7.8px; width: 35%;color:black; text-indent:2em;border-right: solid 1px #5a5a5a; 
+                                        border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a; text-align: left;">'.strip_tags($product_custom_description).'</td>
+
+                                        
+                                        <td style="font-size: 7.8px;color:black; width: 12%; text-indent:2em;border-right: solid 1px #5a5a5a; 
+                                        border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a; text-align: left;">'.strip_tags($product_custom_part_no).'</td>
+
+
+                                        <td style="font-size: 7.8px;color:black; width: 7%; border-right: solid 1px #5a5a5a; 
+                                        border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a;text-indent:2em;">&nbsp;'.strip_tags($product_qty).'</td>
+
+                                        <td style="font-size: 7.8px;color:black; width: 12%;border-right: solid 1px #5a5a5a; 
+                                        border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a; text-indent:2em;">&nbsp;Available</td>
+
+                
+                                        <td style="font-size: 7.8px;color:black; width: 12%; text-indent:2em;border-right: solid 1px #5a5a5a; 
+                                        border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a; text-align:right;">'.strip_tags($discount_amt).'</td>
+
+                                        <td style="font-size: 7.8px;color:black; width: 12%; text-indent:2em; border-right: solid 1px #5a5a5a; 
+                                        border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a;text-align:right;">'.strip_tags($amount_without_gst).'</td>
+
+                                    </tr>
+                                   
+                                </table>';
+                        $i++;   
+                    }
+                    for ($i = $data_offer_product_count; $i < 2; $i++) 
+                    { 
+                        $html .='<table  cellpadding="0.5" cellspacing="0" width="100%"> 
+                                    <tr>                                   
+                                        <td style="width: 5%; font-size: 7px; text-indent:2em;"></td>
+                                        <td style="width: 8%;">&nbsp;</td>
+                                        <td style="width: 8%;">&nbsp;</td>
+                                        <td style="width: 23%;">&nbsp;</td>
+                                        <td style="width: 6%;">&nbsp;</td>
+                                        <td style="width: 5%;">&nbsp;</td>
+                                        <td style="width: 5%;">&nbsp;</td>
+                                        <td style="width: 8%;">&nbsp;</td>
+                                        <td style="width: 9%;">&nbsp;</td>
+                                        <td style="width: 8%;">&nbsp;</td>
+                                        <td style="width: 9%;">&nbsp;</td>
+                                    </tr>
+                                </table>'; 
+                    }
+                    
+                    $pdf->writeHTML($html, true, false, true, false, '');
+        }
+
         
         $pdf->Output($filename, 'I');
        // $pdf->Output('offer'.date('Y-m-d-H:i:s').'.pdf', 'I');        

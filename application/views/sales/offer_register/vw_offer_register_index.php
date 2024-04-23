@@ -121,6 +121,7 @@ if(!$_SESSION['user_name'])
                                                             <th>Quote Value</th>
                                                             <th>Action</th>
                                                             <th>Operation</th>
+                                                            <th>Print Without GST</th>
                                                         </tr>
                                                     </thead>
                                                 </table>
