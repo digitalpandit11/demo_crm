@@ -234,6 +234,7 @@ $route['old_offers']='sales/offer_register/old_offers';
 $route['get_ajax_offer_data'] = "sales/offer_register/ajax_index";
 $route['get_ajax_all_offer_data'] = "sales/offer_register/vw_ajax_all_offer_data";
 $route['create_offer_from_contact/:any'] = "sales/offer_register/create_offer_from_contact";
+$route['download_offer_without_gst/:any'] = "sales/offer_register/download_offer_without_gst";
 
 
 //Order Master

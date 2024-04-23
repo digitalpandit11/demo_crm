@@ -109,6 +109,7 @@ if (!$_SESSION['user_name']) {
 													<th>Lost Reason</th>
 													<th>Quote Value</th>
 													<th>Action</th>
+													<th>Print Without GST</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -165,6 +166,9 @@ if (!$_SESSION['user_name']) {
 
 															<a href="<?php echo base_url() . "download_offer/" . $row->entity_id ?>" target="_blank"><span class="btn btn-sm btn-secondary"><i class="fas fa-print"></i></span></a>
 														</td>
+														<td>
+                                                      <a href="<?php echo base_url()."download_offer_without_gst/".$row->entity_id ?>" target="_blank"><span class="btn btn-sm btn-danger"><i class="fas fa-print"></i> </span></a>
+                                                        </td>
 													</tr>
 												<?php } ?>
 											</tbody>
