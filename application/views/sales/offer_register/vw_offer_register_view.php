@@ -43,7 +43,7 @@ if(!$_SESSION['user_name'])
             <?php 
             if ($enquiry_result){
                 $attachment_data = $enquiry_result->row_array();
-                $attachment_img = $attachment_data['attachment'];
+                $attachment_img = @$attachment_data['attachment'];
                 $image_attachment_name = explode(',',$attachment_img);
                 array_pop($image_attachment_name);
             }
@@ -57,7 +57,7 @@ if(!$_SESSION['user_name'])
                 $query_data = $this->db->get();
                 $query_result = $query_data->row_array();
 
-                $offer_entity_id = $query_result['entity_id'];
+                $offer_entity_id = @$query_result['entity_id'];
 
                 $this->db->select('offer_register.*');
                 $this->db->from('offer_register');
@@ -65,7 +65,7 @@ if(!$_SESSION['user_name'])
                 $query = $this->db->get();
                 $query_result = $query->row_array();
 
-                $contact_person_id = $query_result['contact_person_id'];
+                $contact_person_id = @$query_result['contact_person_id'];
             ?>
                 <div class="content-wrapper">
                     <!-- Content Wrapper. Contains page content -->
@@ -455,7 +455,7 @@ if(!$_SESSION['user_name'])
                                                                                 <!-- <th>CGST%</th>
                                                                                 <th>SGST%</th>
                                                                                 <th>IGST%</th> -->
-                                                                                <th>GST%</th> -->
+                                                                                <th>GST%</th> 
                                                                                 <th>GST Amount</th>
                                                                                 <th>Total Amount</th>
                                                                                 <th>Remark</th>

@@ -60,14 +60,14 @@ if (!$_SESSION['user_name']) {
 			$enquiry_image_attachment_name = array('name' => "");
 		} else {
 			$enquiry_attachment_data = $enquiry_result->row_array();
-			$enquiry_attachment_img = $enquiry_attachment_data['attachment'];
+			$enquiry_attachment_img = @$enquiry_attachment_data['attachment'];
 			$enquiry_image_attachment_name = explode(',', $enquiry_attachment_img);
 			array_pop($enquiry_image_attachment_name);
 		}
 
 		$attachment_data = $offer_result->row_array();
 		//print_r($attachment_data);
-		$attachment_img = $attachment_data['attachment'];
+		$attachment_img = @$attachment_data['attachment'];
 		$image_attachment_name = explode(',', $attachment_img);
 		array_pop($image_attachment_name);
 

@@ -6197,12 +6197,12 @@ public function upload_template()
         //   'host' => 'localhost'
         // );
 
-        $sql_details = array(
-            'user' => 'u117003035_vbtek',
-            'pass' => 'S@14vbtek',
-            'db' => 'u117003035_demo_crm',
-            'host' => 'localhost'
-        );
+        // $sql_details = array(
+        //     'user' => 'u117003035_vbtek',
+        //     'pass' => 'S@14vbtek',
+        //     'db' => 'u117003035_demo_crm',
+        //     'host' => 'localhost'
+        // );
 
         $fstatus = 1;
         $sestatus = 2;

@@ -497,7 +497,7 @@ if (!$_SESSION['user_name']) {
 																		<!-- <th>CGST%</th>
                                                                                 <th>SGST%</th>
                                                                                 <th>IGST%</th> -->
-																		<th>GST%</th> -->
+																		<th>GST%</th> 
 																		<th>GST Amount</th>
 																		<th>Total Amount</th>
 																		<th>Remark</th>
