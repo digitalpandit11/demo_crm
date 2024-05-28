@@ -682,7 +682,40 @@ class Report_model extends CI_Model{
     }
 
     
-    public function get_all_offer_details($timesheet_from_date,$timesheet_to_date,$stage)
+    // public function get_all_offer_details($timesheet_from_date,$timesheet_to_date,$stage)
+    // {
+    //     $user_id = $_SESSION['user_id'];
+    //     $emp_id = $_SESSION['emp_id'];
+    //     $role_id = $_SESSION['role_id'];
+
+    //     if($role_id ==1){
+    //         $where1 = '(offer_register.offer_date >= "'.$timesheet_from_date.'" and offer_register.offer_date <= "'.$timesheet_to_date.'" )';
+    //     }else{
+    //         $where1 = '(offer_register.offer_date >= "'.$timesheet_from_date.'" and offer_register.offer_date <= "'.$timesheet_to_date.'" and offer_register.offer_engg_name = "'.$emp_id.'")';
+    //     }
+
+    //         $this->db->select('*,offer_register.entity_id as offer_id,offer_register.status as offer_status');
+    //         $this->db->from('offer_register');
+    //         $this->db->join('enquiry_register','enquiry_register.entity_id = offer_register.enquiry_id','left');
+    //         $this->db->join('customer_master','customer_master.entity_id = offer_register.customer_id','left');
+    //         $this->db->join('customer_contact_master','customer_contact_master.entity_id = offer_register.contact_person_id','inner');
+    //         $this->db->join('employee_master','employee_master.entity_id = offer_register.offer_engg_name','inner');
+    //         $this->db->join('enquiry_source_master','enquiry_source_master.entity_id = offer_register.offer_source','inner');
+    //         $this->db->join('state_master','state_master.entity_id = customer_master.state_id','inner');
+    //         // $where = '(offer_register.status = "'.'2'.'" or offer_register.status = "'.'6'.'" or offer_register.status = "'.'7'.'" or offer_register.status = "'.'8'.'" or  offer_register.status = "'.'9'.'")';
+    //         // $this->db->where($where);
+    //         $this->db->where($where1);
+    //         $this->db->where_in('offer_register.status',$stage);
+    //         $this->db->order_by('offer_register.entity_id', 'DESC');
+    //         $query = $this->db->get();
+    //         $query_result = $query->result();
+
+          
+    //         return $query_result;
+       
+    // }
+    
+    public function get_all_offer_details($timesheet_from_date,$timesheet_to_date)
     {
         $user_id = $_SESSION['user_id'];
         $emp_id = $_SESSION['emp_id'];
@@ -705,7 +738,7 @@ class Report_model extends CI_Model{
             // $where = '(offer_register.status = "'.'2'.'" or offer_register.status = "'.'6'.'" or offer_register.status = "'.'7'.'" or offer_register.status = "'.'8'.'" or  offer_register.status = "'.'9'.'")';
             // $this->db->where($where);
             $this->db->where($where1);
-            $this->db->where_in('offer_register.status',$stage);
+            // $this->db->where_in('offer_register.status',$stage);
             $this->db->order_by('offer_register.entity_id', 'DESC');
             $query = $this->db->get();
             $query_result = $query->result();
@@ -713,8 +746,7 @@ class Report_model extends CI_Model{
           
             return $query_result;
        
-    }
-    
+     }
     
     public function get_lost_offer_details($timesheet_from_date,$timesheet_to_date)
     {

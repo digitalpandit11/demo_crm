@@ -83,7 +83,7 @@ if(!$_SESSION['user_name'])
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <div class="form-group">
-                                                            <label style="color: #FF0000;"> Make * </label>
+                                                            <label style="color: #FF0000;">Status * </label>
                                                             <select class="form-control select2bs4" style="width: 100%;" id="status" name="status" disabled>
                                                             <option value="1">Active</option>
                                                             <option value="2">De-Active</option>

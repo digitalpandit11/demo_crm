@@ -77,7 +77,7 @@ if(!$_SESSION['user_name'])
 				                    			<div class="row">
 				                      				<div class="col-sm-6">
 				                        				<div class="form-group">
-				                          					<label style="color: #FF0000;" make Name * </label>
+				                          					<label style="color: #FF0000;"> Make Name * </label>
 				                          					<input type="text" class="form-control" name="make_name" id="make_name" placeholder="Enter Type" value="<?php echo $make_name;?>" required="required">
 				                        				</div>
 				                      				</div> 

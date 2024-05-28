@@ -397,19 +397,19 @@ $route['get_ajax_old_enquiry_data'] = "sales/enquiry_register/get_ajax_enquiry_d
 $route['vw_profile']='welcome/profile';
 
 /*Campaign Register*/
-$route['vw_campaign']='sales/campaign_register';
-$route['create_campaign']='sales/campaign_register/create';
-$route['create_campaign2']='sales/campaign_register/create2';
-$route['view_campaign_clist_list/(:any)']='sales/campaign_register/client_list';
-$route['view_campaign2/(:any)']='sales/campaign_register/view_campaign2';
-$route['update_campaign_clist_list/(:any)']='sales/campaign_register/client_list_update';
-$route['view_call_log/(:any)']='sales/campaign_register/call_log';
-$route['view_call_log2/(:any)']='sales/campaign_register/vw_call_log2';
-$route['edit_campaign/(:any)'] = 'sales/campaign_register/edit_campaign';
-$route['edit_campaign2/(:any)'] = 'sales/campaign_register/edit_campaign2';
-$route['edit_campaign2/(:any)'] = 'sales/campaign_register/edit_campaign2';
-$route['next_client/(:num)'] = 'sales/campaign_register/next';
-$route['prev_client/(:num)'] = 'sales/campaign_register/prev';
+// $route['vw_campaign']='sales/campaign_register';
+// $route['create_campaign']='sales/campaign_register/create';
+// $route['create_campaign2']='sales/campaign_register/create2';
+// $route['view_campaign_clist_list/(:any)']='sales/campaign_register/client_list';
+// $route['view_campaign2/(:any)']='sales/campaign_register/view_campaign2';
+// $route['update_campaign_clist_list/(:any)']='sales/campaign_register/client_list_update';
+// $route['view_call_log/(:any)']='sales/campaign_register/call_log';
+// $route['view_call_log2/(:any)']='sales/campaign_register/vw_call_log2';
+// $route['edit_campaign/(:any)'] = 'sales/campaign_register/edit_campaign';
+// $route['edit_campaign2/(:any)'] = 'sales/campaign_register/edit_campaign2';
+// $route['edit_campaign2/(:any)'] = 'sales/campaign_register/edit_campaign2';
+// $route['next_client/(:num)'] = 'sales/campaign_register/next';
+// $route['prev_client/(:num)'] = 'sales/campaign_register/prev';
 
 /*Visit Register*/
 $route['visit_register']='sales/visit_register';

@@ -59,7 +59,7 @@ if(!$_SESSION['user_name'])
                                     <br><br>
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="<?php echo base_url().'dashboard'?>">Home</a></li>
-                                        <li class="breadcrumb-item"><a href="<?php echo base_url().'vw_order_detail_report'?>">Pending Offer Report</a>
+                                        <li class="breadcrumb-item"><a href="<?php echo base_url().'vw_pending_offer_report'?>">Pending Offer Report</a>
                                         </li>
                                     </ol>
                                 </div>      

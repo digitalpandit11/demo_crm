@@ -144,32 +144,36 @@ if (!$_SESSION['user_name']) {
 						</a>
 					</li>
 
-					<li class="nav-item has-treeview">
+					<?php
+					$role_id = $_SESSION['role_id'];
+					?>
+
+					<!-- <li class="nav-item has-treeview">
 						<a href="<?php echo base_url() . 'support_dashboard' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "support_dashboard")  ? "active" : ""; ?>>
 							<i class="nav-icon fas fa-tachometer-alt"></i>
 							<p>
 								Support Dashboard
 							</p>
 						</a>
-					</li>
+					</li> -->
 
 					<?php
-					$role_id = $_SESSION['role_id'];
+					// $role_id = $_SESSION['role_id'];
 					?>
 
-					<li class="nav-item has-treeview">
-						<a href="<?php echo base_url() . 'vw_campaign' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "vw_campaign")  ?  "active" : ""; ?>>
+					<!-- <li class="nav-item has-treeview">
+						<a href="<?php //echo base_url() . 'vw_campaign' ?>" class="nav-link" <?php// echo ($this->uri->segment(1) == "vw_campaign")  ?  "active" : ""; ?>>
 							<ion-icon name="call-outline" style="font-size: 20px; vertical-align: middle;"></ion-icon>
-							<!-- <i class="far fa-circle nav-icon"></i> -->
+							<!-- <i class="far fa-circle nav-icon"></i> --
 							<p>
 								&nbsp;&nbsp;Campaign
 							</p>
 						</a>
 					</li>
 					<li class="nav-item has-treeview">
-						<a href="<?php echo base_url() . 'search_india_mart_lead' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "search_india_mart_lead") ? "active" : ""; ?>>
+						<a href="<?php// echo base_url() . 'search_india_mart_lead' ?>" class="nav-link" <?php //echo ($this->uri->segment(1) == "search_india_mart_lead") ? "active" : ""; ?>>
 							<ion-icon name="briefcase-outline" style="font-size: 20px; vertical-align: middle;"></ion-icon>
-							<!-- <i class="far fa-circle nav-icon"></i> -->
+							<!-- <i class="far fa-circle nav-icon"></i> --
 							<p>
 								&nbsp;&nbsp;IndiaMart Enquiry
 							</p>
@@ -177,14 +181,14 @@ if (!$_SESSION['user_name']) {
 					</li>
 
 					<li class="nav-item has-treeview">
-						<a href="<?php echo base_url() . 'search_trade_india_lead' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "search_trade_india_lead") ? "active" : ""; ?>>
+						<a href="<?php //echo base_url() . 'search_trade_india_lead' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "search_trade_india_lead") ? "active" : ""; ?>>
 							<ion-icon name="briefcase-outline" style="font-size: 20px; vertical-align: middle;"></ion-icon>
-							<!-- <i class="far fa-circle nav-icon"></i> -->
+							<!-- <i class="far fa-circle nav-icon"></i> --
 							<p>
 								&nbsp;&nbsp;Trade India Enquiry
 							</p>
 						</a>
-					</li>
+					</li> -->
 
 
 					<li class="nav-item has-treeview">
@@ -250,20 +254,20 @@ if (!$_SESSION['user_name']) {
 						</a>
 					</li>
 
-					<li class="nav-item has-treeview">
-						<a href="<?php echo base_url() . 'visit_register' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "visit_register") ? "active" : ""; ?>>
+					<!-- <li class="nav-item has-treeview">
+						<a href="<?php //echo base_url() . 'visit_register' ?>" class="nav-link" <?php //echo ($this->uri->segment(1) == "visit_register") ? "active" : ""; ?>>
 
 							<i class="far fa-calendar-alt"></i>
 							<p>
 								&nbsp;&nbsp;&nbsp;&nbsp;Sales Visits
 							</p>
 						</a>
-					</li>
+					</li> -->
 
 
 
 					<!--Support menus-->
-					<li class="nav-item has-treeview">
+					<!-- <li class="nav-item has-treeview">
 						<a href="#" class="nav-link bg-warning">
 							<i class="nav-icon fas fa-th"></i>
 							<p>
@@ -345,7 +349,7 @@ if (!$_SESSION['user_name']) {
 									</p>
 								</a>
 
-							</li>
+							</li> -->
 
 							<!-- <li class="nav-item">
 									<a href="#" class="nav-link">
@@ -354,7 +358,7 @@ if (!$_SESSION['user_name']) {
                             						Feedback Request
                         						</p>
                     							</a>
-								</li>	 -->
+								</li>	 --
 						</ul>
 					</li>
 					<!---end of support menus-->
