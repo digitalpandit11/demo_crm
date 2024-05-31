@@ -461,8 +461,24 @@ if (!$_SESSION['user_name']) {
 															</a>
 
 														</div>
-														<p style="color: #FF0000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Please Check HSN Code Of Product Before Submiting Offer</p>
 
+														<div class="btn-group" style="margin-top: 15px; margin-left: 20px;">
+															<a data-toggle="modal" data-target="#modal-lg-upload-template" class="btn btn-block btn-success" style="background-color: #5cb85c; border-color: #4cae4c; color: #ffff;">
+																Upload Template
+															</a>
+
+														</div>
+
+														<div class="btn-group" style="margin-top: 15px; margin-left: 15px;">
+															<?php $product_attachment = "demo_csv.csv"; ?>
+															<button style="width: 200px; margin: auto;" type="button" class="btn btn-block btn-danger float-right">
+															<a style="color: white;" href="<?php echo base_url('assets/'.$product_attachment); ?>" download="<?php echo $product_attachment; ?>">
+																	Download Example Sheet
+																</a>
+															</button>
+														</div>
+   
+														<p style="color: #FF0000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Please Check HSN Code Of Product Before Submiting Offer</p>
 
 														<!-- <i class="fas fa-2x fa-sync-alt"></i> -->
 
@@ -780,6 +796,32 @@ if (!$_SESSION['user_name']) {
 			<!-- /.modal-dialog -->
 		</div>
 	</div>
+	<div class="modal fade" id="modal-lg-upload-template">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Upload Template</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form role="form" name="template_form" id="template_form" enctype="multipart/form-data">
+						<!-- <input type="hidden" id="offer_id" name="offer_id" value="<?php //echo $offer_id; ?>" required> -->
+						<input type="file" name="template_file" id="template_file" accept=".csv,.xlsx,.xls"><br>
+
+						<div id="error_message" style="display: none;" class="alert alert-danger"></div>
+
+						<div class="modal-footer justify-content-between">
+							<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+							<input id="upload_template" class="btn btn-success" type="button" value="Upload" name="upload_template">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
 
 	<div class="modal fade" id="modal-lg-product-add">
 		<div class="modal-dialog modal-lg">
@@ -1580,6 +1622,50 @@ if (!$_SESSION['user_name']) {
                 
             } );
         </script> -->
+
+		<script type="text/javascript">
+		$(document).on('click', '#upload_template', function() {
+			var enquiry_entity_id = $('#enquiry_entity_id').val();
+
+			// var enquiry_entity_id = document.getElementById('enquiry_entity_id').value;
+
+			var formData = new FormData();
+			formData.append('enquiry_entity_id', enquiry_entity_id);
+			formData.append('template_file', $('#template_file')[0].files[0]);
+
+			$.ajax({
+				url: "<?php echo site_url('sales/offer_register/upload_template_from_setoffer'); ?>",
+				method: "POST",
+				data: formData,
+				processData: false,
+				contentType: false,
+				dataType: 'json',
+				success: function(response) {
+					if (response.success) {
+						
+						// Redirect to success page or do any other necessary action
+						window.location.reload();
+						// window.location.href = response.redirect_url;
+					} else {
+						$('#error_message').html(response.error);
+						$('#error_message').show();
+						$('#modal-lg-upload-template').modal('show'); // Show the modal
+						$('.modal-footer').append('<button type="button" class="btn btn-primary" onclick="goBack()">Go Back</button>');
+						$('#upload_template').prop('disabled', true);
+					}
+				},
+				error: function(xhr, status, error) {
+					console.error(xhr.responseText);
+				}
+				
+			});
+		});
+
+		function goBack() {
+			window.location.reload();
+		}
+	</script>
+
 
 	<script>
 		var table = $('#product_details_table').dataTable({

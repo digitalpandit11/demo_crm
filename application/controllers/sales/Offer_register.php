@@ -990,6 +990,259 @@ public function upload_template()
         
     }
 
+    public function upload_template_from_setoffer()
+{
+    $enquiry_entity_id = $this->input->post('enquiry_entity_id');
+    $response = array();
+
+    $this->db->select('*');
+    $this->db->from('offer_register');
+    $where = '(offer_register.enquiry_id = "'.$enquiry_entity_id.'" )';
+    $this->db->where($where);
+    $this->db->order_by('offer_register.entity_id', 'DESC');
+    $this->db->limit(1);
+    $query_data = $this->db->get();
+    $query_result = $query_data->row_array();
+
+    $offer_id = $query_result['entity_id'];
+
+  
+    $config['upload_path'] = 'assets/product_csv/';
+    $config['allowed_types'] = 'csv';
+    $config['max_size'] = 2048; 
+
+    $this->load->library('upload', $config);
+
+    if (!$this->upload->do_upload('template_file')) {
+        $error = $this->upload->display_errors();
+        $this->session->set_flashdata('error', $error);
+        redirect(base_url() . 'setoffer/' . $enquiry_entity_id);
+    } else {
+        // Retrieve uploaded file data
+        $data = $this->upload->data();
+        $file_path = 'assets/product_csv/' . $data['file_name'];
+
+        // Read CSV file data
+        $csv_data = array_map('str_getcsv', file($file_path));
+        
+        // Remove header row
+        $header = array_shift($csv_data);
+
+        // Arrays to store existing and new products
+        $existing_products = array();
+        $new_products = array();
+
+        $error_messages_existing = array();
+        $error_messages_new = array();
+
+        // Separate existing and new products
+        foreach ($csv_data as $row) {
+            $product_custom_part_no = trim($row[0]);
+            // Check if product exists in product_master table
+            $product_query = $this->db->get_where('product_master', array('product_id' => $product_custom_part_no));
+            $existing_product = $product_query->row_array();
+
+            if ($existing_product) {
+                // Existing product, add to existing products array
+                if (!empty($row[0]) && !empty($row[1]) && !empty($row[2]) && !empty($row[3])) {
+                    $existing_products[] = $row;
+                }
+            } else {
+                // New product, add to new products array
+                if (!empty($row[0]) && !empty($row[1]) && !empty($row[2]) && !empty($row[3]) && !empty($row[4]) && !empty($row[5]) && !empty($row[6]) && !empty($row[7]) && !empty($row[8])&& !empty($row[9])) {
+                    $new_products[] = $row;
+                }
+                
+            }
+
+            if ($existing_product) {
+                // Existing product, add to existing products array
+                if (empty($row[0]) || empty($row[1]) || empty($row[2]) || empty($row[3])) {
+                    $error_messages_existing[] = "Incomplete data for existing part code:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $product_custom_part_no . "<br>";
+                }
+            } else {
+                // New product, add to new products array
+                if (empty($row[0]) || empty($row[1]) || empty($row[2]) || empty($row[3]) || empty($row[4]) || empty($row[5]) || empty($row[6]) || empty($row[7]) || empty($row[8])|| empty($row[9])) {
+                    $error_messages_new[] = "Incomplete data for new part code: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $product_custom_part_no . "<br>";
+                }
+            }
+        }
+
+        // Check if any errors exist
+        if (!empty($error_messages_existing) || !empty($error_messages_new)) {
+            $response['success'] = false;
+            $response['error'] = implode("<br>", $error_messages_existing) . "<br>" . implode("<br>", $error_messages_new) . "<br>Please fill all details properly and then upload the CSV file.";
+
+            echo json_encode($response);
+            return;
+        }
+
+        // Initialize a flag to track if existing products were found
+        $existing_products_found = false;
+
+        // Process existing products
+        foreach ($existing_products as $row) 
+        {
+            // Fetch additional details from database and insert into offer_product_relation
+            $product_custom_part_no = trim($row[0]);
+            $product_make = trim($row[1]);
+            $qty = trim($row[2]);
+            $discount = trim($row[3]);
+
+            $this->db->select('entity_id');
+            $this->db->from('product_master');
+            $this->db->where('product_id', $product_custom_part_no);
+            $product_entity = $this->db->get();
+            $product_entity_row = $product_entity->row();
+
+            $product_id = $product_entity_row->entity_id;
+            
+            // Fetch product details from product_master and product_hsn_master tables
+            $this->db->select('product_master.*, product_hsn_master.total_gst_percentage, product_hsn_master.cgst, product_hsn_master.sgst, product_hsn_master.igst');
+            $this->db->from('product_master');
+            $this->db->join('product_hsn_master', 'product_master.hsn_id = product_hsn_master.entity_id','inner');
+            $this->db->where('product_master.entity_id', $product_id); 
+            $product_master = $this->db->get();
+            $product_master_result = $product_master->row();
+
+            // Fetch product details from product_master and product_make_master tables
+            $this->db->select('product_master.*, product_make_master.make_name');
+            $this->db->from('product_master');
+            $this->db->join('product_make_master', 'product_master.product_make = product_make_master.entity_id','inner');
+            $this->db->where('product_master.entity_id', $product_id); 
+            $product_make_master = $this->db->get();
+            $product_make_result = $product_make_master->row();
+
+            // echo '<pre>'; print_r($product_master_result);die;
+            @$gst_percentage = $product_master_result->total_gst_percentage;                     
+            @$product_custom_description = $product_master_result->product_name;
+            @$hsn_id = $product_master_result->hsn_id;      
+            @$igst_percentage = $product_master_result->igst;
+
+            @$product_make =  $product_make_result->product_make;
+            // echo '<pre>'; print_r($product_make);die;
+           
+            //Fetch latest price from product_pricelist_master table
+            $this->db->select('price');
+            $this->db->from('product_pricelist_master');
+            $this->db->where('product_id', $product_id);
+            $this->db->order_by('entity_id', 'DESC');
+            $this->db->limit(1);
+            $product_pricelist_master = $this->db->get();
+            $product_pricelist_master_result = $product_pricelist_master->row();
+                        
+            $price = $product_pricelist_master_result->price;
+
+            // Calculate total amount without GST
+            $total_amount_without_gst = $price * $qty;
+            $igst_amount = $total_amount_without_gst * $igst_percentage/100;
+            $gst_amount = $total_amount_without_gst * $gst_percentage/100;
+            $discount_amt = $total_amount_without_gst * ($discount / 100);
+            $unit_discounted_price = $total_amount_without_gst - $discount_amt;
+            $total_gst_amount = $igst_amount;
+            $total_amount_with_gst = $total_amount_without_gst + $gst_amount;
+
+            // Check if the product already exists in the offer
+            $existing_product_in_offer_query = $this->db->get_where('offer_product_relation', array('product_id' => $product_id, 'offer_id' => $offer_id));
+            $existing_product_in_offer_row = $existing_product_in_offer_query->row_array();
+            
+            // If the product already exists in the offer, add its ID to the list of existing product IDs
+            if ($existing_product_in_offer_row) {
+                $existing_products_found = true;
+                continue;
+            }
+
+            // Prepare insert array
+            $insert_array = array(
+                "product_id" => $product_id,
+                "offer_id" => $offer_id,
+                "product_make" => $product_make,
+                "product_custom_part_no" => $product_custom_part_no,
+                "product_custom_description" => $product_custom_description,
+                "rfq_qty" => $qty, 
+                "price" => $price,
+                "discount" => $discount,
+                "discount_amt" =>  $discount_amt ,
+                "unit_discounted_price" => $unit_discounted_price,
+                "total_amount_without_gst" => $total_amount_without_gst,
+                "hsn_id" => $hsn_id,
+                "gst_percentage" => $gst_percentage,
+                "gst_amount" => $gst_amount,
+                "igst_discount" => $igst_percentage,
+                "igst_amt" => $igst_amount,
+                "total_amount_with_gst" => $total_amount_with_gst,
+            );
+            $this->db->insert('offer_product_relation', $insert_array);
+        }
+
+        // Check if any existing products were found in the offer
+        // if ($existing_products_found) {
+        //     // Display error message for existing products found in the offer
+        //     $error_message = "The following product(s) already exist for offer ID: $offer_id and will be skipped: <br>" . implode("<br>", array_map(function($product_id) {
+        //         return "Product Id: $product_id";
+        //     }, array_column($existing_products, 0)));
+                            
+        //     $response['success'] = false;
+        //     $response['error'] = $error_message;
+        //     echo json_encode($response);
+        //     // return;
+        // }
+
+        // if (empty($new_products)) {
+        //     $response['success'] = false;
+        //     $response['error'] = "No new products found to insert.";
+        //     echo json_encode($response);
+        //     return;
+        // }
+        
+        // Process new products
+        foreach ($new_products as $row) {
+            // Extract product details from CSV row
+            $product_custom_part_no = trim($row[0]);
+            $product_make = trim($row[1]);
+            $qty = trim($row[2]);
+            $discount = trim($row[3]);
+            $product_custom_description = trim($row[4]);
+            $price = trim($row[9]);
+            $hsn_code = trim($row[7]);
+            $unit = trim($row[5]);
+            $warranty = trim($row[6]);
+            $category = trim($row[8]);
+
+            // Check if category exists, insert if not
+            $category_id = $this->get_or_create_category_id($category);
+
+            // Check if unit exists, insert if not
+            $unit_id = $this->get_or_create_unit_id($unit);
+
+            // Check if HSN code exists, insert if not
+            $hsn_id = $this->get_or_create_hsn_id($hsn_code);
+
+            // Check if  Product make exists, insert if not
+            $product_make = $this->get_or_create_product_make_id($product_make);
+
+            // Insert new product into product_master table
+            $new_product_id = $this->insert_new_product($product_custom_part_no, $product_custom_description, $category_id, $unit_id, $hsn_id, $product_make, $warranty);
+
+            // Insert price details into product_pricelist_master
+            $this->insert_price_details($new_product_id, $price);
+
+            // Insert into offer_product_relation
+            $response = $this->insert_offer_product_relation($new_product_id, $offer_id, $product_custom_part_no, $product_custom_description, $unit_id, $warranty, $hsn_id, $product_make, $price,$qty, $discount);
+          // Check if insertion was successful
+            if ($response['success']) {
+                // Set additional success response
+                $response['redirect_url'] = base_url() . 'update_offer_data/' . $offer_id;
+            }
+        }
+
+        // Set success response
+        $response['success'] = true;
+        $response['redirect_url'] = base_url() . 'update_offer_data/' . $offer_id;
+
+        echo json_encode($response);
+    }
+}
 
 
     public function update_offer_from_enquiry()
