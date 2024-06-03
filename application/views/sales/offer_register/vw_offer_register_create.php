@@ -470,7 +470,7 @@ if (!$_SESSION['user_name']) {
 														</div>
 
 														<div class="btn-group" style="margin-top: 15px; margin-left: 15px;">
-															<?php $product_attachment = "demo_csv.csv"; ?>
+															<?php $product_attachment = "working_sheet.csv"; ?>
 															<button style="width: 200px; margin: auto;" type="button" class="btn btn-block btn-danger float-right">
 															<a style="color: white;" href="<?php echo base_url('assets/'.$product_attachment); ?>" download="<?php echo $product_attachment; ?>">
 																	Download Example Sheet
@@ -808,12 +808,26 @@ if (!$_SESSION['user_name']) {
 				<div class="modal-body">
 					<form role="form" name="template_form" id="template_form" enctype="multipart/form-data">
 						<!-- <input type="hidden" id="offer_id" name="offer_id" value="<?php //echo $offer_id; ?>" required> -->
+						<div class="col-lg-12">
 						<input type="file" name="template_file" id="template_file" accept=".csv,.xlsx,.xls"><br>
 
 						<div id="error_message" style="display: none;" class="alert alert-danger"></div>
 
-						<div class="modal-footer justify-content-between">
+						<div id="csv_data_table" style="display: none;" class="table-responsive col-lg-12">
+                        <table class="table table-bordered" id="csv_table">
+                            <thead>
+                                <!-- Table headers will be dynamically generated -->
+                            </thead>
+                            <tbody>
+                                <!-- CSV data will be dynamically inserted here -->
+                            </tbody>
+                        </table>
+                      </div>
+					  </div>
+
+					  <div class="modal-footer justify-content-between">
 							<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+							<button id="check_template" class="btn btn-primary" type="button">Check</button>
 							<input id="upload_template" class="btn btn-success" type="button" value="Upload" name="upload_template">
 						</div>
 					</form>
@@ -1666,6 +1680,80 @@ if (!$_SESSION['user_name']) {
 		}
 	</script>
 
+
+<script>
+    $(document).on('click', '#check_template', function() {
+        var formData = new FormData();
+        formData.append('template_file', $('#template_file')[0].files[0]);
+        // formData.append('offer_id', $('#offer_id').val());
+
+        $.ajax({
+            url: "<?php echo site_url('sales/offer_register/checkIncompleteFields'); ?>",
+            method: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    $('#error_message').hide();
+                    displayCsvData(response.csv_data, response.header, response.incomplete_fields);
+                    $('#upload_template').prop('disabled', response.incomplete_fields.length > 0);
+                } else {
+                    $('#error_message').html(response.error);
+                    $('#error_message').show();
+                    $('#upload_template').prop('disabled', true);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    });
+
+    function displayCsvData(csvData, header, incompleteFields) {
+        // Clear previous data
+        $('#csv_table thead').empty();
+        $('#csv_table tbody').empty();
+
+        // Generate table headers
+        var headerRow = '<tr>';
+        $.each(header, function(index, value) {
+            headerRow += '<th>' + value + '</th>';
+        });
+        headerRow += '</tr>';
+        $('#csv_table thead').append(headerRow);
+
+        // Display CSV data rows
+        $.each(csvData, function(index, row) {
+            var dataRow = '<tr>';
+            var isIncompleteRow = false;
+            $.each(row, function(cellIndex, value) {
+                var columnName = header[cellIndex];
+                var isIncomplete = incompleteFields.some(field => field.erp_code === row[2] && field.incomplete_fields.includes(columnName));
+                if ((cellIndex === 0 || cellIndex === 3 || cellIndex === 6 || cellIndex === 8 || cellIndex === 9 || cellIndex === 14) && (value === null || value === '')) {
+                    dataRow += '<td></td>';
+                } else {
+                    if (value === null || value === '') {
+                        dataRow += '<td><span style="color: red;">Data missing</span></td>';
+                        isIncompleteRow = true;
+                    } else {
+                        dataRow += '<td>' + value + '</td>';
+                    }
+                }
+            });
+            dataRow += '</tr>';
+            if (isIncompleteRow) {
+                $('#csv_table tbody').append(dataRow);
+            } else {
+                $('#csv_table tbody').append(dataRow);
+            }
+        });
+
+        // Show the table
+        $('#csv_data_table').show();
+    }
+</script>
 
 	<script>
 		var table = $('#product_details_table').dataTable({
