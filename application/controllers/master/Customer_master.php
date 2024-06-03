@@ -726,18 +726,18 @@ class Customer_master extends CI_Controller {
         );
 
         //SQL server connection information
-        // $sql_details = array(
-        //   'user' => 'root',
-        //   'pass' => '',
-        //   'db'   => 'demo_crm',
-        //   'host' => 'localhost'
-        // );
         $sql_details = array(
-            'user' => 'u117003035_vbtek',
-            'pass' => 'S@14vbtek',
-            'db' => 'u117003035_demo_crm',
-            'host' => 'localhost'
+          'user' => 'root',
+          'pass' => '',
+          'db'   => 'demo_crm',
+          'host' => 'localhost'
         );
+        // $sql_details = array(
+        //     'user' => 'u117003035_vbtek',
+        //     'pass' => 'S@14vbtek',
+        //     'db' => 'u117003035_demo_crm',
+        //     'host' => 'localhost'
+        // );
         
         include APPPATH . 'third_party/datatable_ssp_class/ssp.php';
 
@@ -845,19 +845,19 @@ class Customer_master extends CI_Controller {
 
         //  SQL server connection information
         
-        $sql_details = array(
-            'user' => 'u117003035_vbtek',
-            'pass' => 'S@14vbtek',
-            'db' => 'u117003035_demo_crm',
-            'host' => 'localhost'
-        );
-        
         // $sql_details = array(
-        //     'user' => 'root',
-        //     'pass' => '',
-        //     'db'   => 'demo_crm',
+        //     'user' => 'u117003035_vbtek',
+        //     'pass' => 'S@14vbtek',
+        //     'db' => 'u117003035_demo_crm',
         //     'host' => 'localhost'
         // );
+        
+        $sql_details = array(
+            'user' => 'root',
+            'pass' => '',
+            'db'   => 'demo_crm',
+            'host' => 'localhost'
+        );
         
         include APPPATH . 'third_party/datatable_ssp_class/ssp.php';
 

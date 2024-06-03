@@ -6443,19 +6443,19 @@ public function upload_template()
 
         // SQL server connection information
 
-        // $sql_details = array(
-        //   'user' => 'root',
-        //   'pass' => '',
-        //   'db'   => 'demo_crm',
-        //   'host' => 'localhost'
-        // );
-
         $sql_details = array(
-            'user' => 'u117003035_vbtek',
-            'pass' => 'S@14vbtek',
-            'db' => 'u117003035_demo_crm',
-            'host' => 'localhost'
+          'user' => 'root',
+          'pass' => '',
+          'db'   => 'demo_crm',
+          'host' => 'localhost'
         );
+
+        // $sql_details = array(
+        //     'user' => 'u117003035_vbtek',
+        //     'pass' => 'S@14vbtek',
+        //     'db' => 'u117003035_demo_crm',
+        //     'host' => 'localhost'
+        // );
 
         $fstatus = 1;
         $sestatus = 2;
@@ -6586,19 +6586,19 @@ public function upload_template()
 
         // SQL server connection information
        
-        // $sql_details = array(
-        //   'user' => 'root',
-        //   'pass' => '',
-        //   'db'   => 'demo_crm',
-        //   'host' => 'localhost'
-        // );
-        
         $sql_details = array(
-            'user' => 'u117003035_vbtek',
-            'pass' => 'S@14vbtek',
-            'db' => 'u117003035_demo_crm',
-            'host' => 'localhost'
+          'user' => 'root',
+          'pass' => '',
+          'db'   => 'demo_crm',
+          'host' => 'localhost'
         );
+        
+        // $sql_details = array(
+        //     'user' => 'u117003035_vbtek',
+        //     'pass' => 'S@14vbtek',
+        //     'db' => 'u117003035_demo_crm',
+        //     'host' => 'localhost'
+        // );
         
         include APPPATH . 'third_party/datatable_ssp_class/ssp.php';
 
