@@ -148,7 +148,7 @@ if (!$_SESSION['user_name']) {
 															<td>
 																<?php
 																$quote_check = isset($quote_data[$st->entity_id]['status']);
-																echo ($quote_check) ? (($quote_data[$st->entity_id]['status'] == $offer_status) ? number_format($quote_data[$st->entity_id]['offer_value'],0,".".",") : "") : ""; ?>
+																echo ($quote_check) ? (($quote_data[$st->entity_id]['status'] == $offer_status) ? number_format($quote_data[$st->entity_id]['offer_value'],0,".",",") : "") : ""; ?>
 
 															</td>
 														<?php } ?>
