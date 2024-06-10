@@ -623,6 +623,13 @@ if (!$_SESSION['user_name']) {
 									</a>
 								</li>
 
+								<li class="nav-item" Style="border-bottom: 2px solid grey;">
+									<a href="<?php echo base_url() . 'vw_status_wise_quotation_summary_report' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "vw_status_wise_quotation_summary_report") ?  "active" : ""; ?>>
+										<i class="far fa-dot-circle nav-icon"></i>
+										<p>Status Wise Report</p>
+									</a>
+								</li>
+
 							<?php } ?>
 							<!-- ///////End of restricted reports //////// -->
 							<li class="nav-item">

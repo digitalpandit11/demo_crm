@@ -156,7 +156,7 @@ if (!$_SESSION['user_name']) {
 														<td><?php echo $row->first_contact_no; ?></td>
 														<td><?php echo $row->email_id; ?></td>
 														<td><?php echo $row->emp_first_name; ?></td>
-														<td><?php echo $Status; ?></td>
+														<td><?php echo $row->offer_status; ?></td>
 														<td><?php echo $row->source_name; ?></td>
 														<td><?php echo $row->reason_for_rejection; ?></td>
 														<td><?php echo $offer_value; ?></td>

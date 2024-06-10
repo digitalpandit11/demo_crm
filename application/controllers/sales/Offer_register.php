@@ -100,42 +100,42 @@ class Offer_register extends CI_Controller {
         $no++;
         $entity_id = $row->entity_id;
         $base_url = base_url();
-        $Status_data = $row->status;
+        // $Status_data = $row->status;
         $offer_value = number_format($row->total_amount_with_gst);
 
-        if($Status_data == 1)
-        {
-            $Status = "Pending Offer Creation";
-        }elseif($Status_data == 2)
-        {
-            $Status = "Offer Created";
-        }elseif($Status_data == 3)
-        {
-            $Status = "Active";
-        }elseif($Status_data == 4)
-        {
-            $Status = "Offer Lost";
-        }elseif($Status_data == 5)
-        {
-            $Status = "Offer Regrated";
-        }elseif($Status_data == 6)
-        {
-            $Status = "Win";
-        }elseif($Status_data == 7)
-        {
-            $Status = "InActive";
-        }elseif($Status_data == 8)
-        {
-            $Status = "A";
-        }elseif($Status_data == 9)
-        {
-            $Status = "B";
-        }elseif($Status_data == 10)
-        {
-            $Status = "Offer Revised";
-        }else{
-            $Status = "NA";
-        }
+        // if($Status_data == 1)
+        // {
+        //     $Status = "Pending Offer Creation";
+        // }elseif($Status_data == 2)
+        // {
+        //     $Status = "Offer Created";
+        // }elseif($Status_data == 3)
+        // {
+        //     $Status = "Active";
+        // }elseif($Status_data == 4)
+        // {
+        //     $Status = "Offer Lost";
+        // }elseif($Status_data == 5)
+        // {
+        //     $Status = "Offer Regrated";
+        // }elseif($Status_data == 6)
+        // {
+        //     $Status = "Win";
+        // }elseif($Status_data == 7)
+        // {
+        //     $Status = "InActive";
+        // }elseif($Status_data == 8)
+        // {
+        //     $Status = "A";
+        // }elseif($Status_data == 9)
+        // {
+        //     $Status = "B";
+        // }elseif($Status_data == 10)
+        // {
+        //     $Status = "Offer Revised";
+        // }else{
+        //     $Status = "NA";
+        // }
 
         $edit_button = '<a href="'.$base_url.'update_offer_data/'.$entity_id.'"><span class="btn btn-sm btn-info"><i class="fa fa-edit"></i></span></a>';
 
@@ -159,7 +159,7 @@ class Offer_register extends CI_Controller {
         $sub_array[] = $row->email_id;
         $sub_array[] = $row->emp_first_name;
         $sub_array[] = $row->source_name;
-        $sub_array[] = $Status;
+        $sub_array[] = $row->offer_status;
         $sub_array[] = $offer_value;
         $sub_array[] = $edit_button.$view_button;
         $sub_array[] = $revision_button.$print_button;

@@ -710,7 +710,7 @@ class Offer_register_model extends CI_Model{
         $terms_conditions = $query_result->terms_conditions;
         $note = $query_result->note;
         $delivery_period =  $query_result->delivery_period;
-        $offer_status = 3;
+        $offer_status = 10;
 
         $price_condition =  $query_result->price_condition;
         $salutation =  $query_result->salutation;
@@ -815,7 +815,7 @@ class Offer_register_model extends CI_Model{
                     $save_offer_product_relation = $this->db->query($offer_product_relation_save);
                 }
 
-            $offer_status = 10;
+            $offer_status = 9;
             $update_old_offer_array = array('status' => $offer_status);
             $where = '(entity_id ="'.$entity_id.'")';
             $this->db->where($where);
@@ -831,17 +831,19 @@ class Offer_register_model extends CI_Model{
 
         
         if($user_id == 1){
-            $this->db->select('offer_all_index.*,enquiry_source_master.source_name');
+            $this->db->select('offer_all_index.*,enquiry_source_master.source_name,status_master_relation.status_name as offer_status');
             $this->db->from('offer_all_index');
             $this->db->join('enquiry_source_master','enquiry_source_master.entity_id = offer_all_index.offer_source','left');
+            $this->db->join('status_master_relation','status_master_relation.entity_id = offer_all_index.status','inner');
             $this->db->order_by('offer_all_index.entity_id', 'DESC');
             $query = $this->db->get();
             $query_result = $query->result();
             return $query_result;
         }else{
-            $this->db->select('offer_all_index.*,enquiry_source_master.source_name');
+            $this->db->select('offer_all_index.*,enquiry_source_master.source_name,status_master_relation.status_name as offer_status');
             $this->db->from('offer_all_index');
             $this->db->join('enquiry_source_master','enquiry_source_master.entity_id = offer_all_index.offer_source','left');
+            $this->db->join('status_master_relation','status_master_relation.entity_id = offer_all_index.status','inner');
             /*$where = '(offer_register.status = "'.'2'.'")';
             $this->db->where($where);*/
             // $where1 = '(offer_all_index.offer_engg_name = "'.$emp_id.'")';
@@ -881,12 +883,10 @@ class Offer_register_model extends CI_Model{
         $emp_id = $_SESSION['emp_id'];
 
        
-            $this->db->select('offer_all_index.*,enquiry_source_master.source_name');
+            $this->db->select('offer_all_index.*,enquiry_source_master.source_name,status_master_relation.status_name as offer_status');
             $this->db->from('offer_all_index');
             $this->db->join('enquiry_source_master','enquiry_source_master.entity_id = offer_all_index.offer_source','left');
-
-            /*$where = '(offer_register.status = "'.'2'.'")';
-            $this->db->where($where);*/
+            $this->db->join('status_master_relation','status_master_relation.entity_id = offer_all_index.status','inner');
             $where = '(offer_engg_name = "'.$emp_id.'")';
             $this->db->where($where);
             $where1 = '(status = "2" or status = "3" or status = "8" or status = "9")';

@@ -10,7 +10,7 @@ if (!$_SESSION['user_name']) {
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>My Quotation Register</title>
+	<title>Stage Wise Quotation Summary Report</title>
 	<!-- Tell the browser to be responsive to screen width -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- Data Tables -->
@@ -50,12 +50,12 @@ if (!$_SESSION['user_name']) {
 				<div class="container-fluid">
 					<div class="card">
 						<div class="card-header">
-							<h1 class="card-title">My Quotation Register</h1>
+							<h1 class="card-title">Stage Wise Quotation Summary Report</h1>
 							<div class="col-sm-6">
 								<br><br>
 								<ol class="breadcrumb">
 									<li class="breadcrumb-item"><a href="<?php echo base_url() . 'dashboard' ?>">Home</a></li>
-									<li class="breadcrumb-item"><a href="<?php echo base_url() . 'vw_my_offer_data' ?>">My Quotation Register</a>
+									<li class="breadcrumb-item"><a href="<?php echo base_url() . 'create_stage_wise_quotation_summary' ?>">Create Stage Wise Quotation Summary Report</a>
 									</li>
 								</ol>
 							</div>
@@ -70,105 +70,90 @@ if (!$_SESSION['user_name']) {
 							<!-- general form elements disabled -->
 							<div class="card card-primary">
 								<div class="card-header">
-									<h3 class="card-title">My Quotation Register</h3>
+									<h3 class="card-title">Stage Wise Quotation Summary<strong>[ <?php //echo date("d-m-Y", strtotime($timesheet_from_date))." to ".date("d-m-Y", strtotime($timesheet_to_date)); 
+																																								?> ]</strong></h3>
 								</div>
-								<div>
-									<div class="btn-group" style="margin-top: 15px; margin-left: 15px;">
-										<a href="create_customer_offer" class="btn btn-block btn-primary">
-											Create Quotation
-										</a>
-									</div>
 
-									<div class="btn-group" style="margin-top: 15px; margin-left: 15px;">
-										<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-											My Quotations
-										</button>
-										<div class="dropdown-menu">
-											<a class="dropdown-item btn btn-block btn-primary" href="vw_offer_data">Working Quotations</a>
-											<a class="dropdown-item btn btn-block btn-primary" href="vw_all_offer_data">All Quotations</a>
-										</div>
-									</div>
-
-								</div>
 								<div class="card-body">
+									<?php
+									$this->db->select('*');
+									$this->db->from('status_master_relation');
+									$status_query = $this->db->get();
+									//$status_query_num_rows = $status_query->num_rows();
+									$status_list = $status_query->result();
+									?>
+
 									<div class="table-responsive">
 										<table id="example1" class="table table-bordered table-striped">
 											<thead>
 												<tr>
 													<th>Sr. No.</th>
-													<th>Quotation No. </th>
-													<th>Quotation Date </th>
-													<!-- <th>Lead No. </th> -->
-													<th>Company Name</th>
-													<th>Contact Person</th>
-													<th>Contact No.</th>
-													<th>Email Id.</th>
 													<th>Employee Name</th>
-													<th>Quote Stage</th>
-													<th>Source</th>
-													<th>Quote Value</th>
-													<th>Action</th>
-													<th>Print Without GST</th>
+													<?php
+													foreach ($status_list as $offer_status) {
+													?>
+														<th><?= $offer_status->status_name; ?></th>
+													<?php } ?>
 												</tr>
 											</thead>
 											<tbody>
 												<?php
 												$no = 0;
-												foreach ($offer_details as $row) {
-
+												foreach ($employee_list as $employee) {
 													$no++;
+													$employee_name = $employee->emp_first_name;
+													$emp_id = $employee->entity_id;
 
-													$Status_data = $row->status;
-													$offer_value = number_format($row->total_amount_with_gst);
+													//get offer value
+													$this->db->select('offer_register.offer_engg_name,offer_register.status as offer_status,sum(offer_product_relation.total_amount_without_gst) as offer_value,count(*) as offer_count');
+													$this->db->from('offer_register');
+													$this->db->join('offer_product_relation', 'offer_product_relation.offer_id = offer_register.entity_id', 'inner');
+													$where = '(offer_register.offer_engg_name = "' . $emp_id . '" )';
+													$this->db->where($where);
+													$this->db->group_by(['offer_register.offer_engg_name', 'offer_register.status']);
+													// $quote_query = $this->db->get_compiled_select();
+													$quote_result = $this->db->get()->result();
 
-													if ($Status_data == 1) {
-														$Status = "Pending Offer Creation";
-													} elseif ($Status_data == 2) {
-														$Status = "Offer Created";
-													} elseif ($Status_data == 3) {
-														$Status = "Active";
-													} elseif ($Status_data == 4) {
-														$Status = "Offer Lost";
-													} elseif ($Status_data == 5) {
-														$Status = "Offer Regrated";
-													} elseif ($Status_data == 6) {
-														$Status = "Win";
-													} elseif ($Status_data == 7) {
-														$Status = "InActive";
-													} elseif ($Status_data == 8) {
-														$Status = "A";
-													} elseif ($Status_data == 9) {
-														$Status = "B";
-													} elseif ($Status_data == 10) {
-														$Status = "Offer Revised";
-													} else {
-														$Status = "NA";
+
+
+													$quote_data = [];
+													$total_offer_count = 0;
+													$total_offer_value = 0;
+													foreach ($status_list as $os) {
+
+														foreach ($quote_result as $row) {
+
+															$offer_status =  $row->offer_status;
+															$offer_value =  $row->offer_value;
+															$offer_count =  $row->offer_count;
+
+															if ($offer_status == $os->entity_id) {
+																$quote_data[$os->entity_id] =
+																	[
+																		'status' => $offer_status,
+																		'offer_value' => $offer_value,
+																		'offer_count' => $offer_count
+																	];
+															}
+														}
 													}
+
+
 												?>
 													<tr>
 														<td><?php echo $no; ?></td>
-														<td><?php echo $row->offer_no; ?></td>
-														<td><?php echo $row->offer_date; ?></td>
-														<!-- <td><?php echo $row->enquiry_no; ?></td> -->
-														<td><?php echo $row->customer_name; ?></td>
-														<td><?php echo $row->contact_person; ?></td>
-														<td><?php echo $row->first_contact_no; ?></td>
-														<td><?php echo $row->email_id; ?></td>
-														<td><?php echo $row->emp_first_name; ?></td>
-														<td><?php echo $row->offer_status; ?></td>
-														<td><?php echo $row->source_name; ?></td>
-														<td><?php echo $offer_value; ?></td>
-														<td><a href="<?php echo base_url() . "update_offer_data/" . $row->entity_id ?>"><span class="btn btn-sm btn-info"><i class="fa fa-edit"></i></span></a>
+														<td><?php echo $employee_name; ?></td>
+														<?php foreach ($status_list as $st) {
+															$offer_status = $st->entity_id ?>
+															<td>
+																<?php
+																$quote_check = isset($quote_data[$st->entity_id]['status']);
+																echo ($quote_check) ? (($quote_data[$st->entity_id]['status'] == $offer_status) ? number_format($quote_data[$st->entity_id]['offer_value'],0,".".",") : "") : ""; ?>
 
-															<a href="<?php echo base_url() . "view_offer_data/" . $row->entity_id ?>"><span class="btn btn-sm btn-success"><i class="fas fa-eye"></i></span></a>
-
-															<a href="<?php echo base_url() . "download_offer/" . $row->entity_id ?>" target="_blank"><span class="btn btn-sm btn-secondary"><i class="fas fa-print"></i></span></a>
-														</td>
-														<td>
-															<a href="<?php echo base_url() . "download_offer_without_gst/" . $row->entity_id ?>" target="_blank"><span class="btn btn-sm btn-danger"><i class="fas fa-print"></i> </span></a>
-														</td>
+															</td>
+														<?php } ?>
 													</tr>
-												<?php } ?>
+												<?php  } ?>
 											</tbody>
 										</table>
 									</div>
@@ -215,9 +200,28 @@ if (!$_SESSION['user_name']) {
 	<script src="<?php echo base_url() . 'assets/plugins/datatables/jquery.dataTables.js' ?>"></script>
 	<script src="<?php echo base_url() . 'assets/plugins/datatables-bs4/js/dataTables.bootstrap4.js' ?>"></script>
 	<!-- Page script -->
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
+
+	<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
+	<script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+	<script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+	<script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
 	<script>
 		$(document).ready(function() {
-			$('#example1').DataTable();
+			$('#example1').DataTable({
+				dom: 'Bfrtip',
+				buttons: [
+					'copyHtml5',
+					'excelHtml5',
+					'csvHtml5',
+					'pdfHtml5'
+				]
+			})
 		});
 	</script>
 </body>

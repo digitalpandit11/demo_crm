@@ -759,6 +759,23 @@ class Report_controller extends CI_Controller {
 
     }
  
+    public function vw_status_wise_quotation_summary_report()
+    {
+      
+        $user_id = $_SESSION['user_id'];
+     
+
+        // $timesheet_from_date = $this->input->post('timesheet_from_date');
+        // $timesheet_to_date = $this->input->post('timesheet_to_date');
+        
+        // $result['timesheet_from_date'] = $timesheet_from_date;
+        // $result['timesheet_to_date'] = $timesheet_to_date;
+        $result['employee_list'] = $this->report_model->get_employee_list();
+       
+        $this->load->view('report/vw_status_wise_quotation_summary_report',$result);
+
+    }
+ 
  
     public function create_brand_wise_quotation_summary()
     {

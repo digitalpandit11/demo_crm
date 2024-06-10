@@ -15,7 +15,7 @@ class Offer_datatable_model extends CI_Model
     "email_id", 
     "emp_first_name", 
     "source_name", 
-    "status", 
+    "offer_status", 
     "total_amount_with_gst"
   );
   var $order_column = array(
@@ -29,7 +29,7 @@ class Offer_datatable_model extends CI_Model
     "email_id", 
     "emp_first_name", 
     "source_name", 
-    "status", 
+    "offer_status", 
     "total_amount_with_gst"
   );
  
@@ -45,6 +45,7 @@ class Offer_datatable_model extends CI_Model
       $this->db->or_like("email_id", $_POST["search"]["value"]);
       $this->db->or_like("emp_first_name", $_POST["search"]["value"]);
       $this->db->or_like("status", $_POST["search"]["value"]);
+      $this->db->or_like("offer_status", $_POST["search"]["value"]);
     }
 
     if(isset($_POST["order"]))

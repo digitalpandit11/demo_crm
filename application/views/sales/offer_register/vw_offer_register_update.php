@@ -741,17 +741,16 @@ if (!$_SESSION['user_name']) {
 													<label style="color: #FF0000;"> Quotation Status *</label>
 													<select class="form-control" style="width: 100%;" id="offer_status" name="offer_status" required>
 														<option value="" onclick="hideOfferStatus(0)">Not Selected</option>
-														<!-- <option value="1">Pending Offer Creation</option> -->
-														<option value="3" onclick="hideOfferStatus(3)">Active</option>
-														<!-- <option value="3">Order Created</option> -->
-														<option value="4" onclick="showOfferStatus(4)">Loss</option>
-														<!-- <option value="5" onclick="showOfferStatus()">Regrated</option> -->
-														<option value="6" onclick="hideOfferStatus(6)">Win</option>
-														<!-- <option value="7" onclick="hideOfferStatus()">On Hold</option> -->
-														<option value="7" onclick="showOfferStatus(7)">InActive</option>
-														<option value="8" onclick="hideOfferStatus(8)">A</option>
-														<option value="9" onclick="hideOfferStatus(9)">B</option>
-														<!-- <option value="10">Revised Offer</option> -->
+														<option value="2" onclick="hideOfferStatus(3)">Bidding</option>
+														<option value="3" onclick="hideOfferStatus(3)">Budgetary</option>
+														<option value="4" onclick="showOfferStatus(4)">Cancelled By Customer</option>
+														<option value="5" onclick="showOfferStatus(5)">Hold</option>
+														<option value="6" onclick="showOfferStatus(6)">Lost</option>
+														<option value="7" onclick="hideOfferStatus(7)">Not Answering</option>
+														<option value="8" onclick="hideOfferStatus(8)">Not Updated</option>
+														<option value="9" onclick="hideOfferStatus(9)">Revised</option>
+														<option value="10" onclick="hideOfferStatus(10)">Under Discussion</option>
+														<option value="11" onclick="hideOfferStatus(10)">Won</option>
 													</select>
 												</div>
 											</div>
@@ -790,11 +789,11 @@ if (!$_SESSION['user_name']) {
 
 												<div class="row">
 													<!-- <div class="col-sm-4">
-                                                                <div class="form-group">
-                                                                    <label style="color: #FF0000;"> Next Action * </label>
-                                                                    <textarea class="form-control" id="tracking_next_action" name="tracking_next_action" rows="3" placeholder="Enter Tracking Next Action"></textarea>
-                                                                </div>
-                                                            </div> -->
+														<div class="form-group">
+																<label style="color: #FF0000;"> Next Action * </label>
+																<textarea class="form-control" id="tracking_next_action" name="tracking_next_action" rows="3" placeholder="Enter Tracking Next Action"></textarea>
+														</div>
+												</div> -->
 
 													<div class="col-sm-3">
 														<div class="form-group">
@@ -804,11 +803,11 @@ if (!$_SESSION['user_name']) {
 													</div>
 
 													<!-- <div class="col-sm-4">
-                                                                <div class="form-group">
-                                                                    <label > Add Reminder </label><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                    <input type="hidden"><i style="font-size: 20px;" class="fa fa-bell"></i>
-                                                                </div>
-                                                            </div> -->
+															<div class="form-group">
+																	<label > Add Reminder </label><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+																	<input type="hidden"><i style="font-size: 20px;" class="fa fa-bell"></i>
+															</div>
+													</div> -->
 												</div>
 
 												<div class="card-body">

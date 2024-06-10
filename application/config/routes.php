@@ -353,6 +353,7 @@ $route['create_order_won_report'] = "report/report_controller/create_order_won_r
 $route['order_won_report'] = "report/report_controller/generate_order_won_report";
 $route['create_stage_wise_quotation_summary'] = "report/report_controller/create_stage_wise_quotation_summary";
 $route['stage_wise_quotation_summary_report'] = "report/report_controller/generate_stage_wise_quotation_summary_report";
+$route['vw_status_wise_quotation_summary_report'] = "report/report_controller/vw_status_wise_quotation_summary_report";
 $route['create_brand_wise_quotation_summary'] = "report/report_controller/create_brand_wise_quotation_summary";
 $route['brand_wise_quotation_summary_report'] = "report/report_controller/generate_brand_wise_quotation_summary_report";
 
