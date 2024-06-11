@@ -10,7 +10,7 @@ if (!$_SESSION['user_name']) {
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Stage Wise Quotation Summary Report</title>
+	<title>Status Wise Quotation Summary Report</title>
 	<!-- Tell the browser to be responsive to screen width -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- Data Tables -->
@@ -50,12 +50,12 @@ if (!$_SESSION['user_name']) {
 				<div class="container-fluid">
 					<div class="card">
 						<div class="card-header">
-							<h1 class="card-title">Stage Wise Quotation Summary Report</h1>
+							<h1 class="card-title">Status Wise Quotation Summary Report</h1>
 							<div class="col-sm-6">
 								<br><br>
 								<ol class="breadcrumb">
 									<li class="breadcrumb-item"><a href="<?php echo base_url() . 'dashboard' ?>">Home</a></li>
-									<li class="breadcrumb-item"><a href="<?php echo base_url() . 'create_stage_wise_quotation_summary' ?>">Create Stage Wise Quotation Summary Report</a>
+									<li class="breadcrumb-item"><a href="<?php echo base_url() . 'vw_status_wise_quotation_summary_report' ?>"> Status Wise Quotation Summary Report</a>
 									</li>
 								</ol>
 							</div>
@@ -70,7 +70,7 @@ if (!$_SESSION['user_name']) {
 							<!-- general form elements disabled -->
 							<div class="card card-primary">
 								<div class="card-header">
-									<h3 class="card-title">Stage Wise Quotation Summary<strong>[ <?php //echo date("d-m-Y", strtotime($timesheet_from_date))." to ".date("d-m-Y", strtotime($timesheet_to_date)); 
+									<h3 class="card-title">Status Wise Quotation Summary<strong>[ <?php //echo date("d-m-Y", strtotime($timesheet_from_date))." to ".date("d-m-Y", strtotime($timesheet_to_date)); 
 																																								?> ]</strong></h3>
 								</div>
 
@@ -88,7 +88,7 @@ if (!$_SESSION['user_name']) {
 											<thead>
 												<tr>
 													<th>Sr. No.</th>
-													<th>Employee Name</th>
+													<th>Customer Name</th>
 													<?php
 													foreach ($status_list as $offer_status) {
 													?>
@@ -99,18 +99,18 @@ if (!$_SESSION['user_name']) {
 											<tbody>
 												<?php
 												$no = 0;
-												foreach ($employee_list as $employee) {
+												foreach ($customer_list as $customer) {
 													$no++;
-													$employee_name = $employee->emp_first_name;
-													$emp_id = $employee->entity_id;
+													$customer_name = $customer->customer_name;
+													$customer_id = $customer->customer_id;
 
 													//get offer value
 													$this->db->select('offer_register.offer_engg_name,offer_register.status as offer_status,sum(offer_product_relation.total_amount_without_gst) as offer_value,count(*) as offer_count');
 													$this->db->from('offer_register');
 													$this->db->join('offer_product_relation', 'offer_product_relation.offer_id = offer_register.entity_id', 'inner');
-													$where = '(offer_register.offer_engg_name = "' . $emp_id . '" )';
+													$where = '(offer_register.offer_engg_name = "' . $emp_id . '" and offer_register.customer_id = "' . $customer_id . '")';
 													$this->db->where($where);
-													$this->db->group_by(['offer_register.offer_engg_name', 'offer_register.status']);
+													$this->db->group_by(['offer_register.customer_id', 'offer_register.status']);
 													// $quote_query = $this->db->get_compiled_select();
 													$quote_result = $this->db->get()->result();
 
@@ -142,34 +142,13 @@ if (!$_SESSION['user_name']) {
 												?>
 													<tr>
 														<td><?php echo $no; ?></td>
-														<td><a href="<?= base_url('vw_status_wise_customer_wise_quotation_summary_report/').$emp_id;?>" ><?php echo $employee_name; ?></a></td>
+														<td><a href="#" ><?php echo $customer_name; ?></a></td>
 														<?php foreach ($status_list as $st) {
 															$offer_status = $st->entity_id ?>
 															<td>
 																<?php
 																$quote_check = isset($quote_data[$st->entity_id]['status']);
-																//get quote value
-																if($quote_check) {
-																if($quote_data[$st->entity_id]['status'] == $offer_status){
-																	$quote_value =  $quote_data[$st->entity_id]['offer_value'];
-																}else{
-																	$quote_value == 0;
-																}
-																}else{																	
-																$quote_value = 0;
-																}
-																//get quote Count
-																if($quote_check) {
-																if($quote_data[$st->entity_id]['status'] == $offer_status){
-																	$quote_count =  $quote_data[$st->entity_id]['offer_count'];
-																}else{
-																	$quote_count =="";
-																}
-																}else{																	
-																$quote_count = "";
-																}
-
-																echo number_format($quote_value,"0",".",",")."<br>[<span class='text-danger'> ".$quote_count. " </span>]"; ?>
+																echo ($quote_check) ? (($quote_data[$st->entity_id]['status'] == $offer_status) ? number_format($quote_data[$st->entity_id]['offer_value'],0,".",",") : "") : ""; ?>
 
 															</td>
 														<?php } ?>
