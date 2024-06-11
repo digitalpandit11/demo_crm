@@ -776,6 +776,19 @@ class Report_controller extends CI_Controller {
 
     }
  
+    public function vw_status_wise_customer_wise_quotation_summary_report()
+    {
+      
+        $user_id = $_SESSION['user_id'];
+        $emp_id = $this->uri->segment(2);
+
+		$result['emp_id'] = $emp_id;
+        $result['customer_list'] = $this->report_model->get_relevant_customer_list_of_employee($emp_id);
+       
+        $this->load->view('report/vw_status_wise_customer_wise_quotation_summary_report',$result);
+
+    }
+ 
  
     public function create_brand_wise_quotation_summary()
     {

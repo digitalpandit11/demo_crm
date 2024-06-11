@@ -917,6 +917,24 @@ class Report_model extends CI_Model{
         $query = $this->db->get();
         return $query->result();
     }
+    public function get_customer_list()
+    {
+        $this->db->select('*');
+        $this->db->from('customer_master');
+        $query = $this->db->get();
+        return $query->result();
+    }
+    
+    public function get_relevant_customer_list_of_employee($emp_id)
+    {
+        $this->db->select('customer_master.entity_id as customer_id, customer_master.customer_name');
+        $this->db->from('offer_register');
+		$this->db->join('customer_master','customer_master.entity_id = offer_register.customer_id','inner');
+		$this->db->where('offer_engg_name',$emp_id);
+		$this->db->group_by('customer_id');
+        $query = $this->db->get();
+        return $query->result();
+    }
 
     public function get_campaign_list()
     {
