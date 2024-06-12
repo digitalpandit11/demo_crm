@@ -924,6 +924,16 @@ class Report_model extends CI_Model{
         $query = $this->db->get();
         return $query->result();
     }
+
+    public function get_month_list()
+    {
+        $this->db->select('*');
+        $this->db->from('monthly_working_days_master');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+
     
     public function get_relevant_customer_list_of_employee($emp_id)
     {
