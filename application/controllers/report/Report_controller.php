@@ -789,6 +789,61 @@ class Report_controller extends CI_Controller {
 
     }
  
+    public function vw_month_wise_quotation_summary_report_create()
+    {
+      
+        $user_id = $_SESSION['user_id'];
+
+        $result['month_list'] = $this->report_model->get_month_list();
+       
+        $this->load->view('report/vw_month_wise_quotation_summary_report_create',$result);
+
+    }
+
+	public function add_monthly_working_days()
+	{
+		
+		$month = $this->input->post('pop_up_month');
+		$year = $this->input->post('pop_up_year');
+		$month_name = $this->input->post('pop_up_month_name');
+		$working_days = $this->input->post('pop_up_working_days');
+
+		$start_date = date($year."-".$month.'-01');
+
+		// $end_date = date($year."-".$month.'-t');
+		$end_date = date('Y-m-t',strtotime($start_date));
+
+		$working_days_array = array(
+			'month_name' => $month_name,
+			'start_date' => $start_date,
+			'end_date' => $end_date,
+			'working_days' => $working_days,
+		);
+
+		$this->db->insert('monthly_working_days_master',$working_days_array);
+
+		redirect('vw_month_wise_quotation_summary_report_create');
+
+	}
+	public function vw_month_wise_quotation_summary_report_generate()
+	{
+		
+		$selected_months = $this->input->post('month');
+
+		$this->db->select('*');
+		$this->db->from('monthly_working_days_master');
+		$this->db->where_in('entity_id',$selected_months);
+		$month_query = $this->db->get();
+		$month_list = $month_query->result();
+
+		$result['month_list'] = $month_list;
+        $result['employee_list'] = $this->report_model->get_employee_list();
+
+		
+        $this->load->view('report/vw_month_wise_quotation_summary_report_generate',$result);
+
+	}
+ 
  
     public function create_brand_wise_quotation_summary()
     {

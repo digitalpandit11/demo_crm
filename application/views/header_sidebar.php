@@ -531,7 +531,7 @@ if (!$_SESSION['user_name']) {
 							<!-- ///////start restricted reports //////// -->
 							<?php if ($role_id == 1) { ?>
 
-								<li class="nav-item">
+								<!-- <li class="nav-item">
 									<a href="<?php echo base_url() . 'create_brand_wise_quotation_summary' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "create_brand_wise_quotation_summary") ? "active" : ""; ?>>
 										<i class="far fa-dot-circle nav-icon"></i>
 										<p>Brand/Make Wise Quotation Summary Report</p>
@@ -573,12 +573,12 @@ if (!$_SESSION['user_name']) {
 									</a>
 								</li>
 
-								<!-- <li class="nav-item">
+								<li class="nav-item">
 									<a href="<?php echo base_url() . 'vw_pending_enquiry_report' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "vw_pending_enquiry_report")  ? "active" : ""; ?>>
 										<i class="far fa-dot-circle nav-icon"></i>
 										<p>Pending Leads</p>
 									</a>
-								</li> -->
+								</li>
 
 								<li class="nav-item">
 									<a href="<?php echo base_url() . 'create_state_wise_quotation_register' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "create_state_wise_quotation_register") ? "active" : ""; ?>>
@@ -613,7 +613,7 @@ if (!$_SESSION['user_name']) {
 										<i class="far fa-dot-circle nav-icon"></i>
 										<p>Weekly Quotation Summary</p>
 									</a>
-								</li>
+								</li> -->
 
 
 								<li class="nav-item" Style="border-bottom: 2px solid grey;">
@@ -630,9 +630,16 @@ if (!$_SESSION['user_name']) {
 									</a>
 								</li>
 
+								<li class="nav-item" Style="border-bottom: 2px solid grey;">
+									<a href="<?php echo base_url() . 'vw_month_wise_quotation_summary_report_create' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "vw_month_wise_quotation_summary_report_create") ?  "active" : ""; ?>>
+										<i class="far fa-dot-circle nav-icon"></i>
+										<p>Month Wise Report</p>
+									</a>
+								</li>
+
 							<?php } ?>
 							<!-- ///////End of restricted reports //////// -->
-							<li class="nav-item">
+							<!-- <li class="nav-item">
 								<a href="<?php echo base_url() . 'vw_call_summary_report_create' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "vw_call_summary_report_create") ? "active" : ""; ?>>
 									<i class="far fa-dot-circle nav-icon"></i>
 									<p>Campaign Summary</p>
@@ -659,7 +666,7 @@ if (!$_SESSION['user_name']) {
 									<i class="far fa-dot-circle nav-icon"></i>
 									<p>Stage Wise Quotation Summary Report</p>
 								</a>
-							</li>
+							</li> -->
 
 							<!-- <li class="nav-item">
 									<a href="<?php echo base_url() . 'vw_sales_summary_report_create' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "vw_sales_summary_report_create") ?  "active" : ""; ?>>
@@ -668,7 +675,7 @@ if (!$_SESSION['user_name']) {
 									</a>
 								</li> -->
 
-							<li class="nav-item">
+							<!-- <li class="nav-item">
 								<a href="<?php echo base_url() . 'engg_wise_source_summary' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "engg_wise_source_summary") ?  "active" : ""; ?>>
 									<i class="far fa-dot-circle nav-icon"></i>
 									<p>Engg-wise Quotation Source Summary</p>
@@ -695,17 +702,17 @@ if (!$_SESSION['user_name']) {
 									<i class="far fa-dot-circle nav-icon"></i>
 									<p>Engg-wise Quotation Weekly Summary</p>
 								</a>
-							</li>
+							</li> -->
 
 							<!--merged from support-->
 
-							<li class="nav-item">
+							<!-- <li class="nav-item">
 								<a href="<?php echo base_url() . 'vw_warantee_summary_report
 									' ?>" class="nav-link">
 									<i class="far fa-dot-circle nav-icon"></i>
 									<p>Warrantee Summary</p>
 								</a>
-							</li>
+							</li> -->
 
 							<!-- <li class="nav-item">
 									<a href="<?php echo base_url() . 'vw_erp_product_vw_customer_master' ?>" class="nav-link">

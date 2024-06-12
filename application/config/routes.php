@@ -355,6 +355,9 @@ $route['create_stage_wise_quotation_summary'] = "report/report_controller/create
 $route['stage_wise_quotation_summary_report'] = "report/report_controller/generate_stage_wise_quotation_summary_report";
 $route['vw_status_wise_quotation_summary_report'] = "report/report_controller/vw_status_wise_quotation_summary_report";
 $route['vw_status_wise_customer_wise_quotation_summary_report/:any'] = "report/report_controller/vw_status_wise_customer_wise_quotation_summary_report";
+$route['vw_month_wise_quotation_summary_report_create'] = "report/report_controller/vw_month_wise_quotation_summary_report_create";
+$route['add_monthly_working_days'] = "report/report_controller/add_monthly_working_days";
+$route['vw_month_wise_quotation_summary_report_generate'] = "report/report_controller/vw_month_wise_quotation_summary_report_generate";
 $route['create_brand_wise_quotation_summary'] = "report/report_controller/create_brand_wise_quotation_summary";
 $route['brand_wise_quotation_summary_report'] = "report/report_controller/generate_brand_wise_quotation_summary_report";
 
