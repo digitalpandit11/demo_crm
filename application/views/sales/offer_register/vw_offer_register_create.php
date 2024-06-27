@@ -100,6 +100,8 @@ if (!$_SESSION['user_name']) {
 								<div class="card-body">
 									<form role="form" name="offer_form" enctype="multipart/form-data" action="<?php echo site_url('sales/offer_register/save_offer'); ?>" method="post">
 
+										<input type="hidden" id="entity_id" name="entity_id" required>
+
 										<input type="hidden" id="enquiry_entity_id" name="enquiry_entity_id" value="<?php echo $entity_id ?>" required>
 
 										<div class="row">
@@ -132,36 +134,7 @@ if (!$_SESSION['user_name']) {
 										</div>
 
 										<div class="row">
-											<!-- <div class="col-sm-6">
-                                                        <div class="form-group">
-                                                            <label> Customer Name </label>
-                                                            <select class="form-control select2bs4" style="width: 100%;" id="customer_name" name="customer_name" required>
-                                                                <option value="">Not Selected</option>
-                                                                <?php foreach ($customer_list as $row) : ?>
-                                                                <option value="<?php echo $row->entity_id; ?>"><?php echo $row->customer_name; ?></option>
-                                                                <?php endforeach; ?>
-                                                            </select>
-                                                        </div>
-                                                    </div>
 
-                                                    <div class="col-sm-4">
-                                                        <div class="form-group">
-                                                            <label>Contact Person <span style="color: #FF0000;">* Mandatory Field</span> </label>
-                                                            <select class="form-control select2bs4" style="width: 100%;" id="contact_id" name="contact_id" required>
-                                                            <option value="">Select Contact Person</option>
-                                                            </select>
-                                                        </div>
-                                                    </div> -->
-
-											<!-- <div class="col-sm-2">
-                                                        <div>
-                                                            <div style="margin-top: 30px;">
-                                                                <button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target="#modal-panel">
-                                                                  Swap Details
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div> -->
 
 											<input type="hidden" id="customer_name" name="customer_name" required>
 
@@ -249,15 +222,13 @@ if (!$_SESSION['user_name']) {
 
 											<div class="col-sm-4">
 												<div class="form-group">
-													<label style="color: #FF0000;"> Select Sales Engineer Name *</label>
-													<select class="form-control select2bs4" style="width: 100%;" id="employee_id" name="employee_id" required>
-														<option value="">Not Selected</option>
-														<?php foreach ($employee_list as $row) : ?>
-															<option value="<?php echo $row->entity_id; ?>"><?php echo $row->Emp_name; ?></option>
-														<?php endforeach; ?>
-													</select>
+													<label> Your Reference</label>
+													<textarea class="form-control" id="your_reference" name="your_reference" rows="3" placeholder="Enter Your Reference"></textarea>
 												</div>
 											</div>
+
+
+
 
 											<div class="col-sm-4">
 												<div class="form-group">
@@ -268,46 +239,41 @@ if (!$_SESSION['user_name']) {
 										</div>
 
 										<div class="row">
-											<div class="col-sm-2">
+											<div class="col-sm-3">
 												<div class="form-group">
-													<label style="color: #FF0000;"> Quotation Type *</label>
-													<select class="form-control select2bs4" style="width: 100%;" id="offer_type" name="offer_type" required>
-														<option value="1">Budgatory</option>
-														<option value="2">One Time Offer</option>
-														<option value="3">Rate Contract</option>
+													<label style="color: #FF0000;"> Quotation For *</label>
+													<select class="form-control select2bs4" style="width: 100%;" id="offer_for" name="offer_for" required>
+														<option value="">Select Product Group</option>
+														<?php foreach ($offer_for_list as $row) : ?>
+															<option value="<?php echo $row->entity_id; ?>"><?php echo $row->product_group; ?></option>
+														<?php endforeach; ?>
 													</select>
 												</div>
 											</div>
 
-											<div class="col-sm-2">
+											<div class="col-sm-3">
 												<div class="form-group">
 													<label style="color: #FF0000;"> Quotation Date *</label>
 													<input type="date" name="offer_date" id="offer_date" class="form-control" size="50" required>
 												</div>
 											</div>
 
-											<div class="col-sm-2">
+											<div class="col-sm-3">
 												<div class="form-group">
-													<!-- Take Freight changes in Price basic column -->
-													<label style="color: #FF0000;"> Freight *</label>
-													<input type="text" name="price_basis" id="price_basis" class="form-control" size="50" required>
-												</div>
-											</div>
-
-
-											<div class="col-sm-2">
-												<div class="form-group">
-													<label> Price Condition</label>
-													<select class="form-control select2bs4" style="width: 100%;" id="price_condition" name="price_condition">
-														<option value="1">Ex Works BluBoxx</option>
-														<option value="2">FOR Site</option>
-														<option value="3">Other- Please refer note</option>
+													<label style="color: #FF0000;"> Select Sales Engineer Name *</label>
+													<select class="form-control select2bs4" style="width: 100%;" id="employee_id" name="employee_id" required>
+														<option value="">Not Selected</option>
+														<?php foreach ($employee_list as $row) : ?>
+															<option value="<?php echo $row->entity_id; ?>"><?php echo $row->Emp_name; ?></option>
+														<?php endforeach; ?>
 													</select>
 												</div>
 											</div>
 
 
-											<div class="col-sm-4">
+
+
+											<div class="col-sm-3">
 												<div class="form-group">
 													<label> Enquiry Source</label>
 													<select class="form-control select2bs4" style="width: 100%;" id="offer_source" name="offer_source" required>
@@ -323,116 +289,33 @@ if (!$_SESSION['user_name']) {
 										</div>
 
 										<div class="row">
-											<div class="col-sm-3">
+											<div class="col-sm-4">
 												<div class="form-group">
 													<label style="color: #FF0000;">Tax *</label>
-													<textarea class="form-control" id="tax" name="tax" rows="3" placeholder="Enter Tax"></textarea>
+													<input type="text" class="form-control" id="tax" name="tax" rows="3" placeholder="Enter Tax">
 												</div>
 											</div>
 
-											<div class="col-sm-3">
-												<div class="form-group">
-													<label style="color: #FF0000;"> Delivery Schedule *</label>
-													<textarea class="form-control" id="delivery_schedule" name="delivery_schedule" rows="3" placeholder="Enter Delivery Schedule"></textarea>
-												</div>
-											</div>
 
-											<div class="col-sm-3">
-												<div class="form-group">
-													<label style="color: #FF0000;"> Mode of Payment *</label>
-													<!-- <select class="form-control" style="width: 100%;" id="offer_pf" name="offer_pf">
-                                                                <option value="">Not Selected</option>
-                                                                <option value="1" onClick="hidePackFor()">Customer Scope</option>
-                                                                <option value="2" onClick="showPackFor()">Company Scope</option>
-                                                            </select> -->
-													<textarea class="form-control" id="mode_of_payment" name="mode_of_payment" rows="3" placeholder="Enter Mode Of Payment"></textarea>
-												</div>
-											</div>
-
-											<div class="col-sm-3">
+											<div class="col-sm-4">
 												<div class="form-group">
 													<label style="color: #FF0000;">Validity *</label>
-													<textarea class="form-control" id="validity" name="validity" rows="3" placeholder="Enter Validity"></textarea>
+													<input type="text" class="form-control" id="validity" name="validity" rows="3" placeholder="Enter Validity">
 												</div>
 											</div>
-										</div>
 
-										<div class="row">
-											<div class="col-sm-3">
+
+											<div class="col-sm-4">
 												<div class="form-group">
-													<label> Dispatch Address </label>
-													<textarea class="form-control" id="dispatch_address" name="dispatch_address" rows="3" placeholder="Enter Dispatch Address"></textarea>
+													<label> Price Condition</label>
+													<select class="form-control select2bs4" style="width: 100%;" id="price_condition" name="price_condition">
+														<option value="1">Ex Works BluBoxx</option>
+														<option value="2">FOR Site</option>
+														<option value="3">Other- Please refer note</option>
+													</select>
 												</div>
 											</div>
 
-											<div class="col-sm-3">
-												<div class="form-group">
-													<label> Delivery Instruction </label>
-													<textarea class="form-control" id="delivery_instruction" name="delivery_instruction" rows="3" placeholder="Enter Delivery Instruction"></textarea>
-												</div>
-											</div>
-
-											<div class="col-sm-3">
-												<div class="form-group">
-													<label style="color: #FF0000;"> Packing & Forwarding *</label>
-													<!-- <select class="form-control" style="width: 100%;" id="offer_pf" name="offer_pf">
-                                                                <option value="">Not Selected</option>
-                                                                <option value="1" onClick="hidePackFor()">Customer Scope</option>
-                                                                <option value="2" onClick="showPackFor()">Company Scope</option>
-                                                            </select> -->
-													<textarea class="form-control" id="packing_forwarding" name="packing_forwarding" rows="3" placeholder="Enter Packing & Forwarding Charges"></textarea>
-												</div>
-											</div>
-
-											<div class="col-sm-3">
-												<div class="form-group">
-													<label style="color: #FF0000;">Guarantee/Waranty *</label>
-													<textarea class="form-control" id="guarantee_warrenty" name="guarantee_warrenty" rows="3" placeholder="Enter Guarantee/Waranty"></textarea>
-												</div>
-											</div>
-										</div>
-
-										<div class="row">
-											<div class="col-sm-3">
-												<div class="form-group">
-													<label style="color: #FF0000;"> Payment Term *</label>
-													<!-- <select class="form-control select2bs4" style="width: 100%;" id="payment_term" name="payment_term" required>
-                                                                <option value="">Not Selected</option>
-                                                                <?php foreach ($payment_term_list as $row) : ?>
-                                                                <option value="<?php echo $row->entity_id; ?>"><?php echo $row->payement_terms_category; ?></option>
-                                                                <?php endforeach; ?>
-                                                            </select> -->
-
-													<textarea class="form-control" id="payment_term" name="payment_term" rows="3" placeholder="Enter Payment Term"></textarea>
-												</div>
-											</div>
-
-											<div class="col-sm-3">
-												<div class="form-group">
-													<label> Special Instruction </label>
-													<textarea class="form-control" id="special_instruction" name="special_instruction" rows="3" placeholder="Enter Special Instruction"></textarea>
-												</div>
-											</div>
-
-											<div class="col-sm-3">
-												<div class="form-group">
-													<label style="color: #FF0000;">Transportation & Insurance *</label>
-													<!-- <select class="form-control" style="width: 100%;" id="offer_pf" name="offer_pf">
-                                                                <option value="">Not Selected</option>
-                                                                <option value="1" onClick="hidePackFor()">Customer Scope</option>
-                                                                <option value="2" onClick="showPackFor()">Company Scope</option>
-                                                            </select> -->
-													<textarea class="form-control" id="transport_insurance" name="transport_insurance" rows="3" placeholder="Enter Transportation & Insurance"></textarea>
-												</div>
-											</div>
-
-
-											<div class="col-sm-3">
-												<div class="form-group">
-													<label> Your Reference</label>
-													<textarea class="form-control" id="your_reference" name="your_reference" rows="3" placeholder="Enter Your Reference"></textarea>
-												</div>
-											</div>
 										</div>
 
 										<div class="row">
@@ -472,21 +355,15 @@ if (!$_SESSION['user_name']) {
 														<div class="btn-group" style="margin-top: 15px; margin-left: 15px;">
 															<?php $product_attachment = "working_sheet.csv"; ?>
 															<button style="width: 200px; margin: auto;" type="button" class="btn btn-block btn-danger float-right">
-															<a style="color: white;" href="<?php echo base_url('assets/'.$product_attachment); ?>" download="<?php echo $product_attachment; ?>">
+																<a style="color: white;" href="<?php echo base_url('assets/' . $product_attachment); ?>" download="<?php echo $product_attachment; ?>">
 																	Download Example Sheet
 																</a>
 															</button>
 														</div>
-   
+
 														<p style="color: #FF0000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Please Check HSN Code Of Product Before Submiting Offer</p>
 
-														<!-- <i class="fas fa-2x fa-sync-alt"></i> -->
 
-														<!-- <div class="btn-group" style="margin-top: 15px; margin-left: 20px;">
-                                                                    <a data-toggle="modal" data-target="#modal-lg-product-sadd" class="btn btn-block btn-success" style="background-color: #5cb85c; border-color: #4cae4c; color: #ffff;">
-                                                                    Add New Product
-                                                                    </a>
-                                                                </div> -->
 													</div>
 													<div class="card-body">
 														<div class="table-responsive">
@@ -513,7 +390,7 @@ if (!$_SESSION['user_name']) {
 																		<!-- <th>CGST%</th>
                                                                                 <th>SGST%</th>
                                                                                 <th>IGST%</th> -->
-																		<th>GST%</th> 
+																		<th>GST%</th>
 																		<th>GST Amount</th>
 																		<th>Total Amount</th>
 																		<th>Remark</th>
@@ -656,12 +533,31 @@ if (!$_SESSION['user_name']) {
 										</div>
 
 										<div class="row">
-											<!-- <div class="col-sm-3">
-                                                        <div class="form-group">
-                                                            <label style="color: #FF0000;"> Terms & Condition *</label>
-                                                            <input type="text" name="offer_terms_condition" id="offer_terms_condition" class="form-control" size="50">
-                                                        </div>
-                                                    </div> -->
+											<div class="col-sm-6">
+												<div class="form-group">
+													<label style="color: #FF0000;"> Terms & Condition *</label>
+													<textarea name="offer_terms_condition" id="offer_terms_condition" class="form-control" rows="3" placeholder="Enter Terms Conditions" required>Prices and stock are valid till stock last
+On Lapp cables Tolerance - ±5 to ±7% must be considered
+To check stock, whatsapp on below number 7796962133</textarea>
+												</div>
+											</div>
+
+											<div class="col-sm-6">
+												<div class="form-group">
+													<label>Foot Note </label>
+													<textarea class="form-control" id="offer_note" name="offer_note" rows="3" placeholder="Enter Note"></textarea>
+												</div>
+											</div>
+
+										</div>
+
+										<div class="row">
+											<div class="col-sm-4">
+												<div class="form-group">
+													<label style="color: #FF0000;"> Quotation Close Date *</label>
+													<input type="date" name="offer_close_date" id="offer_close_date" class="form-control" size="50" required>
+												</div>
+											</div>
 
 											<div class="col-sm-4">
 												<div class="form-group">
@@ -672,27 +568,6 @@ if (!$_SESSION['user_name']) {
 															<label class="custom-file-label" for="offer_attachment">Choose Attachment</label>
 														</div>
 													</div>
-												</div>
-											</div>
-
-											<!-- <div class="col-sm-3">
-                                                        <div class="form-group">
-                                                            <label> Delivery Period </label>
-                                                            <input type="text" name="delivery_period" id="delivery_period" class="form-control" placeholder="Enter Delivery Period" size="50">
-                                                        </div>
-                                                    </div> -->
-
-											<div class="col-sm-4">
-												<div class="form-group">
-													<label>Foot Note </label>
-													<textarea class="form-control" id="offer_note" name="offer_note" rows="3" placeholder="Enter Note"></textarea>
-												</div>
-											</div>
-
-											<div class="col-sm-4">
-												<div class="form-group">
-													<label style="color: #FF0000;"> Quotation Close Date *</label>
-													<input type="date" name="offer_close_date" id="offer_close_date" class="form-control" size="50" required>
 												</div>
 											</div>
 										</div>
@@ -807,25 +682,26 @@ if (!$_SESSION['user_name']) {
 				</div>
 				<div class="modal-body">
 					<form role="form" name="template_form" id="template_form" enctype="multipart/form-data">
-						<!-- <input type="hidden" id="offer_id" name="offer_id" value="<?php //echo $offer_id; ?>" required> -->
+						<!-- <input type="hidden" id="offer_id" name="offer_id" value="<?php //echo $offer_id; 
+																																						?>" required> -->
 						<div class="col-lg-12">
-						<input type="file" name="template_file" id="template_file" accept=".csv,.xlsx,.xls"><br>
+							<input type="file" name="template_file" id="template_file" accept=".csv,.xlsx,.xls"><br>
 
-						<div id="error_message" style="display: none;" class="alert alert-danger"></div>
+							<div id="error_message" style="display: none;" class="alert alert-danger"></div>
 
-						<div id="csv_data_table" style="display: none;" class="table-responsive col-lg-12">
-                        <table class="table table-bordered" id="csv_table">
-                            <thead>
-                                <!-- Table headers will be dynamically generated -->
-                            </thead>
-                            <tbody>
-                                <!-- CSV data will be dynamically inserted here -->
-                            </tbody>
-                        </table>
-                      </div>
-					  </div>
+							<div id="csv_data_table" style="display: none;" class="table-responsive col-lg-12">
+								<table class="table table-bordered" id="csv_table">
+									<thead>
+										<!-- Table headers will be dynamically generated -->
+									</thead>
+									<tbody>
+										<!-- CSV data will be dynamically inserted here -->
+									</tbody>
+								</table>
+							</div>
+						</div>
 
-					  <div class="modal-footer justify-content-between">
+						<div class="modal-footer justify-content-between">
 							<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 							<button id="check_template" class="btn btn-primary" type="button">Check</button>
 							<input id="upload_template" class="btn btn-success" type="button" value="Upload" name="upload_template">
@@ -1315,6 +1191,7 @@ if (!$_SESSION['user_name']) {
 							console.log(data);
 							$val =
 								$('[name="offer_number"]').val(data[i].offer_no);
+							$('[name="entity_id"]').val(data[i].entity_id);
 							$('[name="enquiry_number"]').val(data[i].enquiry_no);
 
 							$('[name="customer_name"]').val(data[i].customer_id);
@@ -1327,31 +1204,16 @@ if (!$_SESSION['user_name']) {
 							$('[name="employee_id"]').val(data[i].offer_engg_name).trigger('change');
 							$('[name="enquiry_descrption"]').val(data[i].offer_description);
 							$('[name="offer_source"]').val(data[i].enquiry_source).trigger('change');
-							$('[name="offer_type"]').val(data[i].offer_type).trigger('change');
+							$('[name="offer_for"]').val(data[i].offer_for).trigger('change');
 							$('[name="offer_date"]').val(data[i].offer_date);
-							$('[name="offer_freight"]').val(data[i].Transportation).trigger('change');
-							$('[name="freight_charges"]').val(data[i].transportation_price);
-							$('[name="dispatch_address"]').val(data[i].dispatch_address);
-							$('[name="delivery_instruction"]').val(data[i].delivery_instruction);
-							$('[name="packing_forwarding_charges"]').val(data[i].packing_forwarding_price);
-							$('[name="special_instruction"]').val(data[i].special_packing);
-							$('[name="offer_insurance"]').val(data[i].insurance).trigger('change');
-							$('[name="insurance_charges"]').val(data[i].insurance_price);
+							$('[name="offer_terms_condition"]').val(data[i].terms_conditions);
+
 							$('[name="price_condition"]').val(data[i].price_condition).trigger('change');
 
-							$('[name="price_basis"]').val(data[i].price_basis);
-							$('[name="transport_insurance"]').val(data[i].transport_insurance);
 							$('[name="tax"]').val(data[i].tax);
-							$('[name="delivery_schedule"]').val(data[i].delivery_schedule);
-							$('[name="mode_of_payment"]').val(data[i].mode_of_payment);
-							$('[name="mode_of_transport"]').val(data[i].mode_of_transport);
-							$('[name="guarantee_warrenty"]').val(data[i].guarantee_warrenty);
 							$('[name="validity"]').val(data[i].validity);
-							$('[name="packing_forwarding"]').val(data[i].packing_forwarding);
-							$('[name="payment_term"]').val(data[i].payment_term);
 							$('[name="salutation"]').val(data[i].salutation);
 							$('[name="your_reference"]').val(data[i].your_reference);
-							$('[name="delivery_period"]').val(data[i].delivery_period);
 							$('[name="offer_close_date"]').val(data[i].offer_close_date);
 							$('[name="contact_person_model"]').val(data[i].contact_person_id).trigger('change');
 							$('[name="contact_person_model_id"]').val(data[i].contact_person_id).trigger('change');
@@ -1401,7 +1263,7 @@ if (!$_SESSION['user_name']) {
 	<script type="text/javascript">
 		$(document).on('click', '#add_hsn', function() {
 
-			var enquiry_entity_id = document.getElementById('enquiry_entity_id').value;
+			var offer_entity_id = document.getElementById('entity_id').value;
 
 			var customer_name = document.getElementById('customer_name').value;
 			var contact_id = document.getElementById('contact_id').value;
@@ -1409,25 +1271,16 @@ if (!$_SESSION['user_name']) {
 
 			var enquiry_descrption = document.getElementById('enquiry_descrption').value;
 			var employee_id = document.getElementById('employee_id').value;
-			var offer_type = document.getElementById('offer_type').value;
+			var offer_for = document.getElementById('offer_for').value;
 			var offer_date = document.getElementById('offer_date').value;
+			var offer_terms_condition = document.getElementById('offer_terms_condition').value;
 			var offer_source = document.getElementById('offer_source').value;
-			var dispatch_address = document.getElementById('dispatch_address').value;
-			var delivery_instruction = document.getElementById('delivery_instruction').value;
-			var special_instruction = document.getElementById('special_instruction').value;
 			var salutation = document.getElementById('salutation').value;
 			var price_basis = document.getElementById('price_basis').value;
-			var transport_insurance = document.getElementById('transport_insurance').value;
 			var tax = document.getElementById('tax').value;
-			var delivery_schedule = document.getElementById('delivery_schedule').value;
-			var mode_of_payment = document.getElementById('mode_of_payment').value;
-			var payment_term = document.getElementById('payment_term').value;
-			var packing_forwarding = document.getElementById('packing_forwarding').value;
 			var price_condition = document.getElementById('price_condition').value;
 			var your_reference = document.getElementById('your_reference').value;
 			var validity = document.getElementById('validity').value;
-			var guarantee_warrenty = document.getElementById('guarantee_warrenty').value;
-
 			var hsn_code = document.getElementById('pop_up_new_hsn_code').value;
 			var hsn_percentage = document.getElementById('pop_up_new_hsn_percentage').value;
 
@@ -1438,29 +1291,20 @@ if (!$_SESSION['user_name']) {
 					data: {
 						'hsn_code': hsn_code,
 						'hsn_percentage': hsn_percentage,
-						'enquiry_entity_id': enquiry_entity_id,
+						'offer_entity_id': offer_entity_id,
 						'enquiry_descrption': enquiry_descrption,
 						'employee_id': employee_id,
-						'offer_type': offer_type,
+						'offer_for': offer_for,
 						'offer_date': offer_date,
+						'offer_terms_condition': offer_terms_condition,
 						'offer_source': offer_source,
-						'dispatch_address': dispatch_address,
-						'delivery_instruction': delivery_instruction,
-						'packing_forwarding': packing_forwarding,
-						'payment_term': payment_term,
-						'special_instruction': special_instruction,
 						'price_condition': price_condition,
 						'salutation': salutation,
-						'price_basis': price_basis,
-						'transport_insurance': transport_insurance,
 						'tax': tax,
-						'delivery_schedule': delivery_schedule,
-						'mode_of_payment': mode_of_payment,
 						'your_reference': your_reference,
 						'customer_name': customer_name,
 						'contact_id': contact_id,
 						'validity': validity,
-						'guarantee_warrenty': guarantee_warrenty,
 						'offer_company_name': offer_company_name
 					},
 					success: function(data) {
@@ -1476,6 +1320,12 @@ if (!$_SESSION['user_name']) {
 				alert("Enter Proper Details.............");
 			}
 		});
+	</script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+	
+	});
 	</script>
 
 	<script type="text/javascript">
@@ -1637,14 +1487,66 @@ if (!$_SESSION['user_name']) {
             } );
         </script> -->
 
-		<script type="text/javascript">
+	<script type="text/javascript">
+			function save_common_form_elements() {
+
+var offer_entity_id = document.getElementById('entity_id').value;
+
+var customer_name = document.getElementById('customer_name').value;
+var contact_id = document.getElementById('contact_id').value;
+var offer_company_name = document.getElementById('offer_company_name').value;
+
+var enquiry_descrption = document.getElementById('enquiry_descrption').value;
+var employee_id = document.getElementById('employee_id').value;
+var offer_for = document.getElementById('offer_for').value;
+var offer_date = document.getElementById('offer_date').value;
+var offer_terms_condition = document.getElementById('offer_terms_condition').value;
+var offer_source = document.getElementById('offer_source').value;
+var salutation = document.getElementById('salutation').value;
+var tax = document.getElementById('tax').value;
+var price_condition = document.getElementById('price_condition').value;
+var your_reference = document.getElementById('your_reference').value;
+var validity = document.getElementById('validity').value;
+
+	$.ajax({
+		url: "<?php echo site_url('sales/offer_register/save_common_form_elements'); ?>",
+		type: 'POST',
+		data: {
+			'offer_entity_id': offer_entity_id,
+			'enquiry_descrption': enquiry_descrption,
+			'employee_id': employee_id,
+			'offer_for': offer_for,
+			'offer_date': offer_date,
+			'offer_terms_condition': offer_terms_condition,
+			'offer_source': offer_source,
+			'price_condition': price_condition,
+			'salutation': salutation,
+			'tax': tax,
+			'your_reference': your_reference,
+			'customer_name': customer_name,
+			'contact_id': contact_id,
+			'validity': validity,
+			'offer_company_name': offer_company_name
+		},
+		success: function(data) {
+			// data = data.trim();
+			// location.reload();
+		},
+		error: function() {
+			// alert("Fail");
+			// location.reload();
+		}
+	});
+
+}
+
 		$(document).on('click', '#upload_template', function() {
-			var enquiry_entity_id = $('#enquiry_entity_id').val();
+			// var enquiry_entity_id = $('#enquiry_entity_id').val();
 
-			// var enquiry_entity_id = document.getElementById('enquiry_entity_id').value;
-
+			var offer_entity_id = document.getElementById('entity_id').value;
+			save_common_form_elements();
 			var formData = new FormData();
-			formData.append('enquiry_entity_id', enquiry_entity_id);
+			formData.append('offer_entity_id', offer_entity_id);
 			formData.append('template_file', $('#template_file')[0].files[0]);
 
 			$.ajax({
@@ -1656,7 +1558,7 @@ if (!$_SESSION['user_name']) {
 				dataType: 'json',
 				success: function(response) {
 					if (response.success) {
-						
+
 						// Redirect to success page or do any other necessary action
 						window.location.reload();
 						// window.location.href = response.redirect_url;
@@ -1671,7 +1573,7 @@ if (!$_SESSION['user_name']) {
 				error: function(xhr, status, error) {
 					console.error(xhr.responseText);
 				}
-				
+
 			});
 		});
 
@@ -1681,79 +1583,79 @@ if (!$_SESSION['user_name']) {
 	</script>
 
 
-<script>
-    $(document).on('click', '#check_template', function() {
-        var formData = new FormData();
-        formData.append('template_file', $('#template_file')[0].files[0]);
-        // formData.append('offer_id', $('#offer_id').val());
+	<script>
+		$(document).on('click', '#check_template', function() {
+			var formData = new FormData();
+			formData.append('template_file', $('#template_file')[0].files[0]);
+			// formData.append('offer_id', $('#offer_id').val());
 
-        $.ajax({
-            url: "<?php echo site_url('sales/offer_register/checkIncompleteFields'); ?>",
-            method: "POST",
-            data: formData,
-            processData: false,
-            contentType: false,
-            dataType: 'json',
-            success: function(response) {
-                if (response.success) {
-                    $('#error_message').hide();
-                    displayCsvData(response.csv_data, response.header, response.incomplete_fields);
-                    $('#upload_template').prop('disabled', response.incomplete_fields.length > 0);
-                } else {
-                    $('#error_message').html(response.error);
-                    $('#error_message').show();
-                    $('#upload_template').prop('disabled', true);
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-            }
-        });
-    });
+			$.ajax({
+				url: "<?php echo site_url('sales/offer_register/checkIncompleteFields'); ?>",
+				method: "POST",
+				data: formData,
+				processData: false,
+				contentType: false,
+				dataType: 'json',
+				success: function(response) {
+					if (response.success) {
+						$('#error_message').hide();
+						displayCsvData(response.csv_data, response.header, response.incomplete_fields);
+						$('#upload_template').prop('disabled', response.incomplete_fields.length > 0);
+					} else {
+						$('#error_message').html(response.error);
+						$('#error_message').show();
+						$('#upload_template').prop('disabled', true);
+					}
+				},
+				error: function(xhr, status, error) {
+					console.error(xhr.responseText);
+				}
+			});
+		});
 
-    function displayCsvData(csvData, header, incompleteFields) {
-        // Clear previous data
-        $('#csv_table thead').empty();
-        $('#csv_table tbody').empty();
+		function displayCsvData(csvData, header, incompleteFields) {
+			// Clear previous data
+			$('#csv_table thead').empty();
+			$('#csv_table tbody').empty();
 
-        // Generate table headers
-        var headerRow = '<tr>';
-        $.each(header, function(index, value) {
-            headerRow += '<th>' + value + '</th>';
-        });
-        headerRow += '</tr>';
-        $('#csv_table thead').append(headerRow);
+			// Generate table headers
+			var headerRow = '<tr>';
+			$.each(header, function(index, value) {
+				headerRow += '<th>' + value + '</th>';
+			});
+			headerRow += '</tr>';
+			$('#csv_table thead').append(headerRow);
 
-        // Display CSV data rows
-        $.each(csvData, function(index, row) {
-            var dataRow = '<tr>';
-            var isIncompleteRow = false;
-            $.each(row, function(cellIndex, value) {
-                var columnName = header[cellIndex];
-                var isIncomplete = incompleteFields.some(field => field.erp_code === row[2] && field.incomplete_fields.includes(columnName));
-                if ((cellIndex === 0 || cellIndex === 3 || cellIndex === 6 || cellIndex === 8 || cellIndex === 9 || cellIndex === 14) && (value === null || value === '')) {
-                    dataRow += '<td></td>';
-                } else {
-                    if (value === null || value === '') {
-                        dataRow += '<td><span style="color: red;">Data missing</span></td>';
-                        isIncompleteRow = true;
-                    } else {
-                        dataRow += '<td>' + value + '</td>';
-                    }
-                }
-            });
-            dataRow += '</tr>';
-            if (isIncompleteRow) {
-                $('#csv_table tbody').append(dataRow);
-            } else {
-                $('#csv_table tbody').append(dataRow);
-            }
-        });
+			// Display CSV data rows
+			$.each(csvData, function(index, row) {
+				var dataRow = '<tr>';
+				var isIncompleteRow = false;
+				$.each(row, function(cellIndex, value) {
+					var columnName = header[cellIndex];
+					var isIncomplete = incompleteFields.some(field => field.erp_code === row[2] && field.incomplete_fields.includes(columnName));
+					if ((cellIndex === 0 || cellIndex === 3 || cellIndex === 6 || cellIndex === 8 || cellIndex === 9 || cellIndex === 14) && (value === null || value === '')) {
+						dataRow += '<td></td>';
+					} else {
+						if (value === null || value === '') {
+							dataRow += '<td><span style="color: red;">Data missing</span></td>';
+							isIncompleteRow = true;
+						} else {
+							dataRow += '<td>' + value + '</td>';
+						}
+					}
+				});
+				dataRow += '</tr>';
+				if (isIncompleteRow) {
+					$('#csv_table tbody').append(dataRow);
+				} else {
+					$('#csv_table tbody').append(dataRow);
+				}
+			});
 
-        // Show the table
-        $('#csv_data_table').show();
-    }
-</script>
+			// Show the table
+			$('#csv_data_table').show();
+		}
+	</script>
 
 	<script>
 		var table = $('#product_details_table').dataTable({
@@ -1764,7 +1666,7 @@ if (!$_SESSION['user_name']) {
 			$("#product_checkbox_submited_new").on('click', function(event) {
 				$("#product_checkbox_submited_new").attr("disabled", true);
 
-				var enquiry_entity_id = document.getElementById('enquiry_entity_id').value;
+				var offer_entity_id = document.getElementById('entity_id').value;
 
 				var customer_name = document.getElementById('customer_name').value;
 				var contact_id = document.getElementById('contact_id').value;
@@ -1772,29 +1674,16 @@ if (!$_SESSION['user_name']) {
 
 				var enquiry_descrption = document.getElementById('enquiry_descrption').value;
 				var employee_id = document.getElementById('employee_id').value;
-				var offer_type = document.getElementById('offer_type').value;
+				var offer_for = document.getElementById('offer_for').value;
 				var offer_date = document.getElementById('offer_date').value;
+				var offer_terms_condition = document.getElementById('offer_terms_condition').value;
 				var offer_source = document.getElementById('offer_source').value;
-				var dispatch_address = document.getElementById('dispatch_address').value;
-				var delivery_instruction = document.getElementById('delivery_instruction').value;
-				var special_instruction = document.getElementById('special_instruction').value;
 				var salutation = document.getElementById('salutation').value;
-				var price_basis = document.getElementById('price_basis').value;
-				var transport_insurance = document.getElementById('transport_insurance').value;
 				var tax = document.getElementById('tax').value;
-				var delivery_schedule = document.getElementById('delivery_schedule').value;
-				var mode_of_payment = document.getElementById('mode_of_payment').value;
-				var payment_term = document.getElementById('payment_term').value;
-				var packing_forwarding = document.getElementById('packing_forwarding').value;
 				var price_condition = document.getElementById('price_condition').value;
 				var your_reference = document.getElementById('your_reference').value;
 				var validity = document.getElementById('validity').value;
-				var guarantee_warrenty = document.getElementById('guarantee_warrenty').value;
-
-				/*var product_checkbox = [];
-				$.each($("input[name='product_checkbox']:checked"), function(){            
-				    product_checkbox.push($(this).val());
-				});*/
+				
 				var product_checkbox = table.$('input[type="checkbox"]').serializeArray();
 
 				if (customer_name != "" && contact_id != "" && product_checkbox != "") {
@@ -1803,30 +1692,21 @@ if (!$_SESSION['user_name']) {
 						url: "<?php echo site_url('sales/offer_register/update_offer_from_enquiry'); ?>",
 						type: 'POST',
 						data: {
-							'enquiry_entity_id': enquiry_entity_id,
+							'offer_entity_id': offer_entity_id,
 							'product_checkbox': product_checkbox,
 							'enquiry_descrption': enquiry_descrption,
 							'employee_id': employee_id,
-							'offer_type': offer_type,
+							'offer_for': offer_for,
 							'offer_date': offer_date,
+							'offer_terms_condition': offer_terms_condition,
 							'offer_source': offer_source,
-							'dispatch_address': dispatch_address,
-							'delivery_instruction': delivery_instruction,
-							'packing_forwarding': packing_forwarding,
-							'payment_term': payment_term,
-							'special_instruction': special_instruction,
 							'price_condition': price_condition,
 							'salutation': salutation,
-							'price_basis': price_basis,
-							'transport_insurance': transport_insurance,
 							'tax': tax,
-							'delivery_schedule': delivery_schedule,
-							'mode_of_payment': mode_of_payment,
 							'your_reference': your_reference,
 							'customer_name': customer_name,
 							'contact_id': contact_id,
 							'validity': validity,
-							'guarantee_warrenty': guarantee_warrenty,
 							'offer_company_name': offer_company_name
 						},
 						success: function(data) {
@@ -2194,7 +2074,7 @@ if (!$_SESSION['user_name']) {
 	<script type="text/javascript">
 		$(document).on('click', '#update_new_product', function() {
 
-			var enquiry_entity_id = document.getElementById('enquiry_entity_id').value;
+			var offer_entity_id = document.getElementById('entity_id').value;
 
 			var customer_name = document.getElementById('customer_name').value;
 			var contact_id = document.getElementById('contact_id').value;
@@ -2202,25 +2082,16 @@ if (!$_SESSION['user_name']) {
 
 			var enquiry_descrption = document.getElementById('enquiry_descrption').value;
 			var employee_id = document.getElementById('employee_id').value;
-			var offer_type = document.getElementById('offer_type').value;
+			var offer_for = document.getElementById('offer_for').value;
 			var offer_date = document.getElementById('offer_date').value;
+			var offer_terms_condition = document.getElementById('offer_terms_condition').value;
 			var offer_source = document.getElementById('offer_source').value;
-			var dispatch_address = document.getElementById('dispatch_address').value;
-			var delivery_instruction = document.getElementById('delivery_instruction').value;
-			var special_instruction = document.getElementById('special_instruction').value;
 			var salutation = document.getElementById('salutation').value;
-			var price_basis = document.getElementById('price_basis').value;
-			var transport_insurance = document.getElementById('transport_insurance').value;
 			var tax = document.getElementById('tax').value;
-			var delivery_schedule = document.getElementById('delivery_schedule').value;
-			var mode_of_payment = document.getElementById('mode_of_payment').value;
-			var payment_term = document.getElementById('payment_term').value;
-			var packing_forwarding = document.getElementById('packing_forwarding').value;
 			var price_condition = document.getElementById('price_condition').value;
 			var your_reference = document.getElementById('your_reference').value;
 			var validity = document.getElementById('validity').value;
-			var guarantee_warrenty = document.getElementById('guarantee_warrenty').value;
-
+			
 			var product_id = $("#pop_up_product_id").val();
 			var product_name = $("#pop_up_product_name").val();
 			var hsn_code = $("#pop_up_hsn_code").val();
@@ -2232,34 +2103,25 @@ if (!$_SESSION['user_name']) {
 			var product_price = $("#pop_up_product_price").val();
 			var internal_remark = $("#pop_up_internal_remark").val();
 
-			if (enquiry_entity_id != "" && customer_name != "" && contact_id != "" && product_id != "" && product_name != "" && product_long_desc != "" && hsn_code != "" && product_make != "" && category_id != "" && product_unit != "" && product_price != "") {
+			if (offer_entity_id != "" && customer_name != "" && contact_id != "" && product_id != "" && product_name != "" && product_long_desc != "" && hsn_code != "" && product_make != "" && category_id != "" && product_unit != "" && product_price != "") {
 				$.ajax({
 					url: "<?php echo site_url('sales/offer_register/update_new_product_with_offer'); ?>",
 					type: "POST",
 					data: {
-						'enquiry_entity_id': enquiry_entity_id,
+						'offer_entity_id': offer_entity_id,
 						'enquiry_descrption': enquiry_descrption,
 						'employee_id': employee_id,
-						'offer_type': offer_type,
+						'offer_for': offer_for,
 						'offer_date': offer_date,
+						'offer_terms_condition': offer_terms_condition,
 						'offer_source': offer_source,
-						'dispatch_address': dispatch_address,
-						'delivery_instruction': delivery_instruction,
-						'packing_forwarding': packing_forwarding,
-						'payment_term': payment_term,
-						'special_instruction': special_instruction,
 						'price_condition': price_condition,
 						'salutation': salutation,
-						'price_basis': price_basis,
-						'transport_insurance': transport_insurance,
 						'tax': tax,
-						'delivery_schedule': delivery_schedule,
-						'mode_of_payment': mode_of_payment,
 						'your_reference': your_reference,
 						'customer_name': customer_name,
 						'contact_id': contact_id,
 						'validity': validity,
-						'guarantee_warrenty': guarantee_warrenty,
 						'product_id': product_id,
 						'product_name': product_name,
 						'hsn_code': hsn_code,
@@ -2288,28 +2150,17 @@ if (!$_SESSION['user_name']) {
 	<script>
 		$(function() {
 			$("#send_mail").on('click', function(event) {
-				var enquiry_entity_id = document.getElementById('enquiry_entity_id').value;
+				var offer_entity_id = document.getElementById('entity_id').value;
 
 				var enquiry_descrption = document.getElementById('enquiry_descrption').value;
 				var employee_id = document.getElementById('employee_id').value;
 				var salutation = document.getElementById('salutation').value;
 
-				var offer_type = document.getElementById('offer_type').value;
+				var offer_for = document.getElementById('offer_for').value;
 				var offer_date = document.getElementById('offer_date').value;
+				var offer_terms_condition = document.getElementById('offer_terms_condition').value;
 				var offer_source = document.getElementById('offer_source').value;
-				var price_basis = document.getElementById('price_basis').value;
-				var transport_insurance = document.getElementById('transport_insurance').value;
-
 				var tax = document.getElementById('tax').value;
-				var delivery_schedule = document.getElementById('delivery_schedule').value;
-				var mode_of_payment = document.getElementById('mode_of_payment').value;
-
-				var dispatch_address = document.getElementById('dispatch_address').value;
-				var delivery_instruction = document.getElementById('delivery_instruction').value;
-				var packing_forwarding = document.getElementById('packing_forwarding').value;
-
-				var payment_term = document.getElementById('payment_term').value;
-				var special_instruction = document.getElementById('special_instruction').value;
 				var price_condition = document.getElementById('price_condition').value;
 				var your_reference = document.getElementById('your_reference').value;
 
@@ -2320,29 +2171,21 @@ if (!$_SESSION['user_name']) {
 				var mail_cc = document.getElementById('pop_up_mail_cc').value;
 				var mail_bcc = document.getElementById('pop_up_mail_bcc').value;
 
-				if (enquiry_entity_id != "" && enquiry_descrption != "" && employee_id != "" && salutation != "" && offer_type != "" && offer_date != "" && price_basis != "" && transport_insurance != "" && tax != "" && delivery_schedule != "" && mode_of_payment != "" && packing_forwarding != "" && payment_term != "" && mail_to != "" && mail_cc != "" && mail_bcc != "") {
+				if (offer_entity_id != "" && enquiry_descrption != "" && employee_id != "" && salutation != "" && offer_for != "" && offer_date != "" && price_basis != "" && transport_insurance != "" && tax != "" && delivery_schedule != "" && mode_of_payment != "" && packing_forwarding != "" && payment_term != "" && mail_to != "" && mail_cc != "" && mail_bcc != "") {
 
 					$.ajax({
 						url: "<?php echo site_url('sales/offer_register/save_offer_send_mail'); ?>",
 						type: 'POST',
 						data: {
-							'enquiry_entity_id': enquiry_entity_id,
+							'offer_entity_id': offer_entity_id,
 							'enquiry_descrption': enquiry_descrption,
 							'employee_id': employee_id,
 							'salutation': salutation,
-							'offer_type': offer_type,
+							'offer_for': offer_for,
 							'offer_date': offer_date,
+							'offer_terms_condition': offer_terms_condition,
 							'offer_source': offer_source,
-							'price_basis': price_basis,
-							'transport_insurance': transport_insurance,
 							'tax': tax,
-							'delivery_schedule': delivery_schedule,
-							'mode_of_payment': mode_of_payment,
-							'dispatch_address': dispatch_address,
-							'delivery_instruction': delivery_instruction,
-							'packing_forwarding': packing_forwarding,
-							'payment_term': payment_term,
-							'special_instruction': special_instruction,
 							'price_condition': price_condition,
 							'your_reference': your_reference,
 							'offer_note': offer_note,
@@ -2553,7 +2396,8 @@ if (!$_SESSION['user_name']) {
 			$("#save_offer").on('click', function(event) {
 				$("#save_offer").attr("disabled", true);
 
-				var enquiry_entity_id = document.getElementById('enquiry_entity_id').value;
+
+				var offer_entity_id = document.getElementById('entity_id').value;
 
 				var customer_name = document.getElementById('customer_name').value;
 				var contact_id = document.getElementById('contact_id').value;
@@ -2561,24 +2405,15 @@ if (!$_SESSION['user_name']) {
 				var offer_company_name = document.getElementById('offer_company_name').value;
 				var enquiry_descrption = document.getElementById('enquiry_descrption').value;
 				var employee_id = document.getElementById('employee_id').value;
-				var offer_type = document.getElementById('offer_type').value;
+				var offer_for = document.getElementById('offer_for').value;
 				var offer_date = document.getElementById('offer_date').value;
+				var offer_terms_condition = document.getElementById('offer_terms_condition').value;
 				var offer_source = document.getElementById('offer_source').value;
-				var dispatch_address = document.getElementById('dispatch_address').value;
-				var delivery_instruction = document.getElementById('delivery_instruction').value;
-				var special_instruction = document.getElementById('special_instruction').value;
 				var salutation = document.getElementById('salutation').value;
-				var price_basis = document.getElementById('price_basis').value;
-				var transport_insurance = document.getElementById('transport_insurance').value;
 				var tax = document.getElementById('tax').value;
-				var delivery_schedule = document.getElementById('delivery_schedule').value;
-				var mode_of_payment = document.getElementById('mode_of_payment').value;
-				var payment_term = document.getElementById('payment_term').value;
-				var packing_forwarding = document.getElementById('packing_forwarding').value;
 				var price_condition = document.getElementById('price_condition').value;
 				var your_reference = document.getElementById('your_reference').value;
 				var validity = document.getElementById('validity').value;
-				var guarantee_warrenty = document.getElementById('guarantee_warrenty').value;
 				var offer_note = document.getElementById('offer_note').value;
 				var offer_close_date = document.getElementById('offer_close_date').value;
 
@@ -2588,29 +2423,20 @@ if (!$_SESSION['user_name']) {
 						url: "<?php echo site_url('sales/offer_register/save_offer'); ?>",
 						type: 'POST',
 						data: {
-							'enquiry_entity_id': enquiry_entity_id,
+							'offer_entity_id': offer_entity_id,
 							'enquiry_descrption': enquiry_descrption,
 							'employee_id': employee_id,
-							'offer_type': offer_type,
+							'offer_for': offer_for,
 							'offer_date': offer_date,
+							'offer_terms_condition': offer_terms_condition,
 							'offer_source': offer_source,
-							'dispatch_address': dispatch_address,
-							'delivery_instruction': delivery_instruction,
-							'packing_forwarding': packing_forwarding,
-							'payment_term': payment_term,
-							'special_instruction': special_instruction,
 							'price_condition': price_condition,
 							'salutation': salutation,
-							'price_basis': price_basis,
-							'transport_insurance': transport_insurance,
 							'tax': tax,
-							'delivery_schedule': delivery_schedule,
-							'mode_of_payment': mode_of_payment,
 							'your_reference': your_reference,
 							'customer_name': customer_name,
 							'contact_id': contact_id,
 							'validity': validity,
-							'guarantee_warrenty': guarantee_warrenty,
 							'offer_company_name': offer_company_name,
 							'offer_note': offer_note,
 							'offer_close_date': offer_close_date
@@ -2630,7 +2456,7 @@ if (!$_SESSION['user_name']) {
 			$("#save_offer_update_customer").on('click', function(event) {
 				$("#save_offer_update_customer").attr("disabled", true);
 
-				var enquiry_entity_id = document.getElementById('enquiry_entity_id').value;
+				var offer_entity_id = document.getElementById('entity_id').value;
 
 				var customer_name = document.getElementById('customer_name').value;
 				var contact_id = document.getElementById('contact_id').value;
@@ -2638,24 +2464,19 @@ if (!$_SESSION['user_name']) {
 				var offer_company_name = document.getElementById('offer_company_name').value;
 				var enquiry_descrption = document.getElementById('enquiry_descrption').value;
 				var employee_id = document.getElementById('employee_id').value;
-				var offer_type = document.getElementById('offer_type').value;
+				var offer_for = document.getElementById('offer_for').value;
 				var offer_date = document.getElementById('offer_date').value;
+				var offer_terms_condition = document.getElementById('offer_terms_condition').value;
 				var offer_source = document.getElementById('offer_source').value;
-				var dispatch_address = document.getElementById('dispatch_address').value;
-				var delivery_instruction = document.getElementById('delivery_instruction').value;
-				var special_instruction = document.getElementById('special_instruction').value;
+
 				var salutation = document.getElementById('salutation').value;
-				var price_basis = document.getElementById('price_basis').value;
-				var transport_insurance = document.getElementById('transport_insurance').value;
+
 				var tax = document.getElementById('tax').value;
-				var delivery_schedule = document.getElementById('delivery_schedule').value;
-				var mode_of_payment = document.getElementById('mode_of_payment').value;
-				var payment_term = document.getElementById('payment_term').value;
-				var packing_forwarding = document.getElementById('packing_forwarding').value;
+
 				var price_condition = document.getElementById('price_condition').value;
 				var your_reference = document.getElementById('your_reference').value;
 				var validity = document.getElementById('validity').value;
-				var guarantee_warrenty = document.getElementById('guarantee_warrenty').value;
+
 				var offer_note = document.getElementById('offer_note').value;
 				var offer_close_date = document.getElementById('offer_close_date').value;
 
@@ -2665,29 +2486,20 @@ if (!$_SESSION['user_name']) {
 						url: "<?php echo site_url('sales/offer_register/save_offer_with_update_company'); ?>",
 						type: 'POST',
 						data: {
-							'enquiry_entity_id': enquiry_entity_id,
+							'offer_entity_id': offer_entity_id,
 							'enquiry_descrption': enquiry_descrption,
 							'employee_id': employee_id,
-							'offer_type': offer_type,
+							'offer_for': offer_for,
 							'offer_date': offer_date,
+							'offer_terms_condition': offer_terms_condition,
 							'offer_source': offer_source,
-							'dispatch_address': dispatch_address,
-							'delivery_instruction': delivery_instruction,
-							'packing_forwarding': packing_forwarding,
-							'payment_term': payment_term,
-							'special_instruction': special_instruction,
 							'price_condition': price_condition,
 							'salutation': salutation,
-							'price_basis': price_basis,
-							'transport_insurance': transport_insurance,
 							'tax': tax,
-							'delivery_schedule': delivery_schedule,
-							'mode_of_payment': mode_of_payment,
 							'your_reference': your_reference,
 							'customer_name': customer_name,
 							'contact_id': contact_id,
 							'validity': validity,
-							'guarantee_warrenty': guarantee_warrenty,
 							'offer_company_name': offer_company_name,
 							'offer_note': offer_note,
 							'offer_close_date': offer_close_date

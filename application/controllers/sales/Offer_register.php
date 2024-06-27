@@ -15,7 +15,7 @@ class Offer_register extends CI_Controller {
 
     public function add_hsn_data()
     {
-        $enquiry_entity_id = $this->input->post('enquiry_entity_id');
+        $offer_entity_id = $this->input->post('offer_entity_id');
 
         $offer_customer_id = $this->input->post('customer_name');
         $contact_id = $this->input->post('contact_id');
@@ -24,43 +24,46 @@ class Offer_register extends CI_Controller {
 
         $enquiry_descrption = $this->input->post('enquiry_descrption');
         $employee_id = $this->input->post('employee_id');
-        $offer_type = $this->input->post('offer_type');
+        $offer_for = $this->input->post('offer_for');
         $offer_date = $this->input->post('offer_date');
+        $offer_terms_condition = $this->input->post('offer_terms_condition');
         $offer_source = $this->input->post('offer_source');
-        $offer_freight = $this->input->post('offer_freight');
-        $freight_charges = $this->input->post('freight_charges');
-        $dispatch_address = $this->input->post('dispatch_address');
-        $delivery_instruction = $this->input->post('delivery_instruction');
-        $packing_forwarding_charges = $this->input->post('packing_forwarding_charges');
-        $special_instruction = $this->input->post('special_instruction');
-        $offer_insurance = $this->input->post('offer_insurance');
-        $insurance_charges = $this->input->post('insurance_charges');
         $price_condition = $this->input->post('price_condition');
         $salutation = $this->input->post('salutation');
-        $price_basis = $this->input->post('price_basis');
-        $transport_insurance = $this->input->post('transport_insurance');
         $tax = $this->input->post('tax');
-        $delivery_schedule = $this->input->post('delivery_schedule');
-        $mode_of_payment = $this->input->post('mode_of_payment');
-        $mode_of_transport = $this->input->post('mode_of_transport');
-        $guarantee_warrenty = $this->input->post('guarantee_warrenty');
-        $payment_term = $this->input->post('payment_term');
-        $packing_forwarding = $this->input->post('packing_forwarding');
         $your_reference = $this->input->post('your_reference');
         $validity = $this->input->post('validity');
+		$offer_note = $this->input->post('offer_note');
 
-        $this->db->select('*');
-        $this->db->from('offer_register');
-        $where = '(offer_register.enquiry_id = "'.$enquiry_entity_id.'" )';
-        $this->db->where($where);
-        $this->db->order_by('offer_register.entity_id', 'DESC');
-        $this->db->limit(1);
-        $query_data = $this->db->get();
-        $query_result = $query_data->row_array();
 
-        $offer_entity_id = $query_result['entity_id'];
+        // $this->db->select('*');
+        // $this->db->from('offer_register');
+        // $where = '(offer_register.enquiry_id = "'.$enquiry_entity_id.'" )';
+        // $this->db->where($where);
+        // $this->db->order_by('offer_register.entity_id', 'DESC');
+        // $this->db->limit(1);
+        // $query_data = $this->db->get();
+        // $query_result = $query_data->row_array();
 
-        $update_offer_array = array('customer_id' => $offer_customer_id , 'contact_person_id' => $contact_id ,'offer_description' => $enquiry_descrption , 'offer_engg_name' => $employee_id , 'offer_type' => $offer_type , 'offer_date' => $offer_date , 'offer_source' => $offer_source , 'Transportation' => $offer_freight , 'transportation_price' => $freight_charges , 'dispatch_address' => $dispatch_address , 'delivery_instruction' => $delivery_instruction , 'packing_forwarding' => $packing_forwarding , 'packing_forwarding_price' => $packing_forwarding_charges , 'payment_term' => $payment_term , 'special_packing' => $special_instruction , 'insurance' => $offer_insurance , 'insurance_price' => $insurance_charges, 'price_condition' => $price_condition, 'salutation' => $salutation, 'price_basis' => $price_basis, 'transport_insurance' => $transport_insurance, 'tax' => $tax, 'delivery_schedule' => $delivery_schedule, 'mode_of_payment' => $mode_of_payment, 'mode_of_transport' => $mode_of_transport, 'guarantee_warrenty' => $guarantee_warrenty, 'your_reference' => $your_reference , 'validity' => $validity , 'offer_company_name' => $offer_company_name);
+        // $offer_entity_id = $query_result['entity_id'];
+
+        $update_offer_array = array(
+			'customer_id' => $offer_customer_id , 
+			'contact_person_id' => $contact_id ,
+			'offer_description' => $enquiry_descrption , 
+			'offer_engg_name' => $employee_id , 
+			'offer_for' => $offer_for , 
+			'offer_date' => $offer_date , 
+			'terms_conditions' => $offer_terms_condition , 
+			'offer_source' => $offer_source , 
+			'price_condition' => $price_condition, 
+			'salutation' => $salutation, 
+			'tax' => $tax, 
+			'your_reference' => $your_reference , 
+			'validity' => $validity , 
+			'note' => $offer_note , 
+			'offer_company_name' => $offer_company_name
+		);
 
         $where = '(entity_id ="'.$offer_entity_id.'")';
         $this->db->where($where);
@@ -80,6 +83,55 @@ class Offer_register extends CI_Controller {
         $hsn_lastid = $this->db->insert_id();
 
         echo json_encode($hsn_lastid);
+    }
+
+    public function save_common_form_elements()
+    {
+        $offer_entity_id = $this->input->post('offer_entity_id');
+
+        $offer_customer_id = $this->input->post('customer_name');
+        $contact_id = $this->input->post('contact_id');
+
+        $offer_company_name = $this->input->post('offer_company_name');
+
+        $enquiry_descrption = $this->input->post('enquiry_descrption');
+        $employee_id = $this->input->post('employee_id');
+        $offer_for = $this->input->post('offer_for');
+        $offer_date = $this->input->post('offer_date');
+        $offer_terms_condition = $this->input->post('offer_terms_condition');
+        $offer_source = $this->input->post('offer_source');
+        $price_condition = $this->input->post('price_condition');
+        $salutation = $this->input->post('salutation');
+        $tax = $this->input->post('tax');
+        $your_reference = $this->input->post('your_reference');
+        $validity = $this->input->post('validity');
+		$offer_note = $this->input->post('offer_note');
+
+
+
+        $update_offer_array = array(
+			'customer_id' => $offer_customer_id , 
+			'contact_person_id' => $contact_id ,
+			'offer_description' => $enquiry_descrption , 
+			'offer_engg_name' => $employee_id , 
+			'offer_for' => $offer_for , 
+			'offer_date' => $offer_date , 
+			'terms_conditions' => $offer_terms_condition , 
+			'offer_source' => $offer_source , 
+			'price_condition' => $price_condition, 
+			'salutation' => $salutation, 
+			'tax' => $tax, 
+			'your_reference' => $your_reference , 
+			'validity' => $validity , 
+			'note' => $offer_note , 
+			'offer_company_name' => $offer_company_name
+		);
+
+        $where = '(entity_id ="'.$offer_entity_id.'")';
+        $this->db->where($where);
+        $result = $this->db->update('offer_register',$update_offer_array);
+
+        echo json_encode($result);
     }
 
     public function index()
@@ -226,11 +278,12 @@ class Offer_register extends CI_Controller {
         $data['source_list'] = $this->offer_register_model->get_enquiry_source_list();
         $data['unit_list'] = $this->offer_register_model->get_unit_list();
         $data['employee_list'] = $this->offer_register_model->get_employee_list();
-        /*$data['payment_term_list'] = $this->offer_register_model->get_payment_term_list();*/
+        $data['offer_for_list'] = $this->offer_register_model->get_offer_for_list();
         $data['product_list'] = $this->offer_register_model->get_product_list();
         $data['product_category'] = $this->offer_register_model->get_product_category();
         $data['product_detail_hsn_code'] = $this->offer_register_model->get_product_hsn_code();
         $data['offer_product_list'] = $this->offer_register_model->get_offer_product_list($entity_id);
+		
 
         $this->load->view('sales/offer_register/vw_offer_register_create',$data);
     }
@@ -631,12 +684,12 @@ public function upload_template()
 
                 if ($existing_product) {
                     // Existing product, add to existing products array
-                    if (!empty($row[2]) && !empty($row[4]) && !empty($row[7])) {
+                    if (!empty($row[2]) && !empty($row[4]) && !empty($row[6])) {
                         $existing_products[] = $row;
                     }
                 } else {
                     // New product, add to new products array
-                    if (!empty($row[1]) && !empty($row[2]) && !empty($row[4]) && !empty($row[5]) && !empty($row[7]) && !empty($row[10]) && !empty($row[11]) && !empty($row[12]) && !empty($row[13])) {
+                    if (!empty($row[1]) && !empty($row[2]) && !empty($row[4]) && !empty($row[6])&&  !empty($row[12]) && !empty($row[14]) && !empty($row[15]) && !empty($row[16]) && !empty($row[17])) {
                         $new_products[] = $row;
                     }
                     
@@ -644,12 +697,12 @@ public function upload_template()
 
                 if ($existing_product) {
                     // Existing product, add to existing products array
-                    if (empty($row[2]) || empty($row[4]) || empty($row[7])) {
+                    if (empty($row[2]) || empty($row[4]) || empty($row[6])) {
                         $error_messages_existing[] = "Incomplete data for existing part code:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $product_custom_part_no . "<br>";
                     }
                 } else {
                     // New product, add to new products array
-                    if (empty($row[1]) || empty($row[2]) || empty($row[4]) || empty($row[5]) || empty($row[7]) || empty($row[10]) || empty($row[11]) || empty($row[12]) || empty($row[13]) ) {
+                    if (empty($row[1]) || empty($row[2]) || empty($row[4]) || empty($row[6]) ||  empty($row[12]) || empty($row[14]) || empty($row[15]) || empty($row[16]) || empty($row[17])) {
                         $error_messages_new[] = "Incomplete data for new part code: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $product_custom_part_no . "<br>";
                     }
                 }
@@ -672,8 +725,8 @@ public function upload_template()
             {
                 // Fetch additional details from database and insert into offer_product_relation
                 $product_custom_part_no = trim($row[2]);
-                $qty = trim($row[4]);
-                $discount1 = trim($row[7]);
+                $qty = trim($row[3]);
+                $discount1 = trim($row[6]);
 
                 // Parse discount1 to extract numerical value and calculate discount
                 $discount_percentage = 0; // Default discount percentage
@@ -800,20 +853,20 @@ public function upload_template()
             foreach ($new_products as $row) {
                 // Extract product details from CSV row
                 $product_custom_part_no = trim($row[2]);
-                $product_make = trim($row[12]);
-                $qty = trim($row[4]);
-                $discount1 = trim($row[7]);
+                $product_make = trim($row[15]);
+                $qty = trim($row[3]);
+                $discount1 = trim($row[6]);
                 $product_custom_description = trim($row[1]);
-                $price = trim($row[5]);
-                $hsn_code1 = trim($row[14]);
-                $unit = trim($row[11]);
-                $lead_time = trim($row[10]);
-                $category = trim($row[13]);
+                $price = trim($row[4]);
+                $hsn_code1 = trim($row[17]);
+                $unit = trim($row[14]);
+                $lead_time = trim($row[12]);
+                $category = trim($row[16]);
 
             // Generate random HSN code and set GST percentage to 0 if HSN code is missing
                 if (empty($hsn_code1)) {
                     $hsn_code = "123456"; 
-                    $gst_percentage = 0;
+                    $gst_percentage = 18;
                 } else {
                     $hsn_code = $hsn_code1;
                     $product_hsn_query = $this->db->get_where('product_hsn_master', array('hsn_code' => $hsn_code));
@@ -1070,20 +1123,20 @@ public function upload_template()
                 $erp_code = trim($row[2]);
                 $incomplete = array();
     
-                // Skip checking these indexes: 0, 3, 6, 8, 9, 14
+                // Skip checking these indexes: 0, 5, 7, 8, 9, 10, 11, 13, 
                 // Hence, these fields are allowed to be empty
-                if (in_array($row[0], [0, 3, 6, 8, 9, 14])) {
+                if (in_array($row[0], [0, 5, 7, 8, 9, 10, 11, 13, 17])) {
                     continue;
                 } else {
                     if (empty($row[1])) $incomplete[] = 'Description';
                     if (empty($row[2])) $incomplete[] = 'MLFB';
-                    if (empty($row[4])) $incomplete[] = 'Quantity';
-                    if (empty($row[5])) $incomplete[] = 'Unit Price';
-                    if (empty($row[7])) $incomplete[] = 'Discount';
-                    if (empty($row[10])) $incomplete[] = 'Lead Time';
-                    if (empty($row[11])) $incomplete[] = 'Unit';
-                    if (empty($row[12])) $incomplete[] = 'Product Make';
-                    if (empty($row[13])) $incomplete[] = 'Category';
+                    if (empty($row[3])) $incomplete[] = 'Quantity';
+                    if (empty($row[4])) $incomplete[] = 'Unit Price';
+                    if (empty($row[6])) $incomplete[] = 'Discount';
+                    if (empty($row[12])) $incomplete[] = 'Lead Time';
+                    if (empty($row[14])) $incomplete[] = 'Unit';
+                    if (empty($row[15])) $incomplete[] = 'Product Make';
+                    if (empty($row[16])) $incomplete[] = 'Category';
                 }
     
                 if (!empty($incomplete)) {
@@ -1105,12 +1158,12 @@ public function upload_template()
 
     public function upload_template_from_setoffer()
    {
-    $enquiry_entity_id = $this->input->post('enquiry_entity_id');
+    $offer_entity_id = $this->input->post('offer_entity_id');
     $response = array();
 
     $this->db->select('*');
     $this->db->from('offer_register');
-    $where = '(offer_register.enquiry_id = "'.$enquiry_entity_id.'" )';
+    $where = '(offer_register.entity_id = "'.$offer_entity_id.'" )';
     $this->db->where($where);
     $this->db->order_by('offer_register.entity_id', 'DESC');
     $this->db->limit(1);
@@ -1118,6 +1171,7 @@ public function upload_template()
     $query_result = $query_data->row_array();
 
     $offer_id = $query_result['entity_id'];
+    $enquiry_entity_id = $query_result['enquiry_id'];
 
   
     $config['upload_path'] = 'assets/product_csv/';
@@ -1403,7 +1457,7 @@ public function upload_template()
 
     public function update_offer_from_enquiry()
     {
-        $enquiry_entity_id = $this->input->post('enquiry_entity_id');
+        $offer_entity_id = $this->input->post('offer_entity_id');
 
         $offer_customer_id = $this->input->post('customer_name');
         $contact_id = $this->input->post('contact_id');
@@ -1413,43 +1467,40 @@ public function upload_template()
         $product_checkbox = $this->input->post('product_checkbox');
         $enquiry_descrption = $this->input->post('enquiry_descrption');
         $employee_id = $this->input->post('employee_id');
-        $offer_type = $this->input->post('offer_type');
+        $offer_for = $this->input->post('offer_for');
         $offer_date = $this->input->post('offer_date');
+        $offer_terms_condition = $this->input->post('offer_terms_condition');
         $offer_source = $this->input->post('offer_source');
-        $offer_freight = $this->input->post('offer_freight');
-        $freight_charges = $this->input->post('freight_charges');
-        $dispatch_address = $this->input->post('dispatch_address');
-        $delivery_instruction = $this->input->post('delivery_instruction');
-        $packing_forwarding_charges = $this->input->post('packing_forwarding_charges');
-        $special_instruction = $this->input->post('special_instruction');
-        $offer_insurance = $this->input->post('offer_insurance');
-        $insurance_charges = $this->input->post('insurance_charges');
         $price_condition = $this->input->post('price_condition');
         $salutation = $this->input->post('salutation');
-        $price_basis = $this->input->post('price_basis');
-        $transport_insurance = $this->input->post('transport_insurance');
-        $tax = $this->input->post('tax');
-        $delivery_schedule = $this->input->post('delivery_schedule');
-        $mode_of_payment = $this->input->post('mode_of_payment');
-        $mode_of_transport = $this->input->post('mode_of_transport');
-        $guarantee_warrenty = $this->input->post('guarantee_warrenty');
-        $payment_term = $this->input->post('payment_term');
-        $packing_forwarding = $this->input->post('packing_forwarding');
+       	$tax = $this->input->post('tax');
         $your_reference = $this->input->post('your_reference');
         $validity = $this->input->post('validity');
 
-        $this->db->select('*');
-        $this->db->from('offer_register');
-        $where = '(offer_register.enquiry_id = "'.$enquiry_entity_id.'" )';
-        $this->db->where($where);
-        $this->db->order_by('offer_register.entity_id', 'DESC');
-        $this->db->limit(1);
-        $query_data = $this->db->get();
-        $query_result = $query_data->row_array();
+        // $this->db->select('*');
+        // $this->db->from('offer_register');
+        // $where = '(offer_register.entity_id = "'.$offer_entity_id.'" )';
+        // $this->db->where($where);
+        // $this->db->order_by('offer_register.entity_id', 'DESC');
+        // $this->db->limit(1);
+        // $query_data = $this->db->get();
+        // $query_result = $query_data->row_array();
 
-        $offer_entity_id = $query_result['entity_id'];
+        // $offer_entity_id = $query_result['entity_id'];
 
-        $update_offer_array = array('customer_id' => $offer_customer_id , 'contact_person_id' => $contact_id ,'offer_description' => $enquiry_descrption , 'offer_engg_name' => $employee_id , 'offer_type' => $offer_type , 'offer_date' => $offer_date , 'offer_source' => $offer_source , 'Transportation' => $offer_freight , 'transportation_price' => $freight_charges , 'dispatch_address' => $dispatch_address , 'delivery_instruction' => $delivery_instruction , 'packing_forwarding' => $packing_forwarding , 'packing_forwarding_price' => $packing_forwarding_charges , 'payment_term' => $payment_term , 'special_packing' => $special_instruction , 'insurance' => $offer_insurance , 'insurance_price' => $insurance_charges, 'price_condition' => $price_condition, 'salutation' => $salutation, 'price_basis' => $price_basis, 'transport_insurance' => $transport_insurance, 'tax' => $tax, 'delivery_schedule' => $delivery_schedule, 'mode_of_payment' => $mode_of_payment, 'mode_of_transport' => $mode_of_transport, 'guarantee_warrenty' => $guarantee_warrenty, 'your_reference' => $your_reference , 'validity' => $validity , 'offer_company_name' => $offer_company_name);
+        $update_offer_array = array('customer_id' => $offer_customer_id , 'contact_person_id' => $contact_id ,
+			'offer_description' => $enquiry_descrption ,
+			'offer_engg_name' => $employee_id ,
+			'offer_for' => $offer_for ,
+			'offer_date' => $offer_date ,
+			'terms_conditions' => $offer_terms_condition ,
+			'offer_source' => $offer_source ,
+			'price_condition' => $price_condition,
+			'salutation' => $salutation,
+			'tax' => $tax,
+			'your_reference' => $your_reference ,
+			'validity' => $validity ,
+			'offer_company_name' => $offer_company_name);
 
         $where = '(entity_id ="'.$offer_entity_id.'")';
         $this->db->where($where);
@@ -1715,30 +1766,16 @@ public function upload_template()
         $product_checkbox = $this->input->post('product_checkbox');
         $enquiry_descrption = $this->input->post('enquiry_descrption');
         $employee_id = $this->input->post('employee_id');
-        $offer_type = $this->input->post('offer_type');
+        $offer_for = $this->input->post('offer_for');
         $offer_date = $this->input->post('offer_date');
+        $offer_terms_condition = $this->input->post('offer_terms_condition');
         $offer_source = $this->input->post('offer_source');
-        $offer_freight = $this->input->post('offer_freight');
-        $freight_charges = $this->input->post('freight_charges');
-        $dispatch_address = $this->input->post('dispatch_address');
-        $delivery_instruction = $this->input->post('delivery_instruction');
-        $packing_forwarding_charges = $this->input->post('packing_forwarding_charges');
-        $special_instruction = $this->input->post('special_instruction');
-        $offer_insurance = $this->input->post('offer_insurance');
-        $insurance_charges = $this->input->post('insurance_charges');
         $price_condition = $this->input->post('price_condition');
         $salutation = $this->input->post('salutation');
-        $price_basis = $this->input->post('price_basis');
-        $transport_insurance = $this->input->post('transport_insurance');
-        $tax = $this->input->post('tax');
-        $delivery_schedule = $this->input->post('delivery_schedule');
-        $mode_of_payment = $this->input->post('mode_of_payment');
-        $mode_of_transport = $this->input->post('mode_of_transport');
-        $guarantee_warrenty = $this->input->post('guarantee_warrenty');
-        $payment_term = $this->input->post('payment_term');
-        $packing_forwarding = $this->input->post('packing_forwarding');
-        $your_reference = $this->input->post('your_reference');
+       	$tax = $this->input->post('tax');
+       	$your_reference = $this->input->post('your_reference');
         $validity = $this->input->post('validity');
+        $offer_note = $this->input->post('offer_note');
 
         
         $update_offer_array = array(
@@ -1746,30 +1783,16 @@ public function upload_template()
           'contact_person_id' => $contact_id ,
           'offer_description' => $enquiry_descrption , 
           'offer_engg_name' => $employee_id , 
-          'offer_type' => $offer_type , 
+          'offer_for' => $offer_for , 
           'offer_date' => $offer_date , 
+          'offer_terms_condition' => $offer_terms_condition , 
           'offer_source' => $offer_source , 
-          'Transportation' => $offer_freight , 
-          'transportation_price' => $freight_charges , 
-          'dispatch_address' => $dispatch_address , 
-          'delivery_instruction' => $delivery_instruction , 
-          'packing_forwarding' => $packing_forwarding , 
-          'packing_forwarding_price' => $packing_forwarding_charges , 
-          'payment_term' => $payment_term , 
-          'special_packing' => $special_instruction , 
-          'insurance' => $offer_insurance , 
-          'insurance_price' => $insurance_charges, 
           'price_condition' => $price_condition, 
           'salutation' => $salutation, 
-          'price_basis' => $price_basis, 
-          'transport_insurance' => $transport_insurance, 
           'tax' => $tax, 
-          'delivery_schedule' => $delivery_schedule, 
-          'mode_of_payment' => $mode_of_payment, 
-          'mode_of_transport' => $mode_of_transport, 
-          'guarantee_warrenty' => $guarantee_warrenty, 
           'your_reference' => $your_reference , 
           'validity' => $validity , 
+          'note' => $offer_note , 
           'offer_company_name' => $offer_company_name);
 
         $where = '(entity_id ="'.$entity_id.'")';
@@ -2261,36 +2284,17 @@ public function upload_template()
         $customer_id = $this->input->post('customer_name');
         $contact_id = $this->input->post('contact_id');
 
-        $enquiry_entity_id = $this->input->post('enquiry_entity_id');
+        $offer_entity_id = $this->input->post('offer_entity_id');
         $enquiry_descrption = $this->input->post('enquiry_descrption');
         $employee_id = $this->input->post('employee_id');
-        $offer_type = $this->input->post('offer_type');
+        $offer_for = $this->input->post('offer_for');
         $offer_date = $this->input->post('offer_date');
-        $offer_source = $this->input->post('offer_source');
-        $offer_freight = $this->input->post('offer_freight');
-        $freight_charges = $this->input->post('freight_charges');
-        $dispatch_address = $this->input->post('dispatch_address');
-        $delivery_instruction = $this->input->post('delivery_instruction');
-        $packing_forwarding_charges = $this->input->post('packing_forwarding_charges');
-        $special_instruction = $this->input->post('special_instruction');
-        $offer_insurance = $this->input->post('offer_insurance');
-        $insurance_charges = $this->input->post('insurance_charges');
-
         $offer_terms_condition = $this->input->post('offer_terms_condition');
-        $delivery_period = $this->input->post('delivery_period');
-        $offer_note = $this->input->post('offer_note');
+        $offer_source = $this->input->post('offer_source');
+       	$offer_note = $this->input->post('offer_note');
 
         $salutation = $this->input->post('salutation');
-        $price_basis = $this->input->post('price_basis');
-        $transport_insurance = $this->input->post('transport_insurance');
-        $tax = $this->input->post('tax');
-        $delivery_schedule = $this->input->post('delivery_schedule');
-        $mode_of_payment = $this->input->post('mode_of_payment');
-        $mode_of_transport = $this->input->post('mode_of_transport');
-        $guarantee_warrenty = $this->input->post('guarantee_warrenty');
-        $payment_term = $this->input->post('payment_term');
-        $packing_forwarding = $this->input->post('packing_forwarding');
-
+       	$tax = $this->input->post('tax');
         $price_condition = $this->input->post('price_condition');
         $your_reference = $this->input->post('your_reference');
         $offer_close_date = $this->input->post('offer_close_date');
@@ -2298,75 +2302,50 @@ public function upload_template()
 
         $this->db->select('*');
         $this->db->from('offer_register');
-        $where = '(offer_register.enquiry_id = "'.$enquiry_entity_id.'" )';
+        $where = '(offer_register.entity_id = "'.$offer_entity_id.'" )';
         $this->db->where($where);
         $this->db->order_by('offer_register.entity_id', 'DESC');
         $this->db->limit(1);
         $query_data = $this->db->get();
         $query_result = $query_data->row_array();
 
-        $offer_entity_id = $query_result['entity_id'];
+		
         $quotation_no = $query_result['offer_no'];
+        $enquiry_entity_id = $query_result['enquiry_id'];
 
         $offer_status = 3;
 
-        $update_offer_array = array('customer_id' => $customer_id , 'contact_person_id' => $contact_id , 'offer_description' => $enquiry_descrption , 'offer_engg_name' => $employee_id , 'offer_type' => $offer_type , 'offer_date' => $offer_date , 'offer_source' => $offer_source , 'Transportation' => $offer_freight , 'transportation_price' => $freight_charges , 'dispatch_address' => $dispatch_address , 'delivery_instruction' => $delivery_instruction , 'packing_forwarding' => $packing_forwarding , 'packing_forwarding_price' => $packing_forwarding_charges , 'payment_term' => $payment_term , 'special_packing' => $special_instruction , 'insurance' => $offer_insurance , 'insurance_price' => $insurance_charges , 'terms_conditions' => $offer_terms_condition , 'delivery_period' => $delivery_period , 'note' => $offer_note , 'attachment' => $offer_attachment_img , 'price_condition' => $price_condition, 'price_basis' => $price_basis, 'salutation' => $salutation, 'transport_insurance' => $transport_insurance, 'tax' => $tax, 'delivery_schedule' => $delivery_schedule, 'mode_of_payment' => $mode_of_payment, 'mode_of_transport' => $mode_of_transport, 'guarantee_warrenty' => $guarantee_warrenty , 'status' => $offer_status, 'your_reference' => $your_reference , 'offer_close_date' => $offer_close_date , 'offer_company_name' => $offer_company_name);
+        $update_offer_array = array(
+			'customer_id' => $customer_id , 
+			'contact_person_id' => $contact_id , 
+			'offer_description' => $enquiry_descrption , 
+			'offer_engg_name' => $employee_id , 
+			'offer_for' => $offer_for , 
+			'offer_date' => $offer_date , 
+			'terms_conditions' => $offer_terms_condition , 
+			'offer_source' => $offer_source , 
+			'note' => $offer_note , 
+			'attachment' => $offer_attachment_img , 
+			'price_condition' => $price_condition, 
+			'salutation' => $salutation, 
+			'tax' => $tax, 
+			'status' => $offer_status, 
+			'your_reference' => $your_reference , 
+			'offer_close_date' => $offer_close_date , 
+			'offer_company_name' => $offer_company_name
+		);
 
         $where = '(entity_id ="'.$offer_entity_id.'")';
         $this->db->where($where);
         $this->db->update('offer_register',$update_offer_array);
 
         $enquiry_status = 2;
+		if($enquiry_entity_id){
         $update_enquiry_array = array('enquiry_status' => $enquiry_status);
         $where = '(entity_id ="'.$enquiry_entity_id.'")';
         $this->db->where($where);
         $this->db->update('enquiry_register',$update_enquiry_array);
-
-        // $tracking_record = "Quotation Number:- ".$quotation_no." Created by ".$user_name.' , But Quotation not send over email address';
-        // $next_action = "Call Customer And Ask For Order.";
-
-        // $this->db->select('tracking_number');
-        // $this->db->from('enquiry_tracking_master');
-        // $this->db->order_by('entity_id', 'DESC');
-        // $this->db->limit(1);
-        // $enquiry_tracking_master = $this->db->get();
-        // $results_enquiry_tracking_register = $enquiry_tracking_master->result_array();
-
-        // if(!empty($results_enquiry_tracking_register))
-        // {
-        //     $enquiry_tracking_serial_no = $results_enquiry_tracking_register[0]['tracking_number'];
-        //     $enquiry_tracking_data_seprate = explode('/', $enquiry_tracking_serial_no);
-        //     $enquiry_tracking_doc_year = $enquiry_tracking_data_seprate['1'];
-        // }
-
-        // $this->db->select('document_series_no');
-        // $this->db->from('documentseries_master');
-        // $where = '(documentseries_master.entity_id = "'.'7'.'")';
-        // $this->db->where($where);
-        // $doc_record=$this->db->get();
-        // $results_doc_record = $doc_record->result_array();
-
-        // $doc_serial_no = $results_doc_record[0]['document_series_no'];
-        // $doc_data_seprate = explode('/', $doc_serial_no);
-        // $doc_year = $doc_data_seprate['1'];
-
-        // if(empty($results_enquiry_tracking_register[0]['tracking_number']) || ($enquiry_tracking_doc_year != $doc_year))
-        // {
-        //     $first_no = '0001';
-        //     $doc_no = $doc_serial_no.$first_no;
-        // }elseif(!empty($results_enquiry_tracking_register) && ($enquiry_tracking_doc_year == $doc_year))
-        // {
-        //     $doc_type = $enquiry_tracking_data_seprate['0'];
-        //     $ex_no = $enquiry_tracking_data_seprate['2'];
-        //     $next_en = $ex_no + 1;
-        //     $next_doc_no = str_pad($next_en, 4, "0", STR_PAD_LEFT);
-        //     $doc_no = $doc_type.'/'.$enquiry_tracking_doc_year.'/'.$next_doc_no;
-        // }
-
-        // $next_action_due_date = date('Y-m-d', strtotime($offer_date . " +1 days"));
-
-        // $track_save = "INSERT INTO enquiry_tracking_master (user_id , tracking_number , enquiry_id , offer_id , customer_id , tracking_date , tracking_record , next_action , action_due_date , status) VALUES ('".$user_id."' , '".$doc_no."' , '".$enquiry_entity_id."' , '".$offer_entity_id."' , '".$customer_id."' , '".$offer_date."' , '".$tracking_record."' , '".$next_action."' , '".$next_action_due_date."' , '".'2'."')";
-        // $save_execute = $this->db->query($track_save);
+		}
 
         $data = site_url('vw_offer_data');
 
@@ -2798,6 +2777,7 @@ public function upload_template()
         $data['make_list'] = $this->offer_register_model->get_make_list();
         $data['unit_list'] = $this->offer_register_model->get_unit_list();
         $data['source_list'] = $this->offer_register_model->get_enquiry_source_list();
+        $data['offer_for_list'] = $this->offer_register_model->get_offer_for_list();
         $data['offer_product_list'] = $this->offer_register_model->get_offer_product_list_by_id($entity_id);
         $data['product_category'] = $this->offer_register_model->get_product_category();
         $data['product_detail_hsn_code'] = $this->offer_register_model->get_product_hsn_code();
@@ -3110,35 +3090,16 @@ public function upload_template()
            
             $enquiry_descrption = $this->input->post('enquiry_descrption');
             $employee_id = $this->input->post('employee_id');
-            $offer_type = $this->input->post('offer_type');
+            $offer_for = $this->input->post('offer_for');
             $offer_date = $this->input->post('offer_date');
-            $offer_freight = $this->input->post('offer_freight');
-            $offer_source = $this->input->post('offer_source');
-            $freight_charges = $this->input->post('freight_charges');
-            $dispatch_address = $this->input->post('dispatch_address');
-            $delivery_instruction = $this->input->post('delivery_instruction');
-            $offer_pf = $this->input->post('offer_pf');
-            $packing_forwarding_charges = $this->input->post('packing_forwarding_charges');
-            $payment_term = $this->input->post('payment_term');
-            $special_instruction = $this->input->post('special_instruction');
-            $offer_insurance = $this->input->post('offer_insurance');
-            $insurance_charges = $this->input->post('insurance_charges');
             $offer_terms_condition = $this->input->post('offer_terms_condition');
-            $delivery_period = $this->input->post('delivery_period');
-            $offer_note = $this->input->post('offer_note');
+           	$offer_source = $this->input->post('offer_source');
+           	$offer_note = $this->input->post('offer_note');
             $offer_status = $this->input->post('offer_status');
             $offer_reason = $this->input->post('offer_reason');
 
             $salutation = $this->input->post('salutation');
-            $price_basis = $this->input->post('price_basis');
-            $transport_insurance = $this->input->post('transport_insurance');
             $tax = $this->input->post('tax');
-            $delivery_schedule = $this->input->post('delivery_schedule');
-            $mode_of_payment = $this->input->post('mode_of_payment');
-            $mode_of_transport = $this->input->post('mode_of_transport');
-            $guarantee_warrenty = $this->input->post('guarantee_warrenty');
-            $payment_term = $this->input->post('payment_term');
-            $packing_forwarding = $this->input->post('packing_forwarding');
             $price_condition = $this->input->post('price_condition');
 
             $your_reference = $this->input->post('your_reference');
@@ -3154,7 +3115,24 @@ public function upload_template()
 
             $enquiry_entity_id = $query_result['enquiry_id'];
 
-            $update_offer_array = array('offer_description' => $enquiry_descrption , 'offer_engg_name' => $employee_id , 'offer_type' => $offer_type , 'offer_date' => $offer_date , 'offer_source' => $offer_source , 'Transportation' => $offer_freight , 'transportation_price' => $freight_charges , 'dispatch_address' => $dispatch_address , 'delivery_instruction' => $delivery_instruction , 'packing_forwarding' => $packing_forwarding , 'packing_forwarding_price' => $packing_forwarding_charges , 'payment_term' => $payment_term , 'special_packing' => $special_instruction , 'insurance' => $offer_insurance , 'insurance_price' => $insurance_charges , 'terms_conditions' => $offer_terms_condition , 'delivery_period' => $delivery_period , 'note' => $offer_note , 'attachment' => $offer_attachment_img , 'price_condition' => $price_condition, 'price_basis' => $price_basis, 'salutation' => $salutation, 'transport_insurance' => $transport_insurance, 'tax' => $tax, 'delivery_schedule' => $delivery_schedule, 'mode_of_payment' => $mode_of_payment, 'mode_of_transport' => $mode_of_transport, 'guarantee_warrenty' => $guarantee_warrenty , 'status' => $offer_status , 'reason_for_rejection' => $offer_reason, 'your_reference' => $your_reference , 'offer_close_date' => $offer_close_date , 'validity' => $validity);
+            $update_offer_array = array(
+				'offer_description' => $enquiry_descrption , 
+				'offer_engg_name' => $employee_id , 
+				'offer_for' => $offer_for ,
+				'offer_date' => $offer_date ,
+				'offer_source' => $offer_source ,
+				'terms_conditions' => $offer_terms_condition ,
+				'note' => $offer_note ,
+				'attachment' => $offer_attachment_img ,
+				'price_condition' => $price_condition,
+				'salutation' => $salutation,
+				'tax' => $tax,
+				'status' => $offer_status ,
+				'reason_for_rejection' => $offer_reason,
+				'your_reference' => $your_reference ,
+				'offer_close_date' => $offer_close_date ,
+				'validity' => $validity
+			);
 
             $where = '(entity_id ="'.$entity_id.'")';
             $this->db->where($where);
@@ -3175,35 +3153,16 @@ public function upload_template()
             $entity_id = $this->input->post('entity_id');
             $enquiry_descrption = $this->input->post('enquiry_descrption');
             $employee_id = $this->input->post('employee_id');
-            $offer_type = $this->input->post('offer_type');
+            $offer_for = $this->input->post('offer_for');
             $offer_date = $this->input->post('offer_date');
             $offer_source = $this->input->post('offer_source');
-            $offer_freight = $this->input->post('offer_freight');
-            $freight_charges = $this->input->post('freight_charges');
-            $dispatch_address = $this->input->post('dispatch_address');
-            $delivery_instruction = $this->input->post('delivery_instruction');
-            $offer_pf = $this->input->post('offer_pf');
-            $packing_forwarding_charges = $this->input->post('packing_forwarding_charges');
-            $payment_term = $this->input->post('payment_term');
-            $special_instruction = $this->input->post('special_instruction');
-            $offer_insurance = $this->input->post('offer_insurance');
-            $insurance_charges = $this->input->post('insurance_charges');
             $offer_terms_condition = $this->input->post('offer_terms_condition');
-            $delivery_period = $this->input->post('delivery_period');
-            $offer_note = $this->input->post('offer_note');
+           	$offer_note = $this->input->post('offer_note');
             $offer_status = $this->input->post('offer_status');
             $offer_reason = $this->input->post('offer_reason');
 
             $salutation = $this->input->post('salutation');
-            $price_basis = $this->input->post('price_basis');
-            $transport_insurance = $this->input->post('transport_insurance');
-            $tax = $this->input->post('tax');
-            $delivery_schedule = $this->input->post('delivery_schedule');
-            $mode_of_payment = $this->input->post('mode_of_payment');
-            $mode_of_transport = $this->input->post('mode_of_transport');
-            $guarantee_warrenty = $this->input->post('guarantee_warrenty');
-            $payment_term = $this->input->post('payment_term');
-            $packing_forwarding = $this->input->post('packing_forwarding');
+			$tax = $this->input->post('tax');
             $price_condition = $this->input->post('price_condition');
             $your_reference = $this->input->post('your_reference');
             $validity = $this->input->post('validity');
@@ -3218,7 +3177,23 @@ public function upload_template()
 
             $enquiry_entity_id = $query_result['enquiry_id'];
 
-            $update_offer_array = array('offer_description' => $enquiry_descrption , 'offer_engg_name' => $employee_id , 'offer_type' => $offer_type , 'offer_date' => $offer_date , 'offer_source' => $offer_source ,  'Transportation' => $offer_freight , 'transportation_price' => $freight_charges , 'dispatch_address' => $dispatch_address , 'delivery_instruction' => $delivery_instruction , 'packing_forwarding' => $offer_pf , 'packing_forwarding_price' => $packing_forwarding_charges , 'payment_term' => $payment_term , 'special_packing' => $special_instruction , 'insurance' => $offer_insurance , 'insurance_price' => $insurance_charges , 'terms_conditions_id' => $offer_terms_condition , 'delivery_period' => $delivery_period , 'note' => $offer_note , 'price_condition' => $price_condition, 'price_basis' => $price_basis, 'salutation' => $salutation, 'transport_insurance' => $transport_insurance, 'tax' => $tax, 'delivery_schedule' => $delivery_schedule, 'mode_of_payment' => $mode_of_payment, 'mode_of_transport' => $mode_of_transport, 'guarantee_warrenty' => $guarantee_warrenty , 'status' => $offer_status , 'reason_for_rejection' => $offer_reason, 'your_reference' => $your_reference , 'offer_close_date' => $offer_close_date , 'validity' => $validity);
+            $update_offer_array = array(
+				'offer_description' => $enquiry_descrption ,
+				'offer_engg_name' => $employee_id ,
+				'offer_for' => $offer_for ,
+				'offer_date' => $offer_date ,
+				'offer_source' => $offer_source ,
+				'terms_conditions' => $offer_terms_condition ,
+				'note' => $offer_note ,
+				'price_condition' => $price_condition,
+				'salutation' => $salutation,
+				'tax' => $tax,
+				'status' => $offer_status ,
+				'reason_for_rejection' => $offer_reason,
+				'your_reference' => $your_reference ,
+				'offer_close_date' => $offer_close_date ,
+				'validity' => $validity
+			);
 
             $where = '(entity_id ="'.$entity_id.'")';
             $this->db->where($where);
@@ -3280,7 +3255,7 @@ public function upload_template()
 
     public function update_new_product_with_offer()
     {
-        $offer_entity_id = $this->input->post('enquiry_entity_id');
+        $offer_entity_id = $this->input->post('offer_entity_id');
 
         $offer_customer_id = $this->input->post('customer_name');
         $contact_id = $this->input->post('contact_id');
@@ -3289,30 +3264,16 @@ public function upload_template()
 
         $enquiry_descrption = $this->input->post('enquiry_descrption');
         $employee_id = $this->input->post('employee_id');
-        $offer_type = $this->input->post('offer_type');
+        $offer_for = $this->input->post('offer_for');
         $offer_date = $this->input->post('offer_date');
+        $offer_terms_condition = $this->input->post('offer_terms_condition');
         $offer_source = $this->input->post('offer_source');
-        $offer_freight = $this->input->post('offer_freight');
-        $freight_charges = $this->input->post('freight_charges');
-        $dispatch_address = $this->input->post('dispatch_address');
-        $delivery_instruction = $this->input->post('delivery_instruction');
-        $packing_forwarding_charges = $this->input->post('packing_forwarding_charges');
-        $special_instruction = $this->input->post('special_instruction');
-        $offer_insurance = $this->input->post('offer_insurance');
-        $insurance_charges = $this->input->post('insurance_charges');
         $price_condition = $this->input->post('price_condition');
         $salutation = $this->input->post('salutation');
-        $price_basis = $this->input->post('price_basis');
-        $transport_insurance = $this->input->post('transport_insurance');
-        $tax = $this->input->post('tax');
-        $delivery_schedule = $this->input->post('delivery_schedule');
-        $mode_of_payment = $this->input->post('mode_of_payment');
-        $mode_of_transport = $this->input->post('mode_of_transport');
-        $guarantee_warrenty = $this->input->post('guarantee_warrenty');
-        $payment_term = $this->input->post('payment_term');
-        $packing_forwarding = $this->input->post('packing_forwarding');
+       	$tax = $this->input->post('tax');
         $your_reference = $this->input->post('your_reference');
         $validity = $this->input->post('validity');
+        $offer_note = $this->input->post('offer_note');
 
         // $this->db->select('*');
         // $this->db->from('offer_register');
@@ -3330,30 +3291,17 @@ public function upload_template()
           'contact_person_id' => $contact_id ,
           'offer_description' => $enquiry_descrption , 
           'offer_engg_name' => $employee_id , 
-          'offer_type' => $offer_type , 
+          'offer_for' => $offer_for , 
           'offer_date' => $offer_date , 
+          'terms_conditions' => $offer_terms_condition , 
           'offer_source' => $offer_source , 
-          'Transportation' => $offer_freight , 
-          'transportation_price' => $freight_charges , 
-          'dispatch_address' => $dispatch_address , 
-          'delivery_instruction' => $delivery_instruction , 
-          'packing_forwarding' => $packing_forwarding , 
-          'packing_forwarding_price' => $packing_forwarding_charges , 
-          'payment_term' => $payment_term , 
-          'special_packing' => $special_instruction , 
-          'insurance' => $offer_insurance , 
-          'insurance_price' => $insurance_charges, 
           'price_condition' => $price_condition, 
           'salutation' => $salutation, 
           'price_basis' => $price_basis, 
-          'transport_insurance' => $transport_insurance, 
           'tax' => $tax, 
-          'delivery_schedule' => $delivery_schedule, 
-          'mode_of_payment' => $mode_of_payment, 
-          'mode_of_transport' => $mode_of_transport, 
-          'guarantee_warrenty' => $guarantee_warrenty, 
           'your_reference' => $your_reference , 
           'validity' => $validity , 
+          'note' => $offer_note , 
           'offer_company_name' => $offer_company_name);
 
         $where = '(entity_id ="'.$offer_entity_id.'")';
@@ -4451,6 +4399,8 @@ public function upload_template()
                           offer_register.mode_of_transport AS Mode_of_transport,
                           offer_register.guarantee_warrenty AS Guarantee_warrenty,
                           offer_register.validity AS Validity,
+                          offer_register.terms_conditions AS Terms_conditions,
+                          offer_register.offer_for AS Offer_for,
                           offer_register.your_reference AS Your_reference,
                           offer_register.contact_person_id AS Contact_id,
                           offer_register.offer_company_name AS offer_company_name,
@@ -4524,8 +4474,15 @@ public function upload_template()
         }else{
             $customer_name = $master_offer_data[0]['Customer_name'];
         }
+
+				$rm_name = "Moorthy";
+				$rm_contact_no = "9307908825";
+				$crm_name = "Aishwarya B";
+				$crm_contact_no = "9022929109";
         
         $Validity = $master_offer_data[0]['Validity'];
+        $Terms_conditions = $master_offer_data[0]['Terms_conditions'];
+        $Offer_for = $master_offer_data[0]['Offer_for'];
         $Customer_address = $master_offer_data[0]['Customer_address'];
         
         $Delivery_instruction = $master_offer_data[0]['Delivery_instruction'];
@@ -4544,6 +4501,13 @@ public function upload_template()
         }else{
             $PC = "NA";
         }
+
+				//get offer for 
+				if(isset($Offer_for)){
+				$Offer_for_name = $this->db->get_where('offer_for_master', ['entity_id' => $Offer_for])->row()->product_group;
+				}else{
+					$Offer_for_name = "";
+				}
         
         $note = $master_offer_data[0]['note'];
     
@@ -4645,45 +4609,40 @@ public function upload_template()
         // $image_file = K_PATH_IMAGES.'intact_logo.png';
         // $pdf->Image($image_file, 30, 100, 150, 120, 'PNG', '', '', false, 0, '', false, false, 0);
        
-        $html = '<br><br><h2 style="text-align: left;color:#3a4494;text-indent:2em; font-size:10px;">Quotation </h2><br><br>
+        $html = '<h2 style="text-align: left;color:#3167ac; font-size:10px;">Quotation </h2><br><br>
                     <table>
                     <tbody>
-                        <tr>
-                            <td style="color:#3a4494; font-size:10px;width:70%;"><b>Type : &nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:8px;color: black;">Automation</span></b> </td>
-                            <td style="font-size: 10px; width: 30%;"> <b style="color: #3a4494;">Submitted on: &nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:8px;color: black;">' . strip_tags($offer_date) . '</span></b></td>
+                        <tr style="line-height:150%;">
+                            <td style="color:#3167ac; font-size:10px;width:7%;"><b>Type</b><br><b>Series</b> </td>
+														 <td style="color:#3167ac; font-size:10px;width:60%;"><b><span style="font-size:10px;color: black;">'.strip_tags($Offer_for_name).'</span><br><span style="font-size:10px;color: black;">Product </span></b> </td>
+                            <td style="font-size: 10px; width: 15%;text-align:left;"> <b style="color: #3167ac;">Submitted on<br>&nbsp;Quotation No</b></td>
+
+														<td style="color:#3167ac; font-size:10px;width:18%;"><b><span style="font-size:10px;color: black;">' . strip_tags($offer_date) . '</span><br><span style="font-size:10px;color: black;">' . strip_tags($offer_no) . '</span></b> </td>
                         </tr>
-                        <tr>
-                            <td style="color:#3a4494; font-size:10px;width:70%;"><b>Series :&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:8px;color: black;">Product Sales </span></b></td>
-                            <td style="color:#3a4494; font-size:10px;width:30%;"><b>Quotation No : &nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:8px;color: black;">' . strip_tags($offer_no) . '</span></b> </td>
-                        </tr>
+                      
                     </tbody>
                 </table>';
 
          $pdf->writeHTML($html, true, false, true, false, ''); 
         
 
-            $html = '<br><br><h2 style="text-align: left;color:#3a4494; font-size:10px;">Quotation For </h2>
-            <table>
-            <tbody>
-                <tr>
-                <td style="font-size: 8px; width: 70%;"><b>Company</b>: &nbsp;&nbsp;&nbsp;&nbsp; <span style=" border-bottom: 1px solid black; border-width: 70%;"> '. strip_tags($customer_name) . '</span></td>
-                <td style=" font-size:8px;width:30%;"><b>RM Name </b> :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;Moorthy</td>
-                </tr><br>
-                <tr>
-                    <td style="font-size:8px;width:70%;"><b>Name </b> :  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.strip_tags($contact_person_name).' </td>
-                    <td style="font-size:8px;width:30%;"><b>RM Contact No </b>:&nbsp;&nbsp;&nbsp;&nbsp;9307908825 </td>
-                </tr><br>
-                <tr>
-                    <td style="font-size:8px;width:70%;"><b>Contact No </b>: &nbsp;&nbsp;'.strip_tags($contact_no1).' </td>
-                    <td style="font-size:8px;width:30%;"><b>CRM Name </b>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Aishwarya B </td>
-               </tr><br>
-               <tr>
-               <td style="font-size:8px;width:70%;"><b>Email Id  </b> :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.strip_tags($email).' </td>
-               <td style="font-size:8px;width:30%;"><b>CRM Contact No:</b>: &nbsp;&nbsp;&nbsp;9022929109 </td>
-          </tr>
-            </tbody>
-        </table><br>
-        <hr style="width: 100%;color:#3a4494; height: 1px;">';
+            $html = '<br><h2 style="text-align: left;color:#3167ac; font-size:10px;">Quotation For </h2>
+
+						 <table>
+                    <tbody>
+                        <tr style="line-height:200%;">
+                            <td style="color:black; font-size:10px;width:12%;"><b>Company</b><br><b>Name</b><br><b>Contact No</b><br><b>Email Id</b> </td>
+														 <td style="color:#3167ac; font-size:10px;width:55%;"><span style="font-size:10px;color: black;">'.strip_tags($customer_name).'</span><br><span style="font-size:10px;color: black;">'.strip_tags($contact_person_name).'</span><br><span style="font-size:10px;color: black;">'.strip_tags($contact_no1).'</span><br><span style="font-size:10px;color: black;">'.strip_tags($email).'</span></td>
+                            <td style="font-size: 10px; width: 18%;text-align:left;"> <b style="color: black;">RM Name<br>&nbsp;RM Contact No<br>&nbsp;CRM Name<br>&nbsp;CRM Contact No</b></td>
+
+														<td style="color:#3167ac; font-size:10px;width:15%;"><span style="font-size:10px;color: black;">'. strip_tags($rm_name) . '</span><br><span style="font-size:10px;color: black;">'. strip_tags($rm_contact_no) . '</span><br><span style="font-size:10px;color: black;">'. strip_tags($crm_name) . '</span><br><span style="font-size:10px;color: black;">'. strip_tags($crm_contact_no) . '</span></td>
+                        </tr>
+                      
+                    </tbody>
+                </table>
+						
+				<br>
+        <hr style="width: 100%;color:#3167ac; height: 1px;">';
 
         $pdf->writeHTML($html, true, false, true, false, ''); 
 
@@ -4717,15 +4676,23 @@ public function upload_template()
             }
 
         $html = '<br>
-            <table>
-            <tbody>
-            
-            <tr>
-            <td style="font-size:10px;text-align:right;"><b> GRAND  TOTAL : </b>₹'. strip_tags($all_product_sub_total). '</td>
-        </tr>
-            </tbody>
-        </table><br>
-        <hr style="width: 100%;color:#3a4494; height: 1.5px;">';
+
+<table>
+                    <tbody>
+                        <tr style="line-height:150%;">
+                            <td style="color:#3167ac; font-size:10px;width:7%;"> </td>
+														 <td style="color:#3167ac; font-size:10px;width:60%;"></td>
+                            <td style="font-size: 10px; width: 15%;text-align:left;"> <b style="color:black;">GRAND  TOTAL</b></td>
+
+														<td style="color:#3167ac; font-size:10px;width:18%;"><b><span style="font-size:10px;color: black;">₹ ' . strip_tags(number_format($all_product_sub_total,"2",".",",")) . '</span></b> </td>
+                        </tr>
+                      
+                    </tbody>
+                </table>
+
+
+            <br>
+        <hr style="width: 100%;color:#3167ac; height: 1.5px;">';
         $pdf->writeHTML($html, true, false, true, false, ''); 
 
      
@@ -4736,36 +4703,34 @@ public function upload_template()
         if($data_offer_product_count > 0)
         {
             $html = '
-                    <p style="font-size: 9px;  text-indent:2em; color:#3a4494; width: 100%;"><b>PRICE BREAKUP AS BELOW - </b></p>
+                    <p style="font-size: 9px;  text-indent:2em; color:#3167ac; width: 100%;"><b>PRICE BREAKUP AS BELOW - </b></p>
 
-                    <table border="solid 1px" cellpadding="10" width="100%">
-                        <tr>
-                            <td style="font-size: 8px; width: 8%; color:#3a4494; text-align: center; border-right: solid 1px #5a5a5a; 
-                            border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a; text-indent:2em;"><b>Sr.<br>&nbsp;&nbsp;&nbsp;No</b></td>
+                    <table border="solid 1px" cellpadding="5" width="100%">
+                        <thead><tr>
+                            <th style="font-size: 8px; width: 8%; color:#3167ac; text-align: center; border-right: solid 1px #5a5a5a; 
+                            border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a; text-indent:2em;"><b>Sr.<br>No.</b></th>
 
                             
-                            <td style="font-size: 8px; width: 35%; color:#3a4494; text-align: center; border-right: solid 1px #5a5a5a; 
-                            border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a;text-indent:2em;"><b> Description</b></td>
+                            <th style="font-size: 8px; width: 35%; color:#3167ac; text-align: center; border-right: solid 1px #5a5a5a; 
+                            border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a;text-indent:2em;"><b> Description</b></th>
 
-                            <td style="font-size: 8px; width: 12%; text-indent:2em;border-right: solid 1px #5a5a5a; 
-                            border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a; color:#3a4494; text-align: left;"><b>Part No.</b></td>
+                            <th style="font-size: 8px; width: 12%; text-indent:2em;border-right: solid 1px #5a5a5a; 
+                            border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a; color:#3167ac; text-align: left;"><b>Part No.</b></th>
 
 
-                            <td style="font-size: 8px; width: 7%; text-indent:2em; border-right: solid 1px #5a5a5a; 
-                            border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;   border-bottom: solid 1px #5a5a5a; color:#3a4494; text-align: center;"><b>Qty</b></td>
+                            <th style="font-size: 8px; width: 7%; text-indent:2em; border-right: solid 1px #5a5a5a; 
+                            border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;   border-bottom: solid 1px #5a5a5a; color:#3167ac; text-align: center;"><b>Qty</b></th>
 
-                            <td style="font-size: 8px; width: 12%; text-indent:2em;border-right: solid 1px #5a5a5a; 
-                            border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a; border-bottom: solid 1px #5a5a5a; color:#3a4494; text-align: center;"><b>Stock Avaliability</b></td>
+                            <th style="font-size: 8px; width: 12%; text-indent:2em;border-right: solid 1px #5a5a5a; 
+                            border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a; border-bottom: solid 1px #5a5a5a; color:#3167ac; text-align: center;"><b>Stock Avaliability</b></th>
 
-                            <td style="font-size: 8px; width: 12%; text-indent:0em; border-right: solid 1px #5a5a5a; 
-                            border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a; border-bottom: solid 1px #5a5a5a;color:#3a4494; text-align: center;"><b> Discounted Unit Price</b></td>
+                            <th style="font-size: 8px; width: 12%; text-indent:0em; border-right: solid 1px #5a5a5a; 
+                            border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a; border-bottom: solid 1px #5a5a5a;color:#3167ac; text-align: center;"><b> Discounted Unit Price</b></th>
 
-                            <td style="font-size: 8px; width: 12%; text-indent:0em;border-right: solid 1px #5a5a5a; 
-                            border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;   border-bottom: solid 1px #5a5a5a; color:#3a4494; text-align: center;"><b>Discounted Total Price </b></td>
+                            <th style="font-size: 8px; width: 12%; text-indent:0em;border-right: solid 1px #5a5a5a; 
+                            border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;   border-bottom: solid 1px #5a5a5a; color:#3167ac; text-align: center;"><b>Discounted Total Price </b></th>
 
-                        </tr>
-                    </table>';
-                  
+                        </tr></thead><tbody>';
                     foreach ($data_offer_product as $value_data)
                     {   
                         $product_name = $value_data['product_name'];
@@ -4813,12 +4778,11 @@ public function upload_template()
                         $Quotation_amount += $amount_without_gst;
                         $Quotation_amount = number_format((float)$Quotation_amount, 2, '.', '');
 
-                        $html .='<table cellpadding="10" width="100%">
-                                    <tr>
+                        $html .='<tr>
                                         <td style="font-size: 7.8px;color:black; text-align: center; width: 8%; border-right: solid 1px #5a5a5a; 
                                         border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a;text-indent:2em;">'.strip_tags($i).'</td>
 
-                                        <td style="font-size: 7.8px; width: 35%;color:black; text-indent:2em;border-right: solid 1px #5a5a5a; 
+                                        <td style="font-size: 7.8px; width: 35%;color:black; border-right: solid 1px #5a5a5a; 
                                         border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a; text-align: left;">'.strip_tags($product_custom_description).'</td>
 
                                         
@@ -4839,15 +4803,13 @@ public function upload_template()
                                         <td style="font-size: 7.8px;color:black; width: 12%; text-indent:2em; border-right: solid 1px #5a5a5a; 
                                         border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a;text-align:right;">'.strip_tags($amount_without_gst).'</td>
 
-                                    </tr>
-                                   
-                                </table>';
+                                    </tr>';
                         $i++;   
                     }
+
                     for ($i = $data_offer_product_count; $i < 2; $i++) 
                     { 
-                        $html .='<table  cellpadding="0.5" cellspacing="0" width="100%"> 
-                                    <tr>                                   
+                        $html .='<tr>                                   
                                         <td style="width: 5%; font-size: 7px; text-indent:2em;"></td>
                                         <td style="width: 8%;">&nbsp;</td>
                                         <td style="width: 8%;">&nbsp;</td>
@@ -4859,9 +4821,19 @@ public function upload_template()
                                         <td style="width: 9%;">&nbsp;</td>
                                         <td style="width: 8%;">&nbsp;</td>
                                         <td style="width: 9%;">&nbsp;</td>
-                                    </tr>
-                                </table>'; 
+                                    </tr>'; 
                     }
+
+										$html .= '</tbody></table>';
+
+										$terms_explode = explode(";",$Terms_conditions);
+										$html .= '
+                    <br><p style="font-size: 9px;  text-indent:2em; color:#3167ac; width: 100%;"><b>TERMS AND CONDITIONS</b></p><div  style="font-size: 9px;color:black; width: 100%; text-align: left;">';
+										foreach($terms_explode as $terms){
+											$html .= '<span style="line-height:20%;">&nbsp;&nbsp;&nbsp;'.strip_tags($terms)."</span><br>";
+										}
+
+										$html.= '</div>';
                     
                     $pdf->writeHTML($html, true, false, true, false, '');
         }
@@ -5632,25 +5604,18 @@ public function upload_template()
 
     public function save_offer_send_mail()
     {
-        $enquiry_entity_id = $this->input->post('enquiry_entity_id');
+        $offer_entity_id = $this->input->post('offer_entity_id');
         $enquiry_descrption = $this->input->post('enquiry_descrption');
         $employee_id = $this->input->post('employee_id');
         $salutation = $this->input->post('salutation');
-        $offer_type = $this->input->post('offer_type');
+        $offer_for = $this->input->post('offer_for');
         $offer_date = $this->input->post('offer_date');
+        $offer_terms_condition = $this->input->post('offer_terms_condition');
         $offer_source = $this->input->post('offer_source');
-        $price_basis = $this->input->post('price_basis');
-        $transport_insurance = $this->input->post('transport_insurance');
-        $tax = $this->input->post('tax');
-        $delivery_schedule = $this->input->post('delivery_schedule');
-        $mode_of_payment = $this->input->post('mode_of_payment');
-        $dispatch_address = $this->input->post('dispatch_address');
-        $delivery_instruction = $this->input->post('delivery_instruction');
-        $packing_forwarding = $this->input->post('packing_forwarding');
-        $payment_term = $this->input->post('payment_term');
-        $special_instruction = $this->input->post('special_instruction');
-        $price_condition = $this->input->post('price_condition');
+       	$tax = $this->input->post('tax');
+       	$price_condition = $this->input->post('price_condition');
         $your_reference = $this->input->post('your_reference');
+        $validity = $this->input->post('validity');
         $offer_note = $this->input->post('offer_note');
 
         $mail_to = $this->input->post('mail_to');
@@ -5661,29 +5626,46 @@ public function upload_template()
 
         $this->db->select('*');
         $this->db->from('offer_register');
-        $where = '(offer_register.enquiry_id = "'.$enquiry_entity_id.'" )';
+        $where = '(offer_register.entity_id = "'.$offer_entity_id.'" )';
         $this->db->where($where);
         $this->db->order_by('offer_register.entity_id', 'DESC');
         $this->db->limit(1);
         $query_data = $this->db->get();
         $query_result = $query_data->row_array();
 
-        $offer_entity_id = $query_result['entity_id'];
         $offer_customer_id = $query_result['customer_id'];
+        $enquiry_entity_id = $query_result['enquiry_id'];
 
         $offer_status = 2;
 
-        $update_offer_array = array('offer_description' => $enquiry_descrption , 'offer_engg_name' => $employee_id , 'offer_type' => $offer_type , 'offer_date' => $offer_date ,  'offer_source' => $offer_source , 'dispatch_address' => $dispatch_address , 'delivery_instruction' => $delivery_instruction , 'packing_forwarding' => $packing_forwarding , 'payment_term' => $payment_term , 'special_packing' => $special_instruction , 'note' => $offer_note , 'price_condition' => $price_condition, 'price_basis' => $price_basis, 'salutation' => $salutation, 'transport_insurance' => $transport_insurance, 'tax' => $tax, 'delivery_schedule' => $delivery_schedule, 'mode_of_payment' => $mode_of_payment , 'status' => $offer_status, 'your_reference' => $your_reference , 'offer_close_date' => $offer_close_date);
+        $update_offer_array = array(
+			'offer_description' => $enquiry_descrption , 
+			'offer_engg_name' => $employee_id , 
+			'offer_for' => $offer_for , 
+			'offer_date' => $offer_date ,  
+			'terms_conditions' => $offer_terms_condition ,  
+			'offer_source' => $offer_source , 
+			'validity' => $validity , 
+			'note' => $offer_note , 
+			'price_condition' => $price_condition, 
+			'salutation' => $salutation, 
+			'tax' => $tax, 
+			'status' => $offer_status, 
+			'your_reference' => $your_reference , 
+			'offer_close_date' => $offer_close_date
+		);
 
         $where = '(entity_id ="'.$offer_entity_id.'")';
         $this->db->where($where);
         $this->db->update('offer_register',$update_offer_array);
 
         $enquiry_status = 2;
+		if($enquiry_entity_id){
         $update_enquiry_array = array('enquiry_status' => $enquiry_status);
         $where = '(entity_id ="'.$enquiry_entity_id.'")';
         $this->db->where($where);
         $this->db->update('enquiry_register',$update_enquiry_array);
+		}
 
 
         $this->db->select('customer_master.customer_name AS Customer_name,
@@ -6809,36 +6791,17 @@ public function upload_template()
         $customer_id = $this->input->post('customer_name');
         $contact_id = $this->input->post('contact_id');
 
-        $enquiry_entity_id = $this->input->post('enquiry_entity_id');
+        $offer_entity_id = $this->input->post('offer_entity_id');
         $enquiry_descrption = $this->input->post('enquiry_descrption');
         $employee_id = $this->input->post('employee_id');
-        $offer_type = $this->input->post('offer_type');
+        $offer_for = $this->input->post('offer_for');
         $offer_date = $this->input->post('offer_date');
-        $offer_source = $this->input->post('offer_source');
-        $offer_freight = $this->input->post('offer_freight');
-        $freight_charges = $this->input->post('freight_charges');
-        $dispatch_address = $this->input->post('dispatch_address');
-        $delivery_instruction = $this->input->post('delivery_instruction');
-        $packing_forwarding_charges = $this->input->post('packing_forwarding_charges');
-        $special_instruction = $this->input->post('special_instruction');
-        $offer_insurance = $this->input->post('offer_insurance');
-        $insurance_charges = $this->input->post('insurance_charges');
-
         $offer_terms_condition = $this->input->post('offer_terms_condition');
-        $delivery_period = $this->input->post('delivery_period');
-        $offer_note = $this->input->post('offer_note');
+        $offer_source = $this->input->post('offer_source');
+       	$offer_note = $this->input->post('offer_note');
 
         $salutation = $this->input->post('salutation');
-        $price_basis = $this->input->post('price_basis');
-        $transport_insurance = $this->input->post('transport_insurance');
-        $tax = $this->input->post('tax');
-        $delivery_schedule = $this->input->post('delivery_schedule');
-        $mode_of_payment = $this->input->post('mode_of_payment');
-        $mode_of_transport = $this->input->post('mode_of_transport');
-        $guarantee_warrenty = $this->input->post('guarantee_warrenty');
-        $payment_term = $this->input->post('payment_term');
-        $packing_forwarding = $this->input->post('packing_forwarding');
-
+       	$tax = $this->input->post('tax');
         $price_condition = $this->input->post('price_condition');
         $your_reference = $this->input->post('your_reference');
         $offer_close_date = $this->input->post('offer_close_date');
@@ -6852,29 +6815,50 @@ public function upload_template()
 
         $this->db->select('*');
         $this->db->from('offer_register');
-        $where = '(offer_register.enquiry_id = "'.$enquiry_entity_id.'" )';
+        $where = '(offer_register.entity_id = "'.$offer_entity_id.'" )';
         $this->db->where($where);
         $this->db->order_by('offer_register.entity_id', 'DESC');
         $this->db->limit(1);
         $query_data = $this->db->get();
         $query_result = $query_data->row_array();
 
-        $offer_entity_id = $query_result['entity_id'];
+		
         $quotation_no = $query_result['offer_no'];
+        $enquiry_entity_id = $query_result['enquiry_id'];
 
         $offer_status = 2;
 
-        $update_offer_array = array('customer_id' => $customer_id , 'contact_person_id' => $contact_id , 'offer_description' => $enquiry_descrption , 'offer_engg_name' => $employee_id , 'offer_type' => $offer_type , 'offer_date' => $offer_date , 'offer_source' => $offer_source ,  'Transportation' => $offer_freight , 'transportation_price' => $freight_charges , 'dispatch_address' => $dispatch_address , 'delivery_instruction' => $delivery_instruction , 'packing_forwarding' => $packing_forwarding , 'packing_forwarding_price' => $packing_forwarding_charges , 'payment_term' => $payment_term , 'special_packing' => $special_instruction , 'insurance' => $offer_insurance , 'insurance_price' => $insurance_charges , 'terms_conditions' => $offer_terms_condition , 'delivery_period' => $delivery_period , 'note' => $offer_note , 'attachment' => $offer_attachment_img , 'price_condition' => $price_condition, 'price_basis' => $price_basis, 'salutation' => $salutation, 'transport_insurance' => $transport_insurance, 'tax' => $tax, 'delivery_schedule' => $delivery_schedule, 'mode_of_payment' => $mode_of_payment, 'mode_of_transport' => $mode_of_transport, 'guarantee_warrenty' => $guarantee_warrenty , 'status' => $offer_status, 'your_reference' => $your_reference , 'offer_close_date' => $offer_close_date , 'offer_company_name' => $offer_company_name);
+        $update_offer_array = array(
+			'customer_id' => $customer_id , 
+			'contact_person_id' => $contact_id , 
+			'offer_description' => $enquiry_descrption , 
+			'offer_engg_name' => $employee_id , 
+			'offer_for' => $offer_for , 
+			'offer_date' => $offer_date , 
+			'terms_conditions' => $offer_terms_condition , 
+			'offer_source' => $offer_source ,  
+			'note' => $offer_note , 
+			'attachment' => $offer_attachment_img , 
+			'price_condition' => $price_condition, 
+			'salutation' => $salutation, 
+			'tax' => $tax, 
+			'status' => $offer_status, 
+			'your_reference' => $your_reference , 
+			'offer_close_date' => $offer_close_date , 
+			'offer_company_name' => $offer_company_name
+		);
 
         $where = '(entity_id ="'.$offer_entity_id.'")';
         $this->db->where($where);
         $this->db->update('offer_register',$update_offer_array);
 
         $enquiry_status = 2;
+		if($enquiry_entity_id){
         $update_enquiry_array = array('enquiry_status' => $enquiry_status);
         $where = '(entity_id ="'.$enquiry_entity_id.'")';
         $this->db->where($where);
         $this->db->update('enquiry_register',$update_enquiry_array);
+		}
 
         // $tracking_record = "Quotation Number:- ".$quotation_no." Created by ".$user_name.' , But Quotation not send over email address';
         // $next_action = "Call Customer And Ask For Order.";

@@ -111,3 +111,7 @@ CREATE TABLE `tracking_attachment` (
   `uploaded_on` datetime DEFAULT NULL,
   PRIMARY KEY (`entity_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+---25th June 2024 ----
+
+ALTER TABLE `offer_register` ADD `offer_for` INT(11) NULL AFTER `offer_type`;
