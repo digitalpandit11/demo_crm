@@ -123,19 +123,12 @@ class Offer_register_model extends CI_Model{
         $offer_engg_name = $emp_id;
         $offer_no = $offer_no;
         $salutation = 'Dear Sir/Madam, We are pleased to confirm price schedule for your requirement as follows';
-        $price_basis = 'Extra at actual';
         $price_condition = '1';
-        $transport_insurance = 'In Buyers Scope';
-        $tax = 'GST 18% Extra As per applicable rate';
-        $offer_type = '2';
-        $delivery_schedule = '3 - 5 weeks from date of PO';
-        $mode_of_payment = 'By Cheque/NEFT';
-        $mode_of_transport = 'Freight-To Your Account';
-        $guarantee_warrenty = '12 months from date of dispatch';
-        $packing_forwarding = '3%';
-        $payment_term = '100% Advanced against PI';
+		$terms_conditions = "Prices and stock are valid till stock last;
+On Lapp cables Tolerance - ±5 to ±7% must be considered;
+To check stock, whatsapp on below number 7796962133;";
+       	$tax = 'GST 18% Extra As per applicable rate';
         $your_reference = 'Your mail enquiry';
-        $delivery_period = '4 To 5 Weeks from date of PO';
         $validity = 'As Mentioned Above';
         $status = '3';
 
@@ -150,20 +143,11 @@ class Offer_register_model extends CI_Model{
           'status' => $status,
           'offer_date' => $offer_date,
           'salutation' => $salutation,
-          'price_basis' => $price_basis,
           'price_condition' => $price_condition,
-          'transport_insurance' => $transport_insurance,
+          'terms_conditions' => $terms_conditions,
           'tax' => $tax,
-          'delivery_schedule' => $delivery_schedule,
-          'mode_of_payment' => $mode_of_payment,
-          'mode_of_transport' => $mode_of_transport,
-          'guarantee_warrenty' => $guarantee_warrenty,
-          'packing_forwarding' => $packing_forwarding,
-          'payment_term' => $payment_term,
           'your_reference' => $your_reference,
-          'delivery_period' => $delivery_period,
           'validity' => $validity,
-          'offer_type' => $offer_type,
           'offer_close_date' => $offer_close_date);
 
         $this->db->insert('offer_register', $insert_array);
