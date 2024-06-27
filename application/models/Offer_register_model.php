@@ -207,16 +207,11 @@ class Offer_register_model extends CI_Model{
         $price_basis = "Extra at actual";
         $price_condition = '1';
         $offer_type = '2';
-        $transport_insurance = "In Buyers Scope";
+        $offer_terms_condition = "Prices and stock are valid till stock last
+On Lapp cables Tolerance - ±5 to ±7% must be considered
+To check stock, whatsapp on below number 7796962133";
         $tax = "GST 18% Extra As per applicable rate";
-        $delivery_schedule = "3 - 5 weeks from date of PO";
-        $mode_of_payment = "By Cheque/NEFT";
-        $mode_of_transport = "Freight-To Your Account";
-        $guarantee_warrenty = "12 months from date of dispatch";
-        $packing_forwarding = "3%";
-        $payment_term = "100% Advanced against PI";
-        $your_reference = "Your mail enquiry";
-        $delivery_period = "4 To 5 Weeks from date of PO";
+       	$your_reference = "Your mail enquiry";
         $validity = "As Mentioned Above";
 
         $this->db->select('enquiry_id');
@@ -279,11 +274,21 @@ class Offer_register_model extends CI_Model{
 
             $offer_company_name = $customer_master_data['customer_name'];
 
-            $offer_data_master_save = "INSERT INTO offer_register (enquiry_id, offer_no, customer_id, contact_person_id, status, offer_engg_name, offer_description, offer_date, offer_type, salutation, price_basis, price_condition, transport_insurance, tax, delivery_schedule, mode_of_payment, mode_of_transport, guarantee_warrenty, packing_forwarding, payment_term, your_reference, delivery_period, validity, offer_company_name, offer_close_date) VALUES ('".$enquiry_id."','".$offer_no."', '".$customer_id."', '".$contact_person_id."', '".$status."', '".$emp_id."', '".$enquiry_long_description."', '".$offer_date."', '".$offer_type."' , '".$salutation."', '".$price_basis."', '".$price_condition."', '".$transport_insurance."', '".$tax."', '".$delivery_schedule."', '".$mode_of_payment."', '".$mode_of_transport."', '".$guarantee_warrenty."', '".$packing_forwarding."', '".$payment_term."', '".$your_reference."', '".$delivery_period."', '".$validity."', '".$offer_company_name."', '".$offer_close_date."')";
+            $offer_data_master_save = "INSERT INTO offer_register (enquiry_id, offer_no, customer_id, contact_person_id, status, offer_engg_name, offer_description, offer_date, offer_type, terms_conditions, salutation, price_condition, tax, your_reference, validity, offer_company_name, offer_close_date) VALUES ('".$enquiry_id."','".$offer_no."', '".$customer_id."', '".$contact_person_id."', '".$status."', '".$emp_id."', '".$enquiry_long_description."', '".$offer_date."', '".$offer_type."' ,'".$offer_terms_condition."' , '".$salutation."', '".$price_condition."', '".$tax."', '".$your_reference."', '".$validity."', '".$offer_company_name."', '".$offer_close_date."')";
             $save_execute = $this->db->query($offer_data_master_save);
                 //last inserted customer id 
             $offer_master_lastid = $this->db->insert_id();
+			
         }
+    }
+    public function get_offer_for_list()
+    {
+        $this->db->select('*');
+        $this->db->from('offer_for_master');
+        $this->db->order_by('entity_id', 'DESC');
+        $query = $this->db->get();
+        $query_result = $query->result();
+        return $query_result;  
     }
     public function get_employee_list()
     {
@@ -693,34 +698,18 @@ class Offer_register_model extends CI_Model{
         $contact_person_id = $query_result->contact_person_id;
 
         $offer_engg_name = $query_result->offer_engg_name;
-        $offer_type = $query_result->offer_type;
+        $offer_for = $query_result->offer_for;
         $offer_source = $query_result->offer_source;
         $offer_date = $query_result->offer_date;
         $offer_close_date = $query_result->offer_close_date;
-        $Transportation = $query_result->Transportation;
-        $transportation_price = $query_result->transportation_price;
-        $dispatch_address = $query_result->dispatch_address;
-        $delivery_instruction = $query_result->delivery_instruction;
-        $packing_forwarding = $query_result->packing_forwarding;
-        $packing_forwarding_price = $query_result->packing_forwarding_price;
-        $insurance = $query_result->insurance;
-        $insurance_price = $query_result->insurance_price;
-        $special_packing = $query_result->special_packing;
-        $payment_term = $query_result->payment_term;
-        $terms_conditions = $query_result->terms_conditions;
+       	$terms_conditions = $query_result->terms_conditions;
         $note = $query_result->note;
-        $delivery_period =  $query_result->delivery_period;
-        $offer_status = 10;
+        $your_reference = $query_result->your_reference;
+       	$offer_status = 10;
 
         $price_condition =  $query_result->price_condition;
         $salutation =  $query_result->salutation;
-        $price_basis =  $query_result->price_basis;
-        $transport_insurance =  $query_result->transport_insurance;
         $tax =  $query_result->tax;
-        $delivery_schedule =  $query_result->delivery_schedule;
-        $mode_of_payment =  $query_result->mode_of_payment;
-        $mode_of_transport =  $query_result->mode_of_transport;
-        $guarantee_warrenty =  $query_result->guarantee_warrenty;
         $validity =  $query_result->validity;
 
         $this->db->select('*');
@@ -778,7 +767,7 @@ class Offer_register_model extends CI_Model{
         {
             date_default_timezone_set("Asia/Calcutta");
             $new_offer_date = date('Y-m-d');
-                $offer_data_master_save = "INSERT INTO offer_register (enquiry_id, offer_no, customer_id, contact_person_id, status, offer_engg_name, offer_description, offer_date, offer_type, offer_source,Transportation, transportation_price, delivery_period, dispatch_address, delivery_instruction, packing_forwarding, packing_forwarding_price, insurance, insurance_price, special_packing, payment_term, terms_conditions, note, offer_revision, salutation, price_basis, transport_insurance, tax, delivery_schedule, mode_of_payment, mode_of_transport, guarantee_warrenty, validity, price_condition, offer_close_date) VALUES ('".$enquiry_id."','".$new_offer_no."', '".$customer_id."', '".$contact_person_id."', '".$offer_status."', '".$offer_engg_name."', '".$offer_description."', '".$new_offer_date."', '".$offer_type."', '".$offer_source."', '".$Transportation."', '".$transportation_price."', '".$delivery_period."', '".$dispatch_address."', '".$delivery_instruction."', '".$packing_forwarding."', '".$packing_forwarding_price."', '".$insurance."', '".$insurance_price."', '".$special_packing."', '".$payment_term."', '".$terms_conditions."', '".$note."', '".$new_revision."', '".$salutation."', '".$price_basis."', '".$transport_insurance."', '".$tax."', '".$delivery_schedule."', '".$mode_of_payment."', '".$mode_of_transport."', '".$guarantee_warrenty."', '".$validity."', '".$price_condition."', '".$offer_close_date."')";
+                $offer_data_master_save = "INSERT INTO offer_register (enquiry_id, offer_no, customer_id, contact_person_id, status, offer_engg_name, offer_description, your_reference, offer_date, offer_for, offer_source, terms_conditions, note, offer_revision, salutation, tax, validity, price_condition, offer_close_date) VALUES ('".$enquiry_id."','".$new_offer_no."', '".$customer_id."', '".$contact_person_id."', '".$offer_status."', '".$offer_engg_name."', '".$offer_description."', '".$your_reference."','".$new_offer_date."', '".$offer_for."', '".$offer_source."', '".$terms_conditions."', '".$note."', '".$new_revision."', '".$salutation."','".$tax."', '".$validity."', '".$price_condition."', '".$offer_close_date."')";
                 $save_execute = $this->db->query($offer_data_master_save);
                 $offer_master_lastid = $this->db->insert_id();
 

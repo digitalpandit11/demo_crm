@@ -15,9 +15,9 @@ class Offer2_pdf extends TCPDF
         $this->SetFont('helvetica', '', 7.5);
 
        // Header content
-       $html = '<table style="width:100%;"><tr><td style="width:50%;"><h1 style="text-indent:1em;color:#3a4494;font-size:18px; margin-top: 50px;">Intact Automation Pvt. Ltd</h1><p style="text-indent:1em;"><b> Shankar House, S. No.43 Near Xrbia,
-       <br> Hinjewadi Somatane Road, Mulshi, Nere,<br> Pune, Maharashtra 411033.<br>(020)-6744-1111</b></p></td><td style="width:50%; text-align:right;"><img src="' . base_url() . 'assets/company_logo/intact_logo.png"  height="40"></td></tr></table>
-       <br><hr style="width: 100%;color:#3a4494; height: 4px;">';
+       $html = '<table style="width:100%;"><tr><td style="width:50%;"><h1 style="text-indent:1em;color:#3167ac;font-size:18px; margin-top: 50px; margin-bottom: 80px;line-height: 20%;">Intact Automation Pvt. Ltd</h1><br style="font-size:8px;  color:#6b7280;line-height:90%;text-indent:1em;">Shiv Shankar House, S. No.43 Near Xrbia,
+       <br style="font-size:8px; color:#6b7280; line-height:90%; text-indent:1em;">Hinjewadi Somatane Road, Mulshi, Nere,<br style="font-size:8px;  color:#6b7280; line-height:90%; text-indent:1em;">Pune, Maharashtra 411033.<br style="font-size:8px;  color:#6b7280;line-height:90%; text-indent:1em;">(020)-6744-1111<br  style="font-size:8px; line-height:50%;"></td><td style="width:50%; text-align:right;"><img src="' . base_url() . 'assets/company_logo/intact_logo_june2024_r1.png"  height="40"></td></tr></table>
+       <hr style="width: 100%;color:#3167ac; height: 3px; margin-top: 20px;">';
 
         // Write HTML content
         $this->writeHTML($html, true, false, true, false, '');
