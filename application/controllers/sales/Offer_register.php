@@ -96,7 +96,10 @@ class Offer_register extends CI_Controller {
 
         $enquiry_descrption = $this->input->post('enquiry_descrption');
         $employee_id = $this->input->post('employee_id');
+        $rm_employee_id = $this->input->post('rm_employee_id');
+        $principle_engg_id = $this->input->post('principle_engg_id');
         $offer_for = $this->input->post('offer_for');
+        $offer_for_info = $this->input->post('offer_for_info');
         $offer_date = $this->input->post('offer_date');
         $offer_terms_condition = $this->input->post('offer_terms_condition');
         $offer_source = $this->input->post('offer_source');
@@ -114,7 +117,10 @@ class Offer_register extends CI_Controller {
 			'contact_person_id' => $contact_id ,
 			'offer_description' => $enquiry_descrption , 
 			'offer_engg_name' => $employee_id , 
+			'offer_rm_employee_id' => $rm_employee_id , 
+			'offer_principle_engg_id' => $principle_engg_id , 
 			'offer_for' => $offer_for , 
+			'offer_for_info' => $offer_for_info , 
 			'offer_date' => $offer_date , 
 			'terms_conditions' => $offer_terms_condition , 
 			'offer_source' => $offer_source , 
@@ -268,24 +274,29 @@ class Offer_register extends CI_Controller {
         $enquiry_data = $this->offer_register_model->get_enquiry_details_by_id_model($entity_id);
 
 
-        $data['enquiry_result'] = $enquiry_data;
-        $data['entity_id'] = $entity_id;
-        $data['offer_result'] = $offer_data;
+        // $data['enquiry_result'] = $enquiry_data;
+        // $data['entity_id'] = $entity_id;
+        // $data['offer_result'] = $offer_data;
+
         /*$data['customer_list'] = $this->offer_register_model->get_customer_list();
         $data['customer_contact_list'] = $this->offer_register_model->get_contact_list();
         $data['state_list'] = $this->offer_register_model->get_state_list();*/
-        $data['make_list'] = $this->offer_register_model->get_make_list();
-        $data['source_list'] = $this->offer_register_model->get_enquiry_source_list();
-        $data['unit_list'] = $this->offer_register_model->get_unit_list();
-        $data['employee_list'] = $this->offer_register_model->get_employee_list();
-        $data['offer_for_list'] = $this->offer_register_model->get_offer_for_list();
-        $data['product_list'] = $this->offer_register_model->get_product_list();
-        $data['product_category'] = $this->offer_register_model->get_product_category();
-        $data['product_detail_hsn_code'] = $this->offer_register_model->get_product_hsn_code();
-        $data['offer_product_list'] = $this->offer_register_model->get_offer_product_list($entity_id);
+
+
+        // $data['make_list'] = $this->offer_register_model->get_make_list();
+        // $data['source_list'] = $this->offer_register_model->get_enquiry_source_list();
+        // $data['unit_list'] = $this->offer_register_model->get_unit_list();
+        // $data['employee_list'] = $this->offer_register_model->get_employee_list();
+        // $data['offer_for_list'] = $this->offer_register_model->get_offer_for_list();
+        // $data['product_list'] = $this->offer_register_model->get_product_list();
+        // $data['product_category'] = $this->offer_register_model->get_product_category();
+        // $data['product_detail_hsn_code'] = $this->offer_register_model->get_product_hsn_code();
+        // $data['offer_product_list'] = $this->offer_register_model->get_offer_product_list($entity_id);
 		
 
-        $this->load->view('sales/offer_register/vw_offer_register_create',$data);
+        // $this->load->view('sales/offer_register/vw_offer_register_create',$data);
+
+		redirect('update_offer_data/'.$offer_data);
     }
 
 
@@ -684,12 +695,12 @@ public function upload_template()
 
                 if ($existing_product) {
                     // Existing product, add to existing products array
-                    if (!empty($row[2]) && !empty($row[4]) && !empty($row[6])) {
+                    if (!empty($row[2]) && !empty($row[5]) && !empty($row[7])) {
                         $existing_products[] = $row;
                     }
                 } else {
                     // New product, add to new products array
-                    if (!empty($row[1]) && !empty($row[2]) && !empty($row[4]) && !empty($row[6])&&  !empty($row[12]) && !empty($row[14]) && !empty($row[15]) && !empty($row[16]) && !empty($row[17])) {
+                    if (!empty($row[1]) && !empty($row[2]) && !empty($row[5]) && !empty($row[7])&&  !empty($row[12]) && !empty($row[14]) && !empty($row[15]) && !empty($row[16]) && !empty($row[17])) {
                         $new_products[] = $row;
                     }
                     
@@ -697,12 +708,12 @@ public function upload_template()
 
                 if ($existing_product) {
                     // Existing product, add to existing products array
-                    if (empty($row[2]) || empty($row[4]) || empty($row[6])) {
+                    if (empty($row[2]) || empty($row[5]) || empty($row[7])) {
                         $error_messages_existing[] = "Incomplete data for existing part code:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $product_custom_part_no . "<br>";
                     }
                 } else {
                     // New product, add to new products array
-                    if (empty($row[1]) || empty($row[2]) || empty($row[4]) || empty($row[6]) ||  empty($row[12]) || empty($row[14]) || empty($row[15]) || empty($row[16]) || empty($row[17])) {
+                    if (empty($row[1]) || empty($row[2]) || empty($row[5]) || empty($row[7]) ||  empty($row[12]) || empty($row[14]) || empty($row[15]) || empty($row[16]) || empty($row[17])) {
                         $error_messages_new[] = "Incomplete data for new part code: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $product_custom_part_no . "<br>";
                     }
                 }
@@ -725,8 +736,8 @@ public function upload_template()
             {
                 // Fetch additional details from database and insert into offer_product_relation
                 $product_custom_part_no = trim($row[2]);
-                $qty = trim($row[3]);
-                $discount1 = trim($row[6]);
+                $qty = (int)trim($row[3]);
+                $discount1 = trim($row[7]);
 
                 // Parse discount1 to extract numerical value and calculate discount
                 $discount_percentage = 0; // Default discount percentage
@@ -785,7 +796,7 @@ public function upload_template()
                 $product_pricelist_master = $this->db->get();
                 $product_pricelist_master_result = $product_pricelist_master->row();
                             
-                $price = $product_pricelist_master_result->price;
+                $price = $product_pricelist_master_result->price+1-1;
 
                 // Calculate total amount without GST
                 $total_amount_without_gst = $price * $qty;
@@ -855,9 +866,9 @@ public function upload_template()
                 $product_custom_part_no = trim($row[2]);
                 $product_make = trim($row[15]);
                 $qty = trim($row[3]);
-                $discount1 = trim($row[6]);
+                $discount1 = trim($row[7]);
                 $product_custom_description = trim($row[1]);
-                $price = trim($row[4]);
+                $price = trim($row[5]);
                 $hsn_code1 = trim($row[17]);
                 $unit = trim($row[14]);
                 $lead_time = trim($row[12]);
@@ -1123,16 +1134,16 @@ public function upload_template()
                 $erp_code = trim($row[2]);
                 $incomplete = array();
     
-                // Skip checking these indexes: 0, 5, 7, 8, 9, 10, 11, 13, 
+                // Skip checking these indexes: 0, 6, 8, 9, 10, 11, 13, 
                 // Hence, these fields are allowed to be empty
-                if (in_array($row[0], [0, 5, 7, 8, 9, 10, 11, 13, 17])) {
+                if (in_array($row[0], [0, 6, 8, 9, 10, 11, 13, 17])) {
                     continue;
                 } else {
                     if (empty($row[1])) $incomplete[] = 'Description';
                     if (empty($row[2])) $incomplete[] = 'MLFB';
                     if (empty($row[3])) $incomplete[] = 'Quantity';
-                    if (empty($row[4])) $incomplete[] = 'Unit Price';
-                    if (empty($row[6])) $incomplete[] = 'Discount';
+                    if (empty($row[5])) $incomplete[] = 'Unit Price';
+                    if (empty($row[7])) $incomplete[] = 'Discount';
                     if (empty($row[12])) $incomplete[] = 'Lead Time';
                     if (empty($row[14])) $incomplete[] = 'Unit';
                     if (empty($row[15])) $incomplete[] = 'Product Make';
@@ -1900,6 +1911,8 @@ public function upload_template()
     {
         $entity_id = $this->input->post('offer_relation_entity_id');
         $product_description  = $this->input->post('product_description');
+        $product_delivery_period  = $this->input->post('product_delivery_period');
+        $product_current_stock  = $this->input->post('product_current_stock');
         $product_custom_part_no  = $this->input->post('product_custom_part_no');
         $product_make  = $this->input->post('product_make');
         $product_price  = $this->input->post('product_price');
@@ -1921,6 +1934,8 @@ public function upload_template()
         $update_array = array(
         'entity_id' => $entity_id,
         'product_custom_description' => $product_description,
+        'delivery_period' => $product_delivery_period,
+        'current_stock' => $product_current_stock,
         'product_custom_part_no' => $product_custom_part_no,
         'product_make' => $product_make,
         'price'  => $product_price,
@@ -2772,12 +2787,16 @@ public function upload_template()
 
         $data['customer_list'] = $this->offer_register_model->get_customer_list();
         $data['employee_list'] = $this->offer_register_model->get_employee_list();
+        $data['principle_engg_list'] = $this->offer_register_model->get_principle_engg_list();
         $data['payment_term_list'] = $this->offer_register_model->get_payment_term_list();
         $data['product_list'] = $this->offer_register_model->get_product_list();
         $data['make_list'] = $this->offer_register_model->get_make_list();
         $data['unit_list'] = $this->offer_register_model->get_unit_list();
         $data['source_list'] = $this->offer_register_model->get_enquiry_source_list();
         $data['offer_for_list'] = $this->offer_register_model->get_offer_for_list();
+        $data['offer_for_info_list'] = $this->offer_register_model->get_offer_for_info_list();
+        $data['stage_list'] = $this->offer_register_model->get_stage_list();
+        $data['offer_reason_list'] = $this->offer_register_model->get_offer_reason_list();
         $data['offer_product_list'] = $this->offer_register_model->get_offer_product_list_by_id($entity_id);
         $data['product_category'] = $this->offer_register_model->get_product_category();
         $data['product_detail_hsn_code'] = $this->offer_register_model->get_product_hsn_code();
@@ -3090,7 +3109,10 @@ public function upload_template()
            
             $enquiry_descrption = $this->input->post('enquiry_descrption');
             $employee_id = $this->input->post('employee_id');
+            $rm_employee_id = $this->input->post('rm_employee_id');
+            $principle_engg_id = $this->input->post('principle_engg_id');
             $offer_for = $this->input->post('offer_for');
+            $offer_for_info = $this->input->post('offer_for_info');
             $offer_date = $this->input->post('offer_date');
             $offer_terms_condition = $this->input->post('offer_terms_condition');
            	$offer_source = $this->input->post('offer_source');
@@ -3118,7 +3140,10 @@ public function upload_template()
             $update_offer_array = array(
 				'offer_description' => $enquiry_descrption , 
 				'offer_engg_name' => $employee_id , 
+				'offer_rm_employee_id' => $rm_employee_id , 
+				'offer_principle_engg_id' => $principle_engg_id , 
 				'offer_for' => $offer_for ,
+				'offer_for_info' => $offer_for_info ,
 				'offer_date' => $offer_date ,
 				'offer_source' => $offer_source ,
 				'terms_conditions' => $offer_terms_condition ,
@@ -4401,9 +4426,12 @@ public function upload_template()
                           offer_register.validity AS Validity,
                           offer_register.terms_conditions AS Terms_conditions,
                           offer_register.offer_for AS Offer_for,
+                          offer_register.offer_for_info AS Offer_for_info,
                           offer_register.your_reference AS Your_reference,
                           offer_register.contact_person_id AS Contact_id,
                           offer_register.offer_company_name AS offer_company_name,
+                          rm_master.emp_first_name AS Rm_first_name,
+                          rm_master.mobile_no AS Rm_mobile_no,
                           employee_master.emp_first_name AS Emp_first_name,
                           employee_master.emp_middle_name AS Emp_middle_name,
                           employee_master.emp_last_name AS Emp_last_name,
@@ -4412,11 +4440,13 @@ public function upload_template()
         $this->db->from('offer_register');
         $this->db->join('customer_master', 'customer_master.entity_id = offer_register.customer_id', 'INNER');
         $this->db->join('employee_master', 'offer_register.offer_engg_name = employee_master.entity_id', 'INNER');
+        $this->db->join('employee_master as rm_master', 'offer_register.offer_rm_employee_id = rm_master.entity_id', 'left');
         $this->db->join('state_master', 'customer_master.state_id = state_master.entity_id', 'INNER');
         $where = '(offer_register.entity_id = "'.$entity_id.'")';
         $this->db->where($where);
         $query_master_offer_data = $this->db->get();
         $master_offer_data = $query_master_offer_data->result_array();
+
 
         $offer_company_name = $master_offer_data[0]['offer_company_name'];
 
@@ -4475,14 +4505,15 @@ public function upload_template()
             $customer_name = $master_offer_data[0]['Customer_name'];
         }
 
-				$rm_name = "Moorthy";
-				$rm_contact_no = "9307908825";
-				$crm_name = "Aishwarya B";
-				$crm_contact_no = "9022929109";
+				$rm_name = $master_offer_data[0]['Rm_first_name'];
+				$rm_contact_no =  $master_offer_data[0]['Rm_mobile_no'];
+				$crm_name = $master_offer_data[0]['Emp_first_name'];
+				$crm_contact_no = $master_offer_data[0]['Mobile_no'];
         
         $Validity = $master_offer_data[0]['Validity'];
         $Terms_conditions = $master_offer_data[0]['Terms_conditions'];
         $Offer_for = $master_offer_data[0]['Offer_for'];
+        $Offer_for_info = $master_offer_data[0]['Offer_for_info'];
         $Customer_address = $master_offer_data[0]['Customer_address'];
         
         $Delivery_instruction = $master_offer_data[0]['Delivery_instruction'];
@@ -4504,9 +4535,19 @@ public function upload_template()
 
 				//get offer for 
 				if(isset($Offer_for)){
-				$Offer_for_name = $this->db->get_where('offer_for_master', ['entity_id' => $Offer_for])->row()->product_group;
+				$Offer_for_name = $this->db->get_where('offer_for_master', ['entity_id' => $Offer_for])->row()->offer_for;
 				}else{
 					$Offer_for_name = "";
+				}
+				//get offer for Info
+				if(isset($Offer_for) && isset($Offer_for_info)){
+
+					$this->db->select('*');
+					$this->db->from('offer_for_info');
+					$this->db->where('entity_id', $Offer_for_info);
+					$Offer_for_info_name = $this->db->get()->row()->offer_for_info;
+				}else{
+					$Offer_for_info_name = "";
 				}
         
         $note = $master_offer_data[0]['note'];
@@ -4565,10 +4606,6 @@ public function upload_template()
         $data_offer_product = $offer_product_data->result_array(); 
         $data_offer_product_count = $offer_product_data->num_rows();
 
-        //print_r($data_offer_product_count);
-        //die();
-        //$location_id = $_SESSION['location_id'];
-
         $pdf = new Offer2_pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
         $pdf->SetCreator(PDF_CREATOR);
         // $pdf->SetPrintHeader(true);
@@ -4606,18 +4643,18 @@ public function upload_template()
 
         $pdf->AddPage();
 
-        // $image_file = K_PATH_IMAGES.'intact_logo.png';
-        // $pdf->Image($image_file, 30, 100, 150, 120, 'PNG', '', '', false, 0, '', false, false, 0);
-       
-        $html = '<h2 style="text-align: left;color:#3167ac; font-size:10px;">Quotation </h2><br><br>
+		// $image_file = K_PATH_IMAGES.'intact_logo.png';
+		// $pdf->Image($image_file, 30, 100, 150, 120, 'PNG', '', '', false, 0, '', false, false, 0);
+
+		$html = '<h2 style="text-align: left;color:#3167ac; font-size:10px;">Quotation </h2><br><br>
                     <table>
                     <tbody>
                         <tr style="line-height:150%;">
                             <td style="color:#3167ac; font-size:10px;width:7%;"><b>Type</b><br><b>Series</b> </td>
-														 <td style="color:#3167ac; font-size:10px;width:60%;"><b><span style="font-size:10px;color: black;">'.strip_tags($Offer_for_name).'</span><br><span style="font-size:10px;color: black;">Product </span></b> </td>
+							<td style="color:#3167ac; font-size:10px;width:60%;"><b><span style="font-size:10px;color: black;">' . strip_tags($Offer_for_name) . '</span><br><span style="font-size:10px;color: black;">' . strip_tags($Offer_for_info_name) . ' </span></b> </td>
                             <td style="font-size: 10px; width: 15%;text-align:left;"> <b style="color: #3167ac;">Submitted on<br>&nbsp;Quotation No</b></td>
 
-														<td style="color:#3167ac; font-size:10px;width:18%;"><b><span style="font-size:10px;color: black;">' . strip_tags($offer_date) . '</span><br><span style="font-size:10px;color: black;">' . strip_tags($offer_no) . '</span></b> </td>
+							<td style="color:#3167ac; font-size:10px;width:18%;"><b><span style="font-size:10px;color: black;">' . strip_tags($offer_date) . '</span><br><span style="font-size:10px;color: black;">' . strip_tags($offer_no) . '</span></b> </td>
                         </tr>
                       
                     </tbody>
@@ -4632,10 +4669,10 @@ public function upload_template()
                     <tbody>
                         <tr style="line-height:200%;">
                             <td style="color:black; font-size:10px;width:12%;"><b>Company</b><br><b>Name</b><br><b>Contact No</b><br><b>Email Id</b> </td>
-														 <td style="color:#3167ac; font-size:10px;width:55%;"><span style="font-size:10px;color: black;">'.strip_tags($customer_name).'</span><br><span style="font-size:10px;color: black;">'.strip_tags($contact_person_name).'</span><br><span style="font-size:10px;color: black;">'.strip_tags($contact_no1).'</span><br><span style="font-size:10px;color: black;">'.strip_tags($email).'</span></td>
+							<td style="color:#3167ac; font-size:10px;width:55%;"><span style="font-size:10px;color: black;">'.strip_tags($customer_name).'</span><br><span style="font-size:10px;color: black;">'.strip_tags($contact_person_name).'</span><br><span style="font-size:10px;color: black;">'.strip_tags($contact_no1).'</span><br><span style="font-size:10px;color: black;">'.strip_tags($email).'</span></td>
                             <td style="font-size: 10px; width: 18%;text-align:left;"> <b style="color: black;">RM Name<br>&nbsp;RM Contact No<br>&nbsp;CRM Name<br>&nbsp;CRM Contact No</b></td>
 
-														<td style="color:#3167ac; font-size:10px;width:15%;"><span style="font-size:10px;color: black;">'. strip_tags($rm_name) . '</span><br><span style="font-size:10px;color: black;">'. strip_tags($rm_contact_no) . '</span><br><span style="font-size:10px;color: black;">'. strip_tags($crm_name) . '</span><br><span style="font-size:10px;color: black;">'. strip_tags($crm_contact_no) . '</span></td>
+							<td style="color:#3167ac; font-size:10px;width:15%;"><span style="font-size:10px;color: black;">'. strip_tags($rm_name) . '</span><br><span style="font-size:10px;color: black;">'. strip_tags($rm_contact_no) . '</span><br><span style="font-size:10px;color: black;">'. strip_tags($crm_name) . '</span><br><span style="font-size:10px;color: black;">'. strip_tags($crm_contact_no) . '</span></td>
                         </tr>
                       
                     </tbody>
@@ -4810,17 +4847,13 @@ public function upload_template()
                     for ($i = $data_offer_product_count; $i < 2; $i++) 
                     { 
                         $html .='<tr>                                   
-                                        <td style="width: 5%; font-size: 7px; text-indent:2em;"></td>
-                                        <td style="width: 8%;">&nbsp;</td>
-                                        <td style="width: 8%;">&nbsp;</td>
-                                        <td style="width: 23%;">&nbsp;</td>
-                                        <td style="width: 6%;">&nbsp;</td>
-                                        <td style="width: 5%;">&nbsp;</td>
-                                        <td style="width: 5%;">&nbsp;</td>
-                                        <td style="width: 8%;">&nbsp;</td>
-                                        <td style="width: 9%;">&nbsp;</td>
-                                        <td style="width: 8%;">&nbsp;</td>
-                                        <td style="width: 9%;">&nbsp;</td>
+                                        <td style="width: 8%; font-size: 7px; text-indent:2em;"></td>
+                                        <td style="width: 35%;">&nbsp;</td>
+                                        <td style="width: 12%;">&nbsp;</td>
+                                        <td style="width: 7%;">&nbsp;</td>
+                                        <td style="width: 12%;">&nbsp;</td>
+                                        <td style="width: 12%;">&nbsp;</td>
+                                        <td style="width: 12%;">&nbsp;</td>
                                     </tr>'; 
                     }
 
