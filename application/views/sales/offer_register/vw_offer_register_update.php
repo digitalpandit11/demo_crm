@@ -278,7 +278,7 @@ if (!$_SESSION['user_name']) {
 													<select class="form-control select2bs4" style="width: 100%;" id="offer_for" name="offer_for" required>
 														<option value="">Select Product Group</option>
 														<?php foreach ($offer_for_list as $row) : ?>
-															<option value="<?php echo $row->entity_id; ?>"><?php echo $row->product_group; ?></option>
+															<option value="<?php echo $row->entity_id; ?>"><?php echo $row->offer_for; ?></option>
 														<?php endforeach; ?>
 													</select>
 												</div>
