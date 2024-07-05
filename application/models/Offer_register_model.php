@@ -198,12 +198,12 @@ To check stock, whatsapp on below number 7796962133";
        	$your_reference = "Your mail enquiry";
         $validity = "As Mentioned Above";
 
-        $this->db->select('enquiry_id');
+        $this->db->select('*');
         $this->db->from('offer_register');
         $where_or = '(enquiry_id = "'.$entity_id.'")';
         $this->db->where($where_or);
-        $offer_register_exit= $this->db->get();
-        $offer_register_exit_data_count =  $offer_register_exit->num_rows();
+        $offer_register_query= $this->db->get();
+        $offer_register_exit_data_count =  $offer_register_query->num_rows();
         if ($offer_register_exit_data_count === 0) 
         {
             $this->db->select('offer_no');
@@ -261,9 +261,14 @@ To check stock, whatsapp on below number 7796962133";
             $offer_data_master_save = "INSERT INTO offer_register (enquiry_id, offer_no, customer_id, contact_person_id, status, offer_engg_name, offer_description, offer_date, offer_type, terms_conditions, salutation, price_condition, tax, your_reference, validity, offer_company_name, offer_close_date) VALUES ('".$enquiry_id."','".$offer_no."', '".$customer_id."', '".$contact_person_id."', '".$status."', '".$emp_id."', '".$enquiry_long_description."', '".$offer_date."', '".$offer_type."' ,'".$offer_terms_condition."' , '".$salutation."', '".$price_condition."', '".$tax."', '".$your_reference."', '".$validity."', '".$offer_company_name."', '".$offer_close_date."')";
             $save_execute = $this->db->query($offer_data_master_save);
                 //last inserted customer id 
-            $offer_master_lastid = $this->db->insert_id();
+            $offer_id = $this->db->insert_id();
 			
-        }
+        }else{
+			$offer_id = $offer_register_query->row()->entity_id;
+		}
+
+		return $offer_id;
+
     }
     public function get_offer_for_list()
     {
@@ -274,11 +279,55 @@ To check stock, whatsapp on below number 7796962133";
         $query_result = $query->result();
         return $query_result;  
     }
+
+    public function get_offer_for_info_list()
+    {
+        $this->db->select('*');
+        $this->db->from('offer_for_info');
+        $this->db->order_by('entity_id', 'DESC');
+        $query = $this->db->get();
+        $query_result = $query->result();
+        return $query_result;  
+    }
+
+    public function get_stage_list()
+    {
+        $this->db->select('*');
+        $this->db->from('status_master_relation');
+				$this->db->where('status_for',1);
+        $this->db->order_by('entity_id', 'DESC');
+        $query = $this->db->get();
+        $query_result = $query->result();
+        return $query_result;  
+    }
+
+    public function get_offer_reason_list()
+    {
+        $this->db->select('*');
+        $this->db->from('status_master_relation');
+				$this->db->where('status_for',2);
+        $this->db->order_by('entity_id', 'DESC');
+        $query = $this->db->get();
+        $query_result = $query->result();
+        return $query_result;  
+    }
     public function get_employee_list()
     {
         $this->db->select('entity_id,
             CONCAT(employee_id,'.'" - "'.', emp_first_name) AS Emp_name');
         $this->db->from('employee_master');
+        $this->db->order_by('entity_id', 'DESC');
+        $query = $this->db->get();
+        $query_result = $query->result();
+        return $query_result;  
+    }
+   
+	public function get_principle_engg_list()
+    {
+        $this->db->select('principle_engg_master.entity_id,
+            CONCAT(product_make_master.make_name,'.'" - "'.', principle_engg_master.principle_engg_name) AS Principle_engg_name');
+        $this->db->from('principle_engg_master');
+				$this->db->join('product_make_master','product_make_master.entity_id = principle_engg_master.product_make_id','inner');
         $this->db->order_by('entity_id', 'DESC');
         $query = $this->db->get();
         $query_result = $query->result();
