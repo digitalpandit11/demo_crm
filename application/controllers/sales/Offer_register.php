@@ -879,10 +879,17 @@ public function upload_template()
                     $hsn_code = "123456"; 
                     $gst_percentage = 18;
                 } else {
-                    $hsn_code = $hsn_code1;
-                    $product_hsn_query = $this->db->get_where('product_hsn_master', array('hsn_code' => $hsn_code));
-                    $product_hsn = $product_hsn_query->row_array();
-                    $gst_percentage = $product_hsn['total_gst_percentage'];
+									$hsn_code = $hsn_code1;
+										$this->db->select('*');
+										$this->db->from('product_hsn_master');
+										$this->db->where('hsn_code',$hsn_code);
+										$hsn_query = $this->db->get();
+										$hsn_num_rows = $hsn_query->num_rows();
+										if($hsn_num_rows > 0){
+											$gst_percentage = $hsn_query->row()->total_gst_percentage;
+										}else{
+											$gst_percentage = 18;
+										}
                 }
 
             // Parse discount1 to extract numerical value and calculate discount
