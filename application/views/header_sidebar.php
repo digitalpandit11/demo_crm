@@ -449,6 +449,27 @@ if (!$_SESSION['user_name']) {
 							</li>
 
 							<li class="nav-item">
+								<a href="<?php echo base_url() . 'vw_principle_engg_data' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "vw_principle_engg_data") ? "active" : ""; ?>>
+									<i class="far fa-dot-circle nav-icon"></i>
+									<p>Principle Engg Master</p>
+								</a>
+							</li>
+							
+							<li class="nav-item">
+								<a href="<?php echo base_url() . 'vw_offer_for_data' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "vw_offer_for_data") ? "active" : ""; ?>>
+									<i class="far fa-dot-circle nav-icon"></i>
+									<p>Quotation For Master</p>
+								</a>
+							</li>
+
+							<li class="nav-item">
+								<a href="<?php echo base_url() . 'vw_offer_for_info_data' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "vw_offer_for_info_data") ? "active" : ""; ?>>
+									<i class="far fa-dot-circle nav-icon"></i>
+									<p>Quotation For Info Master</p>
+								</a>
+							</li>
+
+							<li class="nav-item">
 								<a href="<?php echo base_url() . 'vw_state_data' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "vw_state_data") ? "active" : ""; ?>>
 									<i class="far fa-dot-circle nav-icon"></i>
 									<p>State Master</p>
