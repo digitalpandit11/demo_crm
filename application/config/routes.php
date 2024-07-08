@@ -125,6 +125,29 @@ $route['edit_hsn_master/:any'] = "master/hsn_master/edit_hsn_master";
 $route['view_hsn_master/:any'] = "master/hsn_master/view_hsn_master";
 $route['delete_hsn_data/:any'] = "master/hsn_master/delete_hsn_data";
 
+
+//Principle Engg Master
+$route['vw_principle_engg_data'] = "master/principle_engg_master";
+$route['vw_principle_engg_master'] = "master/principle_engg_master/vw_principle_engg_master";
+$route['edit_principle_engg_master/:any'] = "master/principle_engg_master/edit_principle_engg_master";
+$route['view_principle_engg_master/:any'] = "master/principle_engg_master/view_principle_engg_master";
+
+
+//Offer For Master
+$route['vw_offer_for_data'] = "master/offer_for_master";
+$route['vw_offer_for_master'] = "master/offer_for_master/vw_offer_for_master";
+$route['edit_offer_for_master/:any'] = "master/offer_for_master/edit_offer_for_master";
+$route['view_offer_for_master/:any'] = "master/offer_for_master/view_offer_for_master";
+$route['delete_offer_for_data/:any'] = "master/offer_for_master/delete_offer_for_data";
+
+
+//Offer For Info Master
+$route['vw_offer_for_info_data'] = "master/offer_for_info_master";
+$route['vw_offer_for_info_master'] = "master/offer_for_info_master/vw_offer_for_info_master";
+$route['edit_offer_for_info_master/:any'] = "master/offer_for_info_master/edit_offer_for_info_master";
+$route['view_offer_for_info_master/:any'] = "master/offer_for_info_master/view_offer_for_info_master";
+
+
 //State Master
 $route['vw_state_data'] = "master/state_master";
 $route['vw_state_master'] = "master/state_master/vw_state_master";
