@@ -594,34 +594,20 @@ class Report_controller extends CI_Controller {
         $this->load->view('report/vw_indiamart_disqualified_leads_report',$result);
 
     }
- 
- 
-    public function create_quotation_register()
-    {
-       
-        $user_id = $_SESSION['user_id'];
-     
 
-        // $timesheet_from_date = $this->input->post('timesheet_from_date');
-        // $timesheet_to_date = $this->input->post('timesheet_to_date');
-        
-        // $result['timesheet_from_date'] = $timesheet_from_date;
-        // $result['timesheet_to_date'] = $timesheet_to_date;
-        // $result['indiamart_disqualified_leads'] = $this->report_model->get_all_offer_details($timesheet_from_date,$timesheet_to_date);
-        $this->db->select('*');
-        $this->db->from('status_master_relation');
-        //$this->db->join('','','');
-        $where = '(status_for = 1)';
-        $this->db->where($where);
-        $stage_query = $this->db->get();
-        //$query_num_rows = $query->num_rows();
-        $stage_list = $stage_query->result();
 
-        $data['stage_list'] = $stage_list;
-       
-        $this->load->view('report/vw_quotation_register_report_create',$data);
+	public function create_quotation_register()
+	{
 
-    }
+		$user_id = $_SESSION['user_id'];
+		$stage_list = $this->report_model->get_stage_list();
+		$employee_list = $this->report_model->get_employee_list();
+
+		$data['stage_list'] = $stage_list;
+		$data['employee_list'] = $employee_list;
+
+		$this->load->view('report/vw_quotation_register_report_create', $data);
+	}
  
  
     public function generate_quotation_register_report()
@@ -633,10 +619,11 @@ class Report_controller extends CI_Controller {
         $timesheet_from_date = $this->input->post('timesheet_from_date');
         $timesheet_to_date = $this->input->post('timesheet_to_date');
         $stage = $this->input->post('stage');
+        $employee_id = $this->input->post('employee_id');
         
         $result['timesheet_from_date'] = $timesheet_from_date;
         $result['timesheet_to_date'] = $timesheet_to_date;
-        $result['offer_list'] = $this->report_model->get_all_offer_details($timesheet_from_date,$timesheet_to_date,$stage);
+        $result['offer_list'] = $this->report_model->get_all_offer_details($timesheet_from_date,$timesheet_to_date,$stage,$employee_id);
        
         $this->load->view('report/vw_quotation_register_report',$result);
 
