@@ -126,7 +126,7 @@ if (!$_SESSION['user_name']) {
 							<!-- general form elements disabled -->
 							<div class="card card-primary">
 								<div class="card-header">
-									<h3 class="card-title">Quotation Details Form</h3>
+									<h3 class="card-title">Quotation Details Form11</h3>
 								</div>
 								<div class="card-body">
 									<form role="form" name="offer_form" enctype="multipart/form-data" action="<?php echo site_url('sales/offer_register/update_offer'); ?>" method="post">

@@ -104,6 +104,23 @@
 
 										<div class="row">
 											<div class="col-sm-3">
+											
+												<div class="form-group">
+													<label> CRM Name </label>
+
+													<select class="form-control select2bs4" style="width: 100%;" id="employee_id" name="employee_id">
+														<option value="">Not Selected</option>
+														<?php foreach ($employee_list
+															as $row) : ?>
+															<option value="<?php echo $row->entity_id; ?>"><?php echo $row->emp_first_name; ?></option>
+														<?php endforeach; ?>
+													</select>
+												</div>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-sm-3">
 												<div class="form-group ">
 													<label style="color: #FF0000;"> Stage</label>
 													<?php foreach ($stage_list as $value) {
@@ -116,23 +133,8 @@
 												</div>
 											</div>
 										</div>
-										<!-- <div class="row">
-											<div class="col-sm-8">
-											
-												<div class="form-group">
-													<label> Sales Order Number </label>
 
-													<select class="form-control select2bs4" style="width: 100%;" id="sales_order_no" name="sales_order_no">
-														<option value="">Not Selected</option>
-
-														<?php foreach ($order_result
-															as $row) : ?>
-															<option value="<?php echo $row->entity_id; ?>"><?php echo $row->sales_order_no; ?></option>
-														<?php endforeach; ?>
-													</select>
-												</div>
-											</div>
-										</div> -->
+									
 
 										<div class="card-body">
 											<center>

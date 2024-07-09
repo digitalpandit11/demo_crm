@@ -534,11 +534,11 @@ if (!$_SESSION['user_name']) {
 
 						</ul>
 					</li>
-					<!-- ////////////End of Master //////////// -->
+					<!----------End of Master ---------->
 
 
 
-					<!-- ///////Start of  reports //////// -->
+					<!---------Start of  reports --------->
 					<li class="nav-item has-treeview">
 						<a href="<?php echo base_url() . 'vw_working_sales_order' ?>" class="nav-link">
 							<i class="nav-icon fas fa-chart-line"></i>
@@ -548,10 +548,6 @@ if (!$_SESSION['user_name']) {
 							</p>
 						</a>
 						<ul class="nav nav-treeview">
-
-
-							<!-- ///////start restricted reports //////// -->
-							<?php if ($role_id == 1) { ?>
 
 								<!-- <li class="nav-item">
 									<a href="<?php echo base_url() . 'create_brand_wise_quotation_summary' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "create_brand_wise_quotation_summary") ? "active" : ""; ?>>
@@ -571,13 +567,6 @@ if (!$_SESSION['user_name']) {
 									<a href="<?php echo base_url() . 'won_quotation_source_summary_report' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "won_quotation_source_summary_report") ?  "active" : ""; ?>>
 										<i class="far fa-dot-circle nav-icon"></i>
 										<p>Won Quotation Source Summary</p>
-									</a>
-								</li>
-
-								<li class="nav-item">
-									<a href="<?php echo base_url() . 'create_quotation_register' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "create_quotation_register") ? "active" : ""; ?>>
-										<i class="far fa-dot-circle nav-icon"></i>
-										<p>Quotation Register</p>
 									</a>
 								</li>
 
@@ -638,14 +627,21 @@ if (!$_SESSION['user_name']) {
 								</li> -->
 
 
-								<li class="nav-item" Style="border-bottom: 2px solid grey;">
+								<li class="nav-item">
 									<a href="<?php echo base_url() . 'vw_pricelist' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "vw_pricelist") ?  "active" : ""; ?>>
 										<i class="far fa-dot-circle nav-icon"></i>
 										<p>Download Pricelist</p>
 									</a>
 								</li>
+								
+								<li class="nav-item">
+									<a href="<?php echo base_url() . 'create_quotation_register' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "create_quotation_register") ? "active" : ""; ?>>
+										<i class="far fa-dot-circle nav-icon"></i>
+										<p>Quotation Register</p>
+									</a>
+								</li>
 
-								<li class="nav-item" Style="border-bottom: 2px solid grey;">
+								<li>
 									<a href="<?php echo base_url() . 'vw_status_wise_quotation_summary_report' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "vw_status_wise_quotation_summary_report") ?  "active" : ""; ?>>
 										<i class="far fa-dot-circle nav-icon"></i>
 										<p>Status Wise Report</p>
@@ -659,103 +655,7 @@ if (!$_SESSION['user_name']) {
 									</a>
 								</li>
 
-							<?php } ?>
-							<!-- ///////End of restricted reports //////// -->
-							<!-- <li class="nav-item">
-								<a href="<?php echo base_url() . 'vw_call_summary_report_create' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "vw_call_summary_report_create") ? "active" : ""; ?>>
-									<i class="far fa-dot-circle nav-icon"></i>
-									<p>Campaign Summary</p>
-								</a>
-							</li>
-
-							<li class="nav-item">
-								<a href="<?php echo base_url() . 'vw_followup_calls_create' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "vw_followup_calls_create") ? "active" : ""; ?>>
-									<i class="far fa-dot-circle nav-icon"></i>
-									<p>Followup Calls</p>
-								</a>
-							</li>
-
-
-							<li class="nav-item">
-								<a href="<?php echo base_url() . 'vw_disqualified_indiamart_leads' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "vw_disqualified_indiamart_leads") ? "active" : ""; ?>>
-									<i class="far fa-dot-circle nav-icon"></i>
-									<p>Disqualified IndiaMart Leads</p>
-								</a>
-							</li>
-
-							<li class="nav-item">
-								<a href="<?php echo base_url() . 'create_stage_wise_quotation_summary' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "create_stage_wise_quotation_summary") ? "active" : ""; ?>>
-									<i class="far fa-dot-circle nav-icon"></i>
-									<p>Stage Wise Quotation Summary Report</p>
-								</a>
-							</li> -->
-
-							<!-- <li class="nav-item">
-									<a href="<?php echo base_url() . 'vw_sales_summary_report_create' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "vw_sales_summary_report_create") ?  "active" : ""; ?>>
-										<i class="far fa-dot-circle nav-icon"></i>
-										<p>Sales Summary</p>
-									</a>
-								</li> -->
-
-							<!-- <li class="nav-item">
-								<a href="<?php echo base_url() . 'engg_wise_source_summary' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "engg_wise_source_summary") ?  "active" : ""; ?>>
-									<i class="far fa-dot-circle nav-icon"></i>
-									<p>Engg-wise Quotation Source Summary</p>
-								</a>
-							</li>
-
-							<li class="nav-item">
-								<a href="<?php echo base_url() . 'engg_wise_won_source_summary' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "engg_wise_won_source_summary") ?  "active" : ""; ?>>
-									<i class="far fa-dot-circle nav-icon"></i>
-									<p>Engg-wise Won Quotation Source Summary</p>
-								</a>
-							</li>
-
-
-							<li class="nav-item">
-								<a href="<?php echo base_url() . 'engg_wise_monthly_summary' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "engg_wise_monthly_summary") ?  "active" : ""; ?>>
-									<i class="far fa-dot-circle nav-icon"></i>
-									<p>xEngg-wise Quotation Monthly Summary</p>
-								</a>
-							</li>
-
-							<li class="nav-item">
-								<a href="<?php echo base_url() . 'engg_wise_weekly_summary' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "engg_wise_weekly_summary") ?  "active" : ""; ?>>
-									<i class="far fa-dot-circle nav-icon"></i>
-									<p>Engg-wise Quotation Weekly Summary</p>
-								</a>
-							</li> -->
-
-							<!--merged from support-->
-
-							<!-- <li class="nav-item">
-								<a href="<?php echo base_url() . 'vw_warantee_summary_report
-									' ?>" class="nav-link">
-									<i class="far fa-dot-circle nav-icon"></i>
-									<p>Warrantee Summary</p>
-								</a>
-							</li> -->
-
-							<!-- <li class="nav-item">
-									<a href="<?php echo base_url() . 'vw_erp_product_vw_customer_master' ?>" class="nav-link">
-										<i class="far fa-dot-circle nav-icon"></i>
-										<p>Paid Service Summary</p>
-									</a>
-								</li>
-								<li class="nav-item">
-									<a href="<?php echo base_url() . 'vw_erp_product_vw_customer_master' ?>" class="nav-link">
-										<i class="far fa-dot-circle nav-icon"></i>
-										<p>Technical Support Summary</p>
-									</a>
-								</li> -->
-							<!--end of support reports-->
-							<li class="nav-item">
-								<p>&nbsp;</p>
-
-							</li>
-
-
-
+					
 						</ul>
 					</li>
 				</ul>

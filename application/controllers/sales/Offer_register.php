@@ -195,16 +195,24 @@ class Offer_register extends CI_Controller {
         //     $Status = "NA";
         // }
 
-        $edit_button = '<a href="'.$base_url.'update_offer_data/'.$entity_id.'"><span class="btn btn-sm btn-info"><i class="fa fa-edit"></i></span></a>';
+        $edit_button = '<div class="row"><a href="'.$base_url.'update_offer_data/'.$entity_id.'" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a><a href="'.$base_url.'view_offer_data/'.$entity_id.'" class="btn btn-sm btn-outline-primary"><i class="fas fa-eye"></i></a></div>';
 
-        $view_button = '<a href="'.$base_url.'view_offer_data/'.$entity_id.'"><span class="btn btn-sm btn-success"><i class="fas fa-eye"></i></span></a>';
+        $view_button = '';
 
-        $print_button = '<a href="'.$base_url.'download_offer/'.$entity_id.'" target="_blank"><span class="btn btn-sm btn-secondary">@Print</span></a>';
+        $print_button = '';
 
-        $set_order_button = '<a href="'.$base_url.'setorder/'.$entity_id.'"><span class="btn btn-sm btn-info"><i class="fa fa-edit"></i> Set Order</span></a>';
-        $revision_button = '<a href="'.$base_url.'set_revision_offer/'.$entity_id.'"><span class="btn btn-sm btn-success">Revise</span></a>';
+        $set_order_button = '<div class="row"><a href="'.$base_url.'setorder/'.$entity_id.'"><span class="btn btn-sm btn-info"><i class="fa fa-edit"></i> Set Order</span></a>';
+        $revision_button = '<a href="'.$base_url.'set_revision_offer/'.$entity_id.'"><span class="btn btn-sm btn-primary">Revise</span></a></div>';
 
-        $print_withoutgst_button = '<a href="'.$base_url.'download_offer_without_gst/'.$entity_id.'" target="_blank"><span class="btn btn-sm btn-danger"><i class="fas fa-print"></i> </span></a>';
+        $print_withoutgst_button = '<div class="btn-group" role="group">
+    <button id="btnGroupDrop1" type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Print
+    </button>
+    <div class="dropdown-menu bg-secondary" aria-labelledby="btnGroupDrop1">
+      <a href="'.$base_url.'download_offer_without_gst/'.$entity_id.'" target="_blank" class="btn">&nbsp;&nbsp;Simple Print</a><br>
+      <a href="'.$base_url.'download_offer/'.$entity_id.'" target="_blank" class="btn">&nbsp;&nbsp;Detail Print</a>
+    </div>
+  </div>';
 
         $sub_array = array();
         $sub_array[] = $no;

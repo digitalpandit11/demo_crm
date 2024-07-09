@@ -107,30 +107,6 @@ if (!$_SESSION['user_name']) {
 													$Status_data = $row->offer_status;
 													//   $offer_value = number_format($row->total_amount_with_gst);
 
-													if ($Status_data == 1) {
-														$Status = "Unsaved";
-													} elseif ($Status_data == 2) {
-														$Status = "Offer Created";
-													} elseif ($Status_data == 3) {
-														$Status = "Active";
-													} elseif ($Status_data == 4) {
-														$Status = "Offer Lost";
-													} elseif ($Status_data == 5) {
-														$Status = "Offer Regrated";
-													} elseif ($Status_data == 6) {
-														$Status = "Win";
-													} elseif ($Status_data == 7) {
-														$Status = "InActive";
-													} elseif ($Status_data == 8) {
-														$Status = "A";
-													} elseif ($Status_data == 9) {
-														$Status = "B";
-													} elseif ($Status_data == 10) {
-														$Status = "Offer Revised";
-													} else {
-														$Status = "NA";
-													}
-
 													$this->db->select('COUNT(tracking_record) as tracking_count');
 													$this->db->from('enquiry_tracking_master');
 													$this->db->where('offer_id', $offer_id);
@@ -160,7 +136,7 @@ if (!$_SESSION['user_name']) {
 														<td><?php echo $row->first_contact_no; ?></td>
 														<td><?php echo $row->email_id; ?></td>
 														<td><?php echo $row->emp_first_name; ?></td>
-														<td><?php echo $Status; ?></td>
+														<td><?php echo $row->status_name; ?></td>
 														<td><?php echo $query_count['tracking_count']; ?></td>
 														<td><?php echo $row->source_name; ?></td>
 														<td><?php echo $row->reason_for_rejection; ?></td>

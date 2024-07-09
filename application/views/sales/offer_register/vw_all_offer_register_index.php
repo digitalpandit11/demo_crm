@@ -109,7 +109,7 @@ if (!$_SESSION['user_name']) {
 													<th>Lost Reason</th>
 													<th>Quote Value</th>
 													<th>Action</th>
-													<th>Print Without GST</th>
+													<th>Print</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -160,15 +160,25 @@ if (!$_SESSION['user_name']) {
 														<td><?php echo $row->source_name; ?></td>
 														<td><?php echo $row->reason_for_rejection; ?></td>
 														<td><?php echo $offer_value; ?></td>
-														<td><a href="<?php echo base_url() . "update_offer_data/" . $row->entity_id ?>"><span class="btn btn-sm btn-info"><i class="fa fa-edit"></i></span></a>
+														<td>
+														<div class="row"	>
+														<a href="<?php echo base_url() . "update_offer_data/" . $row->entity_id ?>"><span class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></span></a>
+														&nbsp;
 
-															<a href="<?php echo base_url() . "view_offer_data/" . $row->entity_id ?>"><span class="btn btn-sm btn-success"><i class="fas fa-eye"></i></span></a>
-
-															<a href="<?php echo base_url() . "download_offer/" . $row->entity_id ?>" target="_blank"><span class="btn btn-sm btn-secondary"><i class="fas fa-print"></i></span></a>
+															<a href="<?php echo base_url() . "view_offer_data/" . $row->entity_id ?>"><span class="btn btn-sm btn-outline-primary"><i class="fas fa-eye"></i></span></a>
+															</div>
 														</td>
 														<td>
-                                                      <a href="<?php echo base_url()."download_offer_without_gst/".$row->entity_id ?>" target="_blank"><span class="btn btn-sm btn-danger"><i class="fas fa-print"></i> </span></a>
-                                                        </td>
+															<div class="btn-group" role="group">
+																<button id="btnGroupDrop1" type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+																	Print
+																</button>
+																<div class="dropdown-menu bg-secondary" aria-labelledby="btnGroupDrop1">
+																	<a href="<?= base_url('download_offer_without_gst/').$row->entity_id; ?>" target="_blank" class="btn">&nbsp;&nbsp;Simple Print</a><br>
+																	<a href="<?= base_url('download_offer/').$row->entity_id; ?>" target="_blank" class="btn">&nbsp;&nbsp;Detail Print</a>
+																</div>
+															</div>
+														</td>
 													</tr>
 												<?php } ?>
 											</tbody>

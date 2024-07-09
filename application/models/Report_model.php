@@ -681,6 +681,20 @@ class Report_model extends CI_Model{
         return $query_result;
     }
 
+	public function get_stage_list()
+	{
+		$this->db->select('*');
+        $this->db->from('status_master_relation');
+        //$this->db->join('','','');
+        $where = '(status_for = 1)';
+        $this->db->where($where);
+        $stage_query = $this->db->get();
+        //$query_num_rows = $query->num_rows();
+        $stage_list = $stage_query->result();
+
+		return $stage_list;
+	}
+
     
     // public function get_all_offer_details($timesheet_from_date,$timesheet_to_date,$stage)
     // {
@@ -715,8 +729,9 @@ class Report_model extends CI_Model{
        
     // }
     
-    public function get_all_offer_details($timesheet_from_date,$timesheet_to_date)
+    public function get_all_offer_details($timesheet_from_date,$timesheet_to_date,$stage,$employee_id)
     {
+
         $user_id = $_SESSION['user_id'];
         $emp_id = $_SESSION['emp_id'];
         $role_id = $_SESSION['role_id'];
@@ -735,9 +750,18 @@ class Report_model extends CI_Model{
             $this->db->join('employee_master','employee_master.entity_id = offer_register.offer_engg_name','inner');
             $this->db->join('enquiry_source_master','enquiry_source_master.entity_id = offer_register.offer_source','inner');
             $this->db->join('state_master','state_master.entity_id = customer_master.state_id','inner');
+            $this->db->join('status_master_relation','status_master_relation.entity_id = offer_register.status and status_master_relation.status_for = 1','inner');
+						$where1 = '(offer_register.offer_date >= "'.$timesheet_from_date.'" and offer_register.offer_date <= "'.$timesheet_to_date.'" )';
+            $this->db->where($where1);
+						if($employee_id > 0){
+							$where2 = '(offer_register.offer_engg_name = "'.$employee_id.'")';
+            $this->db->where($where2);
+						}
+						if(!empty($stage)){
+            $this->db->where_in('offer_register.status',$stage);
+						}
             // $where = '(offer_register.status = "'.'2'.'" or offer_register.status = "'.'6'.'" or offer_register.status = "'.'7'.'" or offer_register.status = "'.'8'.'" or  offer_register.status = "'.'9'.'")';
             // $this->db->where($where);
-            $this->db->where($where1);
             // $this->db->where_in('offer_register.status',$stage);
             $this->db->order_by('offer_register.entity_id', 'DESC');
             $query = $this->db->get();
