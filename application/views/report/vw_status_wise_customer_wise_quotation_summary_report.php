@@ -78,6 +78,7 @@ if (!$_SESSION['user_name']) {
 									<?php
 									$this->db->select('*');
 									$this->db->from('status_master_relation');
+									$this->db->where('status_for',1);
 									$status_query = $this->db->get();
 									//$status_query_num_rows = $status_query->num_rows();
 									$status_list = $status_query->result();
