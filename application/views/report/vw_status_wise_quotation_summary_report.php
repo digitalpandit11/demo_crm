@@ -78,6 +78,9 @@ if (!$_SESSION['user_name']) {
 									<?php
 									$this->db->select('*');
 									$this->db->from('status_master_relation');
+									$this->db->where('status_for',1);
+									$this->db->where('entity_id !=',9);
+									$this->db->where('entity_id !=',1);
 									$status_query = $this->db->get();
 									//$status_query_num_rows = $status_query->num_rows();
 									$status_list = $status_query->result();
@@ -99,20 +102,35 @@ if (!$_SESSION['user_name']) {
 											<tbody>
 												<?php
 												$no = 0;
+												$total_quote_num_rows = 0;
 												foreach ($employee_list as $employee) {
 													$no++;
 													$employee_name = $employee->emp_first_name;
 													$emp_id = $employee->entity_id;
 
 													//get offer value
-													$this->db->select('offer_register.offer_engg_name,offer_register.status as offer_status,sum(offer_product_relation.total_amount_without_gst) as offer_value,count(*) as offer_count');
+													$this->db->select('offer_register.offer_engg_name,offer_register.status as offer_status,sum(offer_product_relation.total_amount_without_gst) as offer_value,count(distinct(offer_register.entity_id)) as offer_count');
 													$this->db->from('offer_register');
 													$this->db->join('offer_product_relation', 'offer_product_relation.offer_id = offer_register.entity_id', 'inner');
-													$where = '(offer_register.offer_engg_name = "' . $emp_id . '" )';
+													$where = '(offer_register.offer_engg_name = "' . $emp_id . '" and offer_register.status != 9 and offer_register.status != 1)';
 													$this->db->where($where);
 													$this->db->group_by(['offer_register.offer_engg_name', 'offer_register.status']);
 													// $quote_query = $this->db->get_compiled_select();
-													$quote_result = $this->db->get()->result();
+													$quote_query = $this->db->get();
+													$quote_num_rows = $quote_query->num_rows();
+													$quote_result = $quote_query->result();
+
+													// $total_quote_num_rows += $quote_num_rows;
+
+
+													$this->db->select('*');
+													$this->db->from('offer_register');
+													$this->db->join('offer_product_relation', 'offer_product_relation.offer_id = offer_register.entity_id', 'inner');
+													$where = '(offer_register.offer_engg_name = '.$emp_id.' and offer_register.status != 9  and offer_register.status != 1)';
+													$this->db->where($where);
+													$this->db->group_by('offer_register.entity_id');
+													$query = $this->db->get();
+													$total_quote_num_rows = $query->num_rows();
 
 
 
@@ -145,7 +163,7 @@ if (!$_SESSION['user_name']) {
 														<td><a href="<?= base_url('vw_status_wise_customer_wise_quotation_summary_report/').$emp_id;?>" ><?php echo $employee_name; ?></a></td>
 														<?php foreach ($status_list as $st) {
 															$offer_status = $st->entity_id ?>
-															<td>
+															<td style="text-align: center;" >
 																<?php
 																$quote_check = isset($quote_data[$st->entity_id]['status']);
 																//get quote value
@@ -163,13 +181,17 @@ if (!$_SESSION['user_name']) {
 																if($quote_data[$st->entity_id]['status'] == $offer_status){
 																	$quote_count =  $quote_data[$st->entity_id]['offer_count'];
 																}else{
-																	$quote_count =="";
+																	$quote_count =0;
 																}
 																}else{																	
-																$quote_count = "";
+																$quote_count = 0;
 																}
+																
 
-																echo number_format($quote_value,"0",".",",")."<br>[<span class='text-danger'> ".$quote_count. " </span>]"; ?>
+																echo number_format($quote_value,"0",".",",")."<br>[<span class='text-danger'> ".$quote_count. " </span>]<br>";
+																echo($total_quote_num_rows)?round($quote_count*100/$total_quote_num_rows,1): 0;
+																echo " %"; 
+																?>
 
 															</td>
 														<?php } ?>
