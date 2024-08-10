@@ -1066,7 +1066,7 @@ public function upload_template()
         // If the product already exists, return without inserting
         if ($existing_product) {
             // Debugging: Print message indicating that the product already exists
-            echo "Product already exists for offer ID: $offer_id and product ID: $product_id. Skipping insertion.";
+            echo "Product already exists for offer ID: $offer_id and product ID: $new_product_id. Skipping insertion.";
             // return;
         }
         else{
