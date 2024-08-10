@@ -101,7 +101,7 @@
     <body>
         <div class="login-form">
             <form action="welcome/process" method="post">
-                <div ><center><img src="assets/company_logo/logo.png" style="width: 180px;"></center></div><br>
+                <div ><center><img src="assets/company_logo/intact_new_logo.png" style="width: 180px;"></center></div><br>
                 <h4 class="modal-title" style="color: #2ebf91;">Login to Your Account</h4>
                 <br><br>
                 <div class="form-group">
