@@ -1066,7 +1066,7 @@ public function upload_template()
         // If the product already exists, return without inserting
         if ($existing_product) {
             // Debugging: Print message indicating that the product already exists
-            echo "Product already exists for offer ID: $offer_id and product ID: $product_id. Skipping insertion.";
+            echo "Product already exists for offer ID: $offer_id and product ID: $new_product_id. Skipping insertion.";
             // return;
         }
         else{
@@ -3904,7 +3904,7 @@ public function upload_template()
 
 
 
-        $Company_logo = $path_img."/assets/company_logo/logo.png";
+        $Company_logo = $path_img."/assets/company_logo/intact_new_logo.png";
         $location = $path_img."/assets/login/location.jpg";
         $mail = $path_img."/assets/login/mail.png";
         $website = $path_img."/assets/login/website.png";
@@ -4625,7 +4625,8 @@ public function upload_template()
         $pdf->SetCreator(PDF_CREATOR);
         // $pdf->SetPrintHeader(true);
         $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        $pdf->SetMargins(PDF_MARGIN_LEFT, 30, PDF_MARGIN_RIGHT);
+        // $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
         $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
         $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
         
@@ -4662,10 +4663,10 @@ public function upload_template()
 		// $pdf->Image($image_file, 30, 100, 150, 120, 'PNG', '', '', false, 0, '', false, false, 0);
 
 		$html = '<h2 style="text-align: left;color:#3167ac; font-size:10px;">Quotation </h2><br><br>
-                    <table>
+                    <table align="left" style="margin-right:auto;margin-left:0px;float: left;">
                     <tbody>
                         <tr style="line-height:150%;">
-                            <td style="color:#3167ac; font-size:10px;width:7%;"><b>Type</b><br><b>Series</b> </td>
+                            <td style="text-align: left;color:#3167ac; font-size:10px;width:7%; text-indent:0.0em;"><strong>Type</strong><br><b>Series</b> </td>
 							<td style="color:#3167ac; font-size:10px;width:60%;"><b><span style="font-size:10px;color: black;">' . strip_tags($Offer_for_name) . '</span><br><span style="font-size:10px;color: black;">' . strip_tags($Offer_for_info_name) . ' </span></b> </td>
                             <td style="font-size: 10px; width: 15%;text-align:left;"> <b style="color: #3167ac;">Submitted on<br>&nbsp;Quotation No</b></td>
 
