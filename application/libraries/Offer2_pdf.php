@@ -16,7 +16,7 @@ class Offer2_pdf extends TCPDF
 
        // Header content
        $html = '<table style="width:100%;"><tr><td style="width:70%; vertical-align:top;"><br><br><h1 style="color:#3167ac;font-size:18px;  line-height: 20%; ">Intact Automation Pvt. Ltd</h1><br style="font-size:8px;  color:#6b7280;line-height:70%;">Shiv Shankar House, S. No.43 Near Xrbia,
-       <br style="font-size:8px; color:#6b7280; line-height:90%; ">Hinjewadi Somatane Road, Mulshi, Nere,<br style="font-size:8px;  color:#6b7280; line-height:90%; ">Pune, Maharashtra 411033.<br style="font-size:8px;  color:#6b7280;line-height:90%; ">(020)-6744-1111</td><td style="width:30%;  vertical-align:bottom; margin-top: 55px; text-align:right;"><br style="font-size:8px;  color:#6b7280;line-height:90%; "><img src="' . base_url() . 'assets/company_logo/intact_new_logo.png"  width="150"></td></tr></table>
+       <br style="font-size:8px; color:#6b7280; line-height:90%; ">Hinjewadi Somatane Road, Mulshi, Nere,<br style="font-size:8px;  color:#6b7280; line-height:90%; ">Pune, Maharashtra 411033.<br style="font-size:8px;  color:#6b7280;line-height:90%; ">(020)-6744-1111</td><td style="width:30%;  vertical-align:bottom; margin-top: 55px; text-align:right;"><br style="font-size:8px;  color:#6b7280;line-height:90%; "><img src="' . base_url() . 'assets/company_logo/intact_new_logo.png"  width="170"></td></tr></table>
        <hr style="width: 100%;color:#3167ac; height: 3px; margin-top: 10px;">';
 
         // Write HTML content
