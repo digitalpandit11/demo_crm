@@ -746,6 +746,7 @@ public function upload_template()
                 $product_custom_part_no = trim($row[2]);
                 $qty = (int)trim($row[3]);
                 $discount1 = trim($row[7]);
+                $delivery_period = trim($row[12]);
 
                 // Parse discount1 to extract numerical value and calculate discount
                 $discount_percentage = 0; // Default discount percentage
@@ -833,6 +834,7 @@ public function upload_template()
                     "product_custom_part_no" => $product_custom_part_no,
                     "product_custom_description" => $product_custom_description,
                     "rfq_qty" => $qty, 
+                    "delivery_period" => $delivery_period, 
                     "price" => $price,
                     "discount" => $discount,
                     "discount_amt" =>  $discount_amt ,
@@ -1119,7 +1121,7 @@ public function upload_template()
     
         $config['upload_path'] = 'assets/product_csv/';
         $config['allowed_types'] = 'csv';
-        $config['max_size'] = 2048; // Adjust as needed
+        $config['max_size'] = 102400; // Adjust as needed
     
         $this->load->library('upload', $config);
     
@@ -1175,6 +1177,8 @@ public function upload_template()
     
             $response['incomplete_fields'] = $incomplete_fields;
         }
+
+		
     
         echo json_encode($response);
     }
@@ -2360,6 +2364,7 @@ public function upload_template()
 			'salutation' => $salutation, 
 			'tax' => $tax, 
 			'status' => $offer_status, 
+			'reason_for_rejection' => 99, 
 			'your_reference' => $your_reference , 
 			'offer_close_date' => $offer_close_date , 
 			'offer_company_name' => $offer_company_name
@@ -4635,7 +4640,8 @@ public function upload_template()
         // $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
                 
         // set auto page breaks
-        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+        // $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM); //default
+        $pdf->SetAutoPageBreak(TRUE, 50);
 
         // set image scale factor
         $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
@@ -4760,14 +4766,14 @@ public function upload_template()
 
                     <table border="solid 1px" cellpadding="5" width="100%">
                         <thead><tr>
-                            <th style="font-size: 8px; width: 8%; color:#3167ac; text-align: center; border-right: solid 1px #5a5a5a; 
+                            <th style="font-size: 8px; width: 5%; color:#3167ac; text-align: center; border-right: solid 1px #5a5a5a; 
                             border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a; text-indent:2em;"><b>Sr.<br>No.</b></th>
 
                             
                             <th style="font-size: 8px; width: 35%; color:#3167ac; text-align: center; border-right: solid 1px #5a5a5a; 
                             border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a;text-indent:2em;"><b> Description</b></th>
 
-                            <th style="font-size: 8px; width: 12%; text-indent:2em;border-right: solid 1px #5a5a5a; 
+                            <th style="font-size: 8px; width: 10%; text-indent:2em;border-right: solid 1px #5a5a5a; 
                             border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a; color:#3167ac; text-align: left;"><b>Part No.</b></th>
 
 
@@ -4782,6 +4788,8 @@ public function upload_template()
 
                             <th style="font-size: 8px; width: 12%; text-indent:0em;border-right: solid 1px #5a5a5a; 
                             border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;   border-bottom: solid 1px #5a5a5a; color:#3167ac; text-align: center;"><b>Discounted Total Price </b></th>
+                            <th style="font-size: 8px; width: 8%; text-indent:0em;border-right: solid 1px #5a5a5a; 
+                            border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;   border-bottom: solid 1px #5a5a5a; color:#3167ac; text-align: center;"><b>Delivery Period</b></th>
 
                         </tr></thead><tbody>';
                     foreach ($data_offer_product as $value_data)
@@ -4789,6 +4797,7 @@ public function upload_template()
                         $product_name = $value_data['product_name'];
                         $product_custom_part_no = $value_data['product_custom_part_no'];
                         $product_custom_description = $value_data['product_custom_description'];
+                        $delivery_period = $value_data['delivery_period'];
                         $product_price_format = $value_data['price'];
                         $product_price = number_format((float)$product_price_format, 2, '.', '');
                         $product_unit = $value_data['unit'];
@@ -4832,14 +4841,14 @@ public function upload_template()
                         $Quotation_amount = number_format((float)$Quotation_amount, 2, '.', '');
 
                         $html .='<tr>
-                                        <td style="font-size: 7.8px;color:black; text-align: center; width: 8%; border-right: solid 1px #5a5a5a; 
+                                        <td style="font-size: 7.8px;color:black; text-align: center; width: 5%; border-right: solid 1px #5a5a5a; 
                                         border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a;text-indent:2em;">'.strip_tags($i).'</td>
 
                                         <td style="font-size: 7.8px; width: 35%;color:black; border-right: solid 1px #5a5a5a; 
                                         border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a; text-align: left;">'.strip_tags($product_custom_description).'</td>
 
                                         
-                                        <td style="font-size: 7.8px;color:black; width: 12%; text-indent:2em;border-right: solid 1px #5a5a5a; 
+                                        <td style="font-size: 7.8px;color:black; width: 10%; text-indent:2em;border-right: solid 1px #5a5a5a; 
                                         border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a; text-align: left;">'.strip_tags($product_custom_part_no).'</td>
 
 
@@ -4847,7 +4856,7 @@ public function upload_template()
                                         border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a;text-indent:2em;">&nbsp;'.strip_tags($product_qty).'</td>
 
                                         <td style="font-size: 7.8px;color:black; width: 12%;border-right: solid 1px #5a5a5a; 
-                                        border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a; text-indent:2em;">&nbsp;Available</td>
+                                        border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a; text-indent:2em;">&nbsp;</td>
 
                 
                                         <td style="font-size: 7.8px;color:black; width: 12%; text-indent:2em;border-right: solid 1px #5a5a5a; 
@@ -4855,6 +4864,9 @@ public function upload_template()
 
                                         <td style="font-size: 7.8px;color:black; width: 12%; text-indent:2em; border-right: solid 1px #5a5a5a; 
                                         border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a;text-align:right;">'.strip_tags($amount_without_gst).'</td>
+
+                                        <td style="font-size: 7.8px;color:black; width: 8%; text-indent:2em; border-right: solid 1px #5a5a5a; 
+                                        border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a;text-align:right;">'.strip_tags($delivery_period).'</td>
 
                                     </tr>';
                         $i++;   
