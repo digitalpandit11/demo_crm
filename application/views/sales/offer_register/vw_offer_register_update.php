@@ -667,9 +667,9 @@ To check stock, whatsapp on below number 7796962133</textarea>
 												<div class="form-group">
 													<label><span style="color: #FF0000;">Won / Loss Reason *</span></label>
 													<select class="form-control" style="width: 100%;" id="offer_reason" name="offer_reason" required>
-													<option value="">Not Selected</option>
+													<option value="99" active >NA</option>
 													<?php foreach ($offer_reason_list as $row): ?>
-														<option value="<?= $row->status_value; ?>"><?= $row->status_name; ?></option>
+														<option value="<?= $row->status_value; ?>" ><?= $row->status_name; ?></option>
 													<?php endforeach; ?>
 													</select>
 												</div>
@@ -1475,6 +1475,7 @@ To check stock, whatsapp on below number 7796962133</textarea>
 				contentType: false,
 				dataType: 'json',
 				success: function(response) {
+					console.log(response);
 					if (response.success) {
 						$('#error_message').hide();
 						displayCsvData(response.csv_data, response.header, response.incomplete_fields);

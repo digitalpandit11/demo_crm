@@ -126,7 +126,8 @@ class Offer_register_model extends CI_Model{
         $price_condition = '1';
 		$terms_conditions = "Prices and stock are valid till stock last;
 On Lapp cables Tolerance - ±5 to ±7% must be considered;
-To check stock, whatsapp on below number 7796962133;";
+To check stock, whatsapp on below number 7796962133;
+GST as applicable";
        	$tax = 'GST 18% Extra As per applicable rate';
         $your_reference = 'Your mail enquiry';
         $validity = 'As Mentioned Above';
@@ -193,7 +194,8 @@ To check stock, whatsapp on below number 7796962133;";
         $offer_type = '2';
         $offer_terms_condition = "Prices and stock are valid till stock last
 On Lapp cables Tolerance - ±5 to ±7% must be considered
-To check stock, whatsapp on below number 7796962133";
+To check stock, whatsapp on below number 7796962133
+GST As Applicable";
         $tax = "GST 18% Extra As per applicable rate";
        	$your_reference = "Your mail enquiry";
         $validity = "As Mentioned Above";
@@ -258,7 +260,7 @@ To check stock, whatsapp on below number 7796962133";
 
             $offer_company_name = $customer_master_data['customer_name'];
 
-            $offer_data_master_save = "INSERT INTO offer_register (enquiry_id, offer_no, customer_id, contact_person_id, status, offer_engg_name, offer_description, offer_date, offer_type, terms_conditions, salutation, price_condition, tax, your_reference, validity, offer_company_name, offer_close_date) VALUES ('".$enquiry_id."','".$offer_no."', '".$customer_id."', '".$contact_person_id."', '".$status."', '".$emp_id."', '".$enquiry_long_description."', '".$offer_date."', '".$offer_type."' ,'".$offer_terms_condition."' , '".$salutation."', '".$price_condition."', '".$tax."', '".$your_reference."', '".$validity."', '".$offer_company_name."', '".$offer_close_date."')";
+            $offer_data_master_save = "INSERT INTO offer_register (enquiry_id, offer_no, customer_id, contact_person_id, status, reason_for_rejection, offer_engg_name, offer_description, offer_date, offer_type, terms_conditions, salutation, price_condition, tax, your_reference, validity, offer_company_name, offer_close_date) VALUES ('".$enquiry_id."','".$offer_no."', '".$customer_id."', '".$contact_person_id."', '".$status."', 99 , '".$emp_id."', '".$enquiry_long_description."', '".$offer_date."', '".$offer_type."' ,'".$offer_terms_condition."' , '".$salutation."', '".$price_condition."', '".$tax."', '".$your_reference."', '".$validity."', '".$offer_company_name."', '".$offer_close_date."')";
             $save_execute = $this->db->query($offer_data_master_save);
                 //last inserted customer id 
             $offer_id = $this->db->insert_id();
