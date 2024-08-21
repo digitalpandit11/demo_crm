@@ -208,26 +208,7 @@ if (!$_SESSION['user_name']) {
 													<label style="color: #FF0000;"> Lead Source *</label>
 													<select class="form-control select2bs4" style="width: 100%;" id="enquiry_source" name="enquiry_source" required>
 														<option value="">Select</option>
-														<!-- <option value="1">Indiamart</option> -->
-														<!-- <option value="2">TradeIndia</option>
-                                                                <option value="3">ExporterIndia</option>      
-                                                                <option value="4">Campaign</option>
-                                                                <option value="5">Cold call</option>
-                                                                <option value="6">Conference</option>
-                                                                <option value="7">Direct call</option>
-                                                                <option value="8">Existing Customer</option>
-                                                                <option value="9">Email</option>
-                                                                <option value="10">Expo</option>
-                                                                <option value="11">Gem portal</option>
-                                                                <option value="12">Other</option>
-                                                                <option value="13">Principles</option>
-                                                                <option value="14">Public relations</option>
-                                                                <option value="15">Self generated</option>
-                                                                <option value="16">Website</option>
-                                                                <option value="17">Word of mouth</option>
-                                                                <option value="18">Old database</option>
-                                                                <option value="19">MID</option>
-                                                                <option value="20">GID</option> -->
+													
 														<option value="">No Selected</option>
 														<?php foreach ($source_list as $row) : ?>
 															<option value="<?php echo $row->entity_id; ?>"><?php echo $row->source_name; ?></option>

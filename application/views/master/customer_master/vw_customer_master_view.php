@@ -196,9 +196,9 @@ if (!$_SESSION['user_name']) {
 																		<th>Contact Person</th>
 																		<th>Email Id</th>
 																		<th>Contact Number</th>
-																		<th>Alternate Contact Number <br> What's Up Number</th>
-																		<th>Plan Visit</th>
-																		<th>Create Offer</th>
+																		<!-- <th>Alternate Contact Number <br> What's Up Number</th> -->
+																		<!-- <th>Plan Visit</th> -->
+																		<th>Create Quotation</th>
 																	</tr>
 																</thead>
 																<tbody>
@@ -221,21 +221,21 @@ if (!$_SESSION['user_name']) {
 																			<td>
 																				<input type="text" required class="form-control" value="<?php echo $row->first_contact_no; ?>" id="first_contact_no" name="first_contact_no" style="width: 100px;" readonly>
 																			</td>
-																			<td>
+																			<!-- <td>
 																				<input type="text" class="form-control" value="<?php echo $row->second_contact_no; ?>" id="second_contact_no" name="second_contact_no" style="width: 100px;" disabled>
 																				<br>
 																				<input type="text" class="form-control" value="<?php echo $row->whatsup_no; ?>" id="whatsup_no" name="whatsup_no" style="width: 100px;" disabled>
-																			</td>
-																			<td>
+																			</td> -->
+																			<!-- <td>
 																				<a data-toggle="modal" data-target="#modal-plan-visit" data-id="<?php echo $contact_id; ?>" class="btn btn-warning plan_visit_btn">Plan Visit</a>
-																			</td>
-																			<td>
+																			</td> -->
+																			<td style="text-align:center;" >
 																				<!-- <div class="btn-group" style="margin-top: 15px; margin-left: 15px;">
 																							<a href="<?php echo site_url('create_customer_enquiry/' . $contact_id); ?>" class="btn btn-block btn-primary">
 																							Create Lead
 																							</a>
 																					</div> -->
-																				<a href="<?php echo site_url('create_offer_from_contact/' . $contact_id); ?>" class="btn btn-sm btn-danger"><i class="fas fa-arrow-right"></i></a>
+																				<a href="<?php echo site_url('create_offer_from_contact/' . $contact_id); ?>" class="btn btn-sm btn-warning">Create Quotation</a>
 																			</td>
 																		</tr>
 																	<?php endforeach; ?>
@@ -353,10 +353,10 @@ if (!$_SESSION['user_name']) {
 																						<td><?php echo $Enq_type; ?></td>
 																						<td><?php echo date("d-m-Y", strtotime($row->enquiry_date)); ?></td>
 																						<td><?php echo $en_status; ?></td>
-																						<td>
+																						<td style="text-align: center;" >
 																							<div class="btn-group">
 
-																								<a onclick="return confirm('Are You Sure To Make Offer?')" href="<?php echo site_url('setoffer/' . $entity_id); ?>" class="btn btn-block btn-warning">Make Offer</a>
+																								<a onclick="return confirm('Are You Sure To Make Offer?')" href="<?php echo site_url('setoffer/' . $entity_id); ?>" class="btn btn-sm btn-warning">Create Quotation</a>
 																							</div>
 																						</td>
 																					</tr>

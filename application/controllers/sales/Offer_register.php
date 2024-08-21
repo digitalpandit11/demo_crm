@@ -694,38 +694,38 @@ public function upload_template()
         $error_messages_existing = array();
         $error_messages_new = array();
 
-            // Separate existing and new products
-            foreach ($csv_data as $row) {
-                $product_custom_part_no = trim($row[2]);
-                // Check if product exists in product_master table
-                $product_query = $this->db->get_where('product_master', array('product_id' => $product_custom_part_no));
-                $existing_product = $product_query->row_array();
+				// Separate existing and new products
+				foreach ($csv_data as $row) {
+				$product_custom_part_no = trim($row[2]);
 
-                if ($existing_product) {
-                    // Existing product, add to existing products array
-                    if (!empty($row[2]) && !empty($row[5]) && !empty($row[7])) {
-                        $existing_products[] = $row;
-                    }
-                } else {
-                    // New product, add to new products array
-                    if (!empty($row[1]) && !empty($row[2]) && !empty($row[5]) && !empty($row[7])&&  !empty($row[12]) && !empty($row[14]) && !empty($row[15]) && !empty($row[16]) && !empty($row[17])) {
-                        $new_products[] = $row;
-                    }
-                    
-                }
+				// Check if product exists in product_master table
+				$product_query = $this->db->get_where('product_master', array('product_id' => $product_custom_part_no));
+				$existing_product = $product_query->row_array();
 
-                if ($existing_product) {
-                    // Existing product, add to existing products array
-                    if (empty($row[2]) || empty($row[5]) || empty($row[7])) {
-                        $error_messages_existing[] = "Incomplete data for existing part code:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $product_custom_part_no . "<br>";
-                    }
-                } else {
-                    // New product, add to new products array
-                    if (empty($row[1]) || empty($row[2]) || empty($row[5]) || empty($row[7]) ||  empty($row[12]) || empty($row[14]) || empty($row[15]) || empty($row[16]) || empty($row[17])) {
-                        $error_messages_new[] = "Incomplete data for new part code: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $product_custom_part_no . "<br>";
-                    }
-                }
-            }
+				if ($existing_product) {
+					// Existing product, add to existing products array
+					if (!empty($row[2]) && !empty($row[5]) && !empty($row[7])) {
+						$existing_products[] = $row;
+					}
+				} else {
+					// New product, add to new products array
+					if (!empty($row[1]) && !empty($row[2]) && !empty($row[5]) && !empty($row[7]) &&  !empty($row[12]) && !empty($row[14]) && !empty($row[15]) && !empty($row[16]) && !empty($row[17])) {
+						$new_products[] = $row;
+					}
+				}
+
+				if ($existing_product) {
+					// Existing product, add to existing products array
+					if (empty($row[2]) || empty($row[5]) || empty($row[7])) {
+						$error_messages_existing[] = "Incomplete data for existing part code:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $product_custom_part_no . "<br>";
+					}
+				} else {
+					// New product, add to new products array
+					if (empty($row[1]) || empty($row[2]) || empty($row[5]) || empty($row[7]) ||  empty($row[12]) || empty($row[14]) || empty($row[15]) || empty($row[16]) || empty($row[17])) {
+						$error_messages_new[] = "Incomplete data for new part code: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $product_custom_part_no . "<br>";
+					}
+				}
+			}
 
             // Check if any errors exist
             if (!empty($error_messages_existing) || !empty($error_messages_new)) {
@@ -740,12 +740,14 @@ public function upload_template()
             $existing_products_found = false;
 
             // Process existing products
+			
             foreach ($existing_products as $row) 
             {
                 // Fetch additional details from database and insert into offer_product_relation
                 $product_custom_part_no = trim($row[2]);
                 $qty = (int)trim($row[3]);
                 $discount1 = trim($row[7]);
+                $stock = trim($row[4]);
                 $delivery_period = trim($row[12]);
 
                 // Parse discount1 to extract numerical value and calculate discount
@@ -821,10 +823,10 @@ public function upload_template()
                 $existing_product_in_offer_row = $existing_product_in_offer_query->row_array();
                 
                 // If the product already exists in the offer, add its ID to the list of existing product IDs
-                if ($existing_product_in_offer_row) {
-                    $existing_products_found = true;
-                    continue;
-                }
+                // if ($existing_product_in_offer_row) {
+                //     $existing_products_found = true;
+                //     continue;
+                // }
 
                 // Prepare insert array
                 $insert_array = array(
@@ -834,6 +836,7 @@ public function upload_template()
                     "product_custom_part_no" => $product_custom_part_no,
                     "product_custom_description" => $product_custom_description,
                     "rfq_qty" => $qty, 
+                    "current_stock" => $stock, 
                     "delivery_period" => $delivery_period, 
                     "price" => $price,
                     "discount" => $discount,
@@ -881,6 +884,7 @@ public function upload_template()
                 $price = trim($row[5]);
                 $hsn_code1 = trim($row[17]);
                 $unit = trim($row[14]);
+                $stock = trim($row[4]);
                 $lead_time = trim($row[12]);
                 $category = trim($row[16]);
 
@@ -937,7 +941,7 @@ public function upload_template()
                 $this->insert_price_details($new_product_id, $price);
 
                 // Insert into offer_product_relation
-                $response = $this->insert_offer_product_relation($new_product_id, $offer_id, $product_custom_part_no, $product_custom_description, $unit_id, $lead_time, $hsn_id, $product_make, $price,$qty, $discount);
+                $response = $this->insert_offer_product_relation($new_product_id, $offer_id, $product_custom_part_no, $product_custom_description, $unit_id, $lead_time, $hsn_id, $product_make, $price,$qty, $discount,$stock);
             // Check if insertion was successful
                 if ($response['success']) {
                     // Set additional success response
@@ -1058,7 +1062,7 @@ public function upload_template()
     }
 
     // Function to insert into offer_product_relation
-    public function insert_offer_product_relation($new_product_id, $offer_id, $product_custom_part_no, $product_custom_description, $unit_id, $lead_time, $hsn_id, $product_make, $price,$qty, $discount)
+    public function insert_offer_product_relation($new_product_id, $offer_id, $product_custom_part_no, $product_custom_description, $unit_id, $lead_time, $hsn_id, $product_make, $price,$qty, $discount,$stock)
     {
         $response = array();
         // Check if the product already exists for the given offer ID
@@ -1091,6 +1095,8 @@ public function upload_template()
             'product_custom_part_no' => $product_custom_part_no,
             'product_custom_description' => $product_custom_description,
             'typical_lead_time' => $lead_time,
+            'delivery_period' => $lead_time,
+            'current_stock' => $stock,
             'hsn_id' => $hsn_id,
             "rfq_qty" => $qty, 
             'price' => $price,
@@ -1412,12 +1418,13 @@ public function upload_template()
                 // Extract product details from CSV row
                 $product_custom_part_no = trim($row[2]);
                 $product_make = trim($row[12]);
-                $qty = trim($row[4]);
+                $qty = trim($row[3]);
                 $discount1 = trim($row[7]);
                 $product_custom_description = trim($row[1]);
                 $price = trim($row[5]);
                 $hsn_code1 = trim($row[14]);
                 $unit = trim($row[11]);
+                $stock = trim($row[4]);
                 $lead_time = trim($row[10]);
                 $category = trim($row[13]);
 
@@ -1467,7 +1474,7 @@ public function upload_template()
                 $this->insert_price_details($new_product_id, $price);
 
                 // Insert into offer_product_relation
-                $response = $this->insert_offer_product_relation($new_product_id, $offer_id, $product_custom_part_no, $product_custom_description, $unit_id, $lead_time, $hsn_id, $product_make, $price,$qty, $discount);
+                $response = $this->insert_offer_product_relation($new_product_id, $offer_id, $product_custom_part_no, $product_custom_description, $unit_id, $lead_time, $hsn_id, $product_make, $price,$qty, $discount,$stock);
             // Check if insertion was successful
                 if ($response['success']) {
                     // Set additional success response
@@ -3183,9 +3190,9 @@ public function upload_template()
             $this->db->where($where);
             $this->db->update('offer_register',$update_offer_array);
 
-            if($offer_status == 4 || $offer_status == 5)
+            if($offer_status > 1)
             {
-                $enquiry_status = 5;
+                $enquiry_status = 2;
                 $update_enquiry_array = array('enquiry_status' => $enquiry_status);
                 $where = '(entity_id ="'.$enquiry_entity_id.'")';
                 $this->db->where($where);
@@ -3244,9 +3251,9 @@ public function upload_template()
             $this->db->where($where);
             $this->db->update('offer_register',$update_offer_array);
 
-            if($offer_status == 4 || $offer_status == 5)
+            if($offer_status > 1 )
             {
-                $enquiry_status = 5;
+                $enquiry_status = 2;
                 $update_enquiry_array = array('enquiry_status' => $enquiry_status);
                 $where = '(entity_id ="'.$enquiry_entity_id.'")';
                 $this->db->where($where);

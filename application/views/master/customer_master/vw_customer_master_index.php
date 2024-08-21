@@ -210,8 +210,8 @@ $(document).ready(function() {
     }
 
     // Add custom filter inputs for customer type and status
-    $('#example1_filter').append('<label>Customer Type: <select id="customer-type-filter"><option value="">All</option><option value="1">Dealer</option><option value="2">End User</option><option value="3">OEM</option><option value="4">Trader</option><option value="5">System Integrator</option></select></label>');
-    $('#example1_filter').append('<label>Status: <select id="status-filter"><option value="">All</option><option value="1">Active</option><option value="2">In-Active</option></select></label>');
+    // $('#example1_filter').append('<label>Customer Type: <select id="customer-type-filter"><option value="">All</option><option value="1">Dealer</option><option value="2">End User</option><option value="3">OEM</option><option value="4">Trader</option><option value="5">System Integrator</option></select></label>');
+    // $('#example1_filter').append('<label>Status: <select id="status-filter"><option value="">All</option><option value="1">Active</option><option value="2">In-Active</option></select></label>');
 
     // Apply the custom filters when the select inputs change
     $('#customer-type-filter, #status-filter').on('change', function() {

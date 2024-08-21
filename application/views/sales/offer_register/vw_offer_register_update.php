@@ -358,33 +358,6 @@ if (!$_SESSION['user_name']) {
 										</div>
 
 
-										<div class="row">
-											<div class="col-sm-4">
-												<div class="form-group">
-													<label style="color: #FF0000;">Tax *</label>
-													<input type="text" class="form-control" id="tax" name="tax" placeholder="Enter Tax">
-												</div>
-											</div>
-
-											<div class="col-sm-4">
-												<div class="form-group">
-													<label style="color: #FF0000;">Validity *</label>
-													<input type="text" class="form-control" id="validity" name="validity" placeholder="Enter Validity">
-												</div>
-											</div>
-
-											<div class="col-sm-4">
-												<div class="form-group">
-													<label> Price Condition</label>
-													<select class="form-control select2bs4" style="width: 100%;" id="price_condition" name="price_condition">
-														<option value="1">Ex Works BluBoxx</option>
-														<option value="2">FOR Site</option>
-														<option value="3">Other- Please refer note</option>
-													</select>
-												</div>
-											</div>
-
-										</div>
 
 										<div class="row">
 
@@ -410,12 +383,12 @@ if (!$_SESSION['user_name']) {
 															</a>
 														</div>
 
-														<div class="btn-group" style="margin-top: 15px; margin-left: 20px;">
+														<!-- <div class="btn-group" style="margin-top: 15px; margin-left: 20px;">
 															<a data-toggle="modal" data-target="#modal-lg-product-add" class="btn btn-block btn-success" style="background-color: #5cb85c; border-color: #4cae4c; color: #ffff;">
 																Add Product
 															</a>
 
-														</div>
+														</div> -->
 
 														<div class="btn-group" style="margin-top: 15px; margin-left: 20px;">
 															<a data-toggle="modal" data-target="#modal-lg-upload-template" class="btn btn-block btn-success" style="background-color: #5cb85c; border-color: #4cae4c; color: #ffff;">
@@ -611,7 +584,7 @@ if (!$_SESSION['user_name']) {
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label style="color: #FF0000;"> Terms & Condition *</label>
-													<textarea name="offer_terms_condition" id="offer_terms_condition" class="form-control" rows="3" placeholder="Enter Terms Conditions" required>Prices and stock are valid till stock last
+													<textarea name="offer_terms_condition" id="offer_terms_condition" class="form-control" rows="5" placeholder="Enter Terms Conditions" required>Prices and stock are valid till stock last
 On Lapp cables Tolerance - ±5 to ±7% must be considered
 To check stock, whatsapp on below number 7796962133</textarea>
 												</div>
@@ -622,9 +595,37 @@ To check stock, whatsapp on below number 7796962133</textarea>
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label>Foot Note </label>
-													<textarea class="form-control" id="offer_note" name="offer_note" rows="3" placeholder="Enter Note"></textarea>
+													<textarea class="form-control" id="offer_note" name="offer_note" rows="5" placeholder="Enter Note"></textarea>
 												</div>
 											</div>
+										</div>
+										
+										<div class="row" style="display: none;" >
+											<div class="col-sm-4">
+												<div class="form-group">
+													<label style="color: #FF0000;">Tax *</label>
+													<input type="text" class="form-control" id="tax" name="tax" placeholder="Enter Tax">
+												</div>
+											</div>
+
+											<div class="col-sm-4">
+												<div class="form-group">
+													<label style="color: #FF0000;">Validity *</label>
+													<input type="text" class="form-control" id="validity" name="validity" placeholder="Enter Validity">
+												</div>
+											</div>
+
+											<div class="col-sm-4">
+												<div class="form-group">
+													<label> Price Condition</label>
+													<select class="form-control select2bs4" style="width: 100%;" id="price_condition" name="price_condition">
+														<option value="1">Ex Works IAPL</option>
+														<option value="2">FOR Site</option>
+														<option value="3">Other- Please refer note</option>
+													</select>
+												</div>
+											</div>
+
 										</div>
 
 										<div class="row">
@@ -637,7 +638,7 @@ To check stock, whatsapp on below number 7796962133</textarea>
 											</div>
 
 											<div class="col-sm-4">
-												<div class="form-group">
+												<a class="form-group">
 													<label for="offer_attachment">Attachment</label>
 													<div class="input-group">
 														<div class="custom-file">
@@ -645,36 +646,41 @@ To check stock, whatsapp on below number 7796962133</textarea>
 															<label class="custom-file-label" for="offer_attachment">Choose Attachment</label>
 														</div>
 													</div>
+													<div>
+													<p>
+															<a target="_blank" href="<?php echo base_url(); ?>assets/enquiry_attachment/<?php echo $value; ?>"><?php echo $value; ?></a>
+														</p>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-4">
+													<div class="form-group">
+														<label style="color: #FF0000;"> Quotation Status *</label>
+														<select class="form-control" style="width: 100%;" id="offer_status" name="offer_status" required>
+															<option value="">Not Selected</option>
+															<?php foreach ($stage_list as $row): ?>
+															<option value="<?= $row->status_value; ?>"><?= $row->status_name; ?></option>
+														<?php endforeach; ?>
+														</select>
+													</div>
+												</div>
+	
+												<div class="col-sm-4" id="Offer_reason_text">
+													<div class="form-group">
+														<label><span style="color: #FF0000;">Won / Loss Reason *</span></label>
+														<select class="form-control" style="width: 100%;" id="offer_reason" name="offer_reason" required>
+														<option value="99" active >NA</option>
+														<?php foreach ($offer_reason_list as $row): ?>
+															<option value="<?= $row->status_value; ?>" ><?= $row->status_name; ?></option>
+														<?php endforeach; ?>
+														</select>
+													</div>
 												</div>
 											</div>
 										</div>
 
 
-										<div class="row">
-											<div class="col-sm-4">
-												<div class="form-group">
-													<label style="color: #FF0000;"> Quotation Status *</label>
-													<select class="form-control" style="width: 100%;" id="offer_status" name="offer_status" required>
-														<option value="">Not Selected</option>
-														<?php foreach ($stage_list as $row): ?>
-														<option value="<?= $row->status_value; ?>"><?= $row->status_name; ?></option>
-													<?php endforeach; ?>
-													</select>
-												</div>
-											</div>
-
-											<div class="col-sm-4" id="Offer_reason_text">
-												<div class="form-group">
-													<label><span style="color: #FF0000;">Won / Loss Reason *</span></label>
-													<select class="form-control" style="width: 100%;" id="offer_reason" name="offer_reason" required>
-													<option value="99" active >NA</option>
-													<?php foreach ($offer_reason_list as $row): ?>
-														<option value="<?= $row->status_value; ?>" ><?= $row->status_name; ?></option>
-													<?php endforeach; ?>
-													</select>
-												</div>
-											</div>
-										</div>
 
 										<div class="card card-primary">
 											<div class="card-header">
@@ -684,7 +690,7 @@ To check stock, whatsapp on below number 7796962133</textarea>
 												<div class="row">
 													<div class="col-sm-3">
 														<div class="form-group">
-															<label> Offer Tracking Date </label>
+															<label> Quotation Tracking Date </label>
 															<input type="date" name="tracking_date" id="tracking_date" value="<?php echo date('Y-m-d'); ?>" class="form-control" size="50">
 														</div>
 													</div>

@@ -132,6 +132,7 @@ GST as applicable";
         $your_reference = 'Your mail enquiry';
         $validity = 'As Mentioned Above';
         $status = '3';
+        $reason_for_rejection = '99';
 
         $customer_data = $this->offer_register_model->get_company_data_from_contact_person_id($contact_person_id);
         $customer_id = $customer_data->customer_id;
@@ -142,6 +143,7 @@ GST as applicable";
           'customer_id' => $customer_id,
           'contact_person_id' => $contact_person_id,
           'status' => $status,
+          'reason_for_rejection' => $reason_for_rejection,
           'offer_date' => $offer_date,
           'salutation' => $salutation,
           'price_condition' => $price_condition,
@@ -297,7 +299,7 @@ GST As Applicable";
         $this->db->select('*');
         $this->db->from('status_master_relation');
 				$this->db->where('status_for',1);
-        $this->db->order_by('entity_id', 'DESC');
+        $this->db->order_by('entity_id', 'ASC');
         $query = $this->db->get();
         $query_result = $query->result();
         return $query_result;  
