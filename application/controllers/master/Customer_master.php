@@ -666,7 +666,7 @@ class Customer_master extends CI_Controller {
               'formatter' => function( $d, $row ) 
               {
   
-                  return '<a href="update_customer_master/'.$row['0'].'"><span class="btn btn-sm btn-info"><i class="fa fa-edit"></i></span></a> <a href="view_customer_master/'.$row['0'].'"><span class="btn btn-sm btn-success"><i class="fas fa-eye"></i></span></a>';
+                  return '<a href="update_customer_master/'.$row['0'].'"><span class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></span></a><br><a href="view_customer_master/'.$row['0'].'"><span class="btn btn-sm btn-warning"><i class="fas fa-eye"></i></span></a>';
   
               },'field' => 'entity_id'),
 
@@ -777,7 +777,7 @@ class Customer_master extends CI_Controller {
                 'formatter' => function( $d, $row ) 
                 {
 
-                    return '<a href="update_customer_master/'.$row['0'].'"><span class="btn btn-sm btn-info"><i class="fa fa-edit"></i></span></a> <a href="view_customer_master/'.$row['0'].'"><span class="btn btn-sm btn-success"><i class="fas fa-eye"></i></span></a>';
+                    return '<a href="update_customer_master/'.$row['0'].'"><span class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></span></a><br><a href="view_customer_master/'.$row['0'].'"><span class="btn btn-sm btn-warning"><i class="fas fa-eye"></i></span></a>';
 
                 },'field' => 'entity_id'),
 
