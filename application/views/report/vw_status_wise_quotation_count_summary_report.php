@@ -109,9 +109,8 @@ if (!$_SESSION['user_name']) {
 													$emp_id = $employee->entity_id;
 
 													//get offer value
-													$this->db->select('offer_register.offer_engg_name,offer_register.status as offer_status,sum(offer_product_relation.total_amount_without_gst) as offer_value,count(distinct(offer_register.entity_id)) as offer_count');
+													$this->db->select('offer_register.offer_engg_name,offer_register.status as offer_status,count(distinct(offer_register.entity_id)) as offer_count');
 													$this->db->from('offer_register');
-													$this->db->join('offer_product_relation', 'offer_product_relation.offer_id = offer_register.entity_id', 'inner');
 													$where = '(offer_register.offer_engg_name = "' . $emp_id . '" and offer_register.status != 9 and offer_register.status != 1)';
 													$this->db->where($where);
 													$this->db->group_by(['offer_register.offer_engg_name', 'offer_register.status']);
@@ -125,7 +124,6 @@ if (!$_SESSION['user_name']) {
 
 													$this->db->select('*');
 													$this->db->from('offer_register');
-													$this->db->join('offer_product_relation', 'offer_product_relation.offer_id = offer_register.entity_id', 'inner');
 													$where = '(offer_register.offer_engg_name = '.$emp_id.' and offer_register.status != 9  and offer_register.status != 1)';
 													$this->db->where($where);
 													$this->db->group_by('offer_register.entity_id');
@@ -136,20 +134,17 @@ if (!$_SESSION['user_name']) {
 
 													$quote_data = [];
 													$total_offer_count = 0;
-													$total_offer_value = 0;
 													foreach ($status_list as $os) {
 
 														foreach ($quote_result as $row) {
 
 															$offer_status =  $row->offer_status;
-															$offer_value =  $row->offer_value;
 															$offer_count =  $row->offer_count;
 
 															if ($offer_status == $os->entity_id) {
 																$quote_data[$os->entity_id] =
 																	[
 																		'status' => $offer_status,
-																		'offer_value' => $offer_value,
 																		'offer_count' => $offer_count
 																	];
 															}
@@ -166,16 +161,7 @@ if (!$_SESSION['user_name']) {
 															<td style="text-align: center;" >
 																<?php
 																$quote_check = isset($quote_data[$st->entity_id]['status']);
-																//get quote value
-																if($quote_check) {
-																if($quote_data[$st->entity_id]['status'] == $offer_status){
-																	$quote_value =  $quote_data[$st->entity_id]['offer_value'];
-																}else{
-																	$quote_value == 0;
-																}
-																}else{																	
-																$quote_value = 0;
-																}
+															
 																//get quote Count
 																if($quote_check) {
 																if($quote_data[$st->entity_id]['status'] == $offer_status){
