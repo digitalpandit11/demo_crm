@@ -281,6 +281,29 @@ class Enquiry_tracking_register_model extends CI_Model{
         $query_result = $query->result();
         return $query_result;  
       }
+
+	  
+	  public function get_stage_list()
+	  {
+		  $this->db->select('*');
+		  $this->db->from('status_master_relation');
+				  $this->db->where('status_for',1);
+		  $this->db->order_by('entity_id', 'ASC');
+		  $query = $this->db->get();
+		  $query_result = $query->result();
+		  return $query_result;  
+	  }
+  
+	  public function get_offer_reason_list()
+	  {
+		  $this->db->select('*');
+		  $this->db->from('status_master_relation');
+				  $this->db->where('status_for',2);
+		  $this->db->order_by('entity_id', 'DESC');
+		  $query = $this->db->get();
+		  $query_result = $query->result();
+		  return $query_result;  
+	  }
       
       public function get_readymade_enquiry_tracking_details()
       {
@@ -559,15 +582,18 @@ class Enquiry_tracking_register_model extends CI_Model{
         $query = $this->db->get();
         $query_result = $query->row_array();
 
-        $Enquiry_id = $query_result['enquiry_id'];
+        // $Enquiry_id = $query_result['enquiry_id'];
 
-        $this->db->select('*');
-        $this->db->from('enquiry_tracking_master');
-        $where = '(enquiry_tracking_master.enquiry_id = "'.$Enquiry_id.'"  AND enquiry_tracking_master.status = 2)';
-        $this->db->where($where);
-        $query_data = $this->db->get();
-        $query_data_result = $query_data->result();
-        return $query_data_result;
+        // $this->db->select('*');
+        // $this->db->from('enquiry_tracking_master');
+        // $where = '(enquiry_tracking_master.enquiry_id = "'.$Enquiry_id.'"  AND enquiry_tracking_master.status = 2)';
+        // $this->db->where($where);
+        // $query_data = $this->db->get();
+        // $query_data_result = $query_data->result();
+
+        // return $query_data_result;
+
+		return $query->result();
     }
 }
 

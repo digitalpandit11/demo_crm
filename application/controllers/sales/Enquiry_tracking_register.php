@@ -234,6 +234,9 @@ class Enquiry_tracking_register extends CI_Controller {
         $entity_id = $this->uri->segment(2);
         $data['offer_details'] = $this->enquiry_tracking_register_model->get_offer_details_for_tracking($entity_id);
         $enquiry_data = $this->enquiry_tracking_register_model->offer_to_offer_track_save_model($entity_id);
+				$data['stage_list'] = $this->enquiry_tracking_register_model->get_stage_list();
+        $data['offer_reason_list'] = $this->enquiry_tracking_register_model->get_offer_reason_list();
+				
         $data['entity_id'] = $entity_id;
         $this->load->view('sales/enquiry_tracking_register/vw_offer_tracking_register_create',$data);
     }

@@ -199,30 +199,30 @@ if (!$_SESSION['user_name']) {
                       <textarea class="form-control" id="offer_descrption" name="offer_descrption" rows="3" placeholder="Offer Description" readonly><?php echo $Offer_description; ?></textarea>
                     </div>
                   </div>
-                  <div class="col-sm-3">
-                    <div class="form-group">
-                      <label> <span style="color: #FF0000;"> Offer Stage * </span></label>
-                      <select class="form-control select2bs4" style="width: 100%;" id="offer_status" name="offer_status" required <?php echo ($val == '6' || $val == '10') ? "disabled" : ""; ?>>
-                        <option value="">Select</option>
-                        <option <?php echo ($val == '2') ? "selected" : ""; ?> value="2">Offer Created</option>
-                        <option <?php echo ($val == '3') ? "selected" : ""; ?> value="3">Active</option>
-                        <option <?php echo ($val == '4') ? "selected" : ""; ?> value="4">Offer Lost</option>
-                        <option <?php echo ($val == '5') ? "selected" : ""; ?> value="5">Offer Regrated</option>
-                        <option <?php echo ($val == '6') ? "selected" : ""; ?> value="6">Order Won</option>
-                        <option <?php echo ($val == '7') ? "selected" : ""; ?> value="7">Inactive</option>
-                        <option <?php echo ($val == '8') ? "selected" : ""; ?> value="8">A</option>
-                        <option <?php echo ($val == '9') ? "selected" : ""; ?> value="9">B</option>
-                        <option <?php echo ($val == '10') ? "selected" : ""; ?> value="10">Offer Revised</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div class="col-sm-3">
-                    <div class="form-group">
-                      <label> Reason for Rejection </label>
-                      <textarea class="form-control" id="reason_for_rejection" name="reason_for_rejection" rows="3" placeholder="Enter Reason for Rejection"><?php echo $offer_details->reason_for_rejection; ?></textarea>
-                    </div>
-                  </div>
+												<div class="col-sm-3">
+													<div class="form-group">
+														<label style="color: #FF0000;"> Quotation Status *</label>
+														<select class="form-control" style="width: 100%;" id="offer_status" name="offer_status" required>
+															<option value="">Not Selected</option>
+															<?php foreach ($stage_list as $row): ?>
+															<option value="<?= $row->status_value; ?>" <?= ($row->status_value == $val) ? "selected" : "" ;?>><?= $row->status_name; ?></option>
+														<?php endforeach; ?>
+														</select>
+													</div>
+												</div>
+	
+												<div class="col-sm-3" id="Offer_reason_text">
+													<div class="form-group">
+														<label><span style="color: #FF0000;">Won / Loss Reason *</span></label>
+														<select class="form-control" style="width: 100%;" id="offer_reason" name="offer_reason" required>
+														<option value="99" active >NA</option>
+														<?php foreach ($offer_reason_list as $row): ?>
+															<option value="<?= $row->status_value; ?>" ><?= $row->status_name; ?></option>
+														<?php endforeach; ?>
+														</select>
+													</div>
+												</div>
+											
                 </div>
               </div>
             </div>
@@ -282,16 +282,7 @@ if (!$_SESSION['user_name']) {
 
                     </div>
 
-                    <!-- <div class="row"> -->
-
-
-
-                    <!-- <div class="col-sm-3">
-                                                        <div class="form-group">
-                                                            <label > Add Reminder </label><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <input type="hidden"><i style="font-size: 50px;" class="fa fa-bell"></i>
-                                                        </div>
-                                                    </div> -->
+                  
 
 
 

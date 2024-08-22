@@ -2837,6 +2837,40 @@ public function upload_template()
         $this->load->view('sales/offer_register/vw_offer_register_update',$data);
     }
 
+    public function view_offer_data()
+    {
+        $entity_id = $this->uri->segment(2);
+        $data['entity_id'] = $entity_id;
+        $data['offer_id'] = $entity_id;
+
+        $enquiry_data = $this->offer_register_model->get_enquiry_details_by_offer_id_model($entity_id);
+        $data['enquiry_result'] = $enquiry_data;
+
+        $data['customer_list'] = $this->offer_register_model->get_customer_list();
+        $data['employee_list'] = $this->offer_register_model->get_employee_list();
+        $data['principle_engg_list'] = $this->offer_register_model->get_principle_engg_list();
+        $data['payment_term_list'] = $this->offer_register_model->get_payment_term_list();
+        $data['product_list'] = $this->offer_register_model->get_product_list();
+        $data['make_list'] = $this->offer_register_model->get_make_list();
+        $data['unit_list'] = $this->offer_register_model->get_unit_list();
+        $data['source_list'] = $this->offer_register_model->get_enquiry_source_list();
+        $data['offer_for_list'] = $this->offer_register_model->get_offer_for_list();
+        $data['offer_for_info_list'] = $this->offer_register_model->get_offer_for_info_list();
+        $data['stage_list'] = $this->offer_register_model->get_stage_list();
+        $data['offer_reason_list'] = $this->offer_register_model->get_offer_reason_list();
+        $data['offer_product_list'] = $this->offer_register_model->get_offer_product_list_by_id($entity_id);
+        $data['product_category'] = $this->offer_register_model->get_product_category();
+        $data['product_detail_hsn_code'] = $this->offer_register_model->get_product_hsn_code();
+        $offer_data = $this->offer_register_model->get_offer_details_by_offerid_model($entity_id);
+        $data['offer_result'] = $offer_data;
+      
+        $customer_id = $this->offer_register_model->get_offer_details_by_id($entity_id)->customer_id;
+
+        $data['contact_person_list'] = $this->offer_register_model->get_contact_person_list($customer_id);
+        $data['offer_tracking_details'] = $this->enquiry_tracking_register_model->get_enquiry_tracking_data_by_offer_id($entity_id);
+        $this->load->view('sales/offer_register/vw_offer_register_view',$data);
+    }
+
     public function get_offer_details_by_offerid()
     {
         $entity_id = $this->input->post('entity_id',TRUE);
@@ -3265,28 +3299,28 @@ public function upload_template()
     }
 
    
-    public function view_offer_data()
-    {
-      $entity_id = $this->uri->segment(2);
-      $data['entity_id'] = $entity_id;
+    // public function view_offer_data()
+    // {
+    //   $entity_id = $this->uri->segment(2);
+    //   $data['entity_id'] = $entity_id;
 
-      $enquiry_data = $this->offer_register_model->get_enquiry_details_by_offer_id_model($entity_id);
-      $data['enquiry_result'] = $enquiry_data;
+    //   $enquiry_data = $this->offer_register_model->get_enquiry_details_by_offer_id_model($entity_id);
+    //   $data['enquiry_result'] = $enquiry_data;
 
-      $data['customer_list'] = $this->offer_register_model->get_customer_list();
-      $data['employee_list'] = $this->offer_register_model->get_employee_list();
-      $data['payment_term_list'] = $this->offer_register_model->get_payment_term_list();
-      $data['product_list'] = $this->offer_register_model->get_product_list();
-      $data['make_list'] = $this->offer_register_model->get_make_list();
-      $data['offer_product_list'] = $this->offer_register_model->get_offer_product_list_by_id($entity_id);
-      $data['product_category'] = $this->offer_register_model->get_product_category();
-      $data['product_detail_hsn_code'] = $this->offer_register_model->get_product_hsn_code();
-      $offer_data = $this->offer_register_model->get_offer_details_by_offerid_model($entity_id);
-      $data['offer_result'] = $offer_data;
-      $data['offer_tracking_details'] = $this->enquiry_tracking_register_model->get_enquiry_tracking_data_by_offer_id($entity_id);
+    //   $data['customer_list'] = $this->offer_register_model->get_customer_list();
+    //   $data['employee_list'] = $this->offer_register_model->get_employee_list();
+    //   $data['payment_term_list'] = $this->offer_register_model->get_payment_term_list();
+    //   $data['product_list'] = $this->offer_register_model->get_product_list();
+    //   $data['make_list'] = $this->offer_register_model->get_make_list();
+    //   $data['offer_product_list'] = $this->offer_register_model->get_offer_product_list_by_id($entity_id);
+    //   $data['product_category'] = $this->offer_register_model->get_product_category();
+    //   $data['product_detail_hsn_code'] = $this->offer_register_model->get_product_hsn_code();
+    //   $offer_data = $this->offer_register_model->get_offer_details_by_offerid_model($entity_id);
+    //   $data['offer_result'] = $offer_data;
+    //   $data['offer_tracking_details'] = $this->enquiry_tracking_register_model->get_enquiry_tracking_data_by_offer_id($entity_id);
       
-      $this->load->view('sales/offer_register/vw_offer_register_view',$data);
-    }
+    //   $this->load->view('sales/offer_register/vw_offer_register_view',$data);
+    // }
 
 
     public function set_revision_offer_save()

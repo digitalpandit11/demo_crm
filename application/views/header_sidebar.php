@@ -642,6 +642,13 @@ if (!$_SESSION['user_name']) {
 								</li>
 
 								<li>
+									<a href="<?php echo base_url() . 'vw_status_wise_quotation_count_summary_report' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "vw_status_wise_quotation_count_summary_report") ?  "active" : ""; ?>>
+										<i class="far fa-dot-circle nav-icon"></i>
+										<p>Status Wise Report (Count)</p>
+									</a>
+								</li>
+
+								<li>
 									<a href="<?php echo base_url() . 'vw_status_wise_quotation_summary_report' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "vw_status_wise_quotation_summary_report") ?  "active" : ""; ?>>
 										<i class="far fa-dot-circle nav-icon"></i>
 										<p>Status Wise Report</p>
