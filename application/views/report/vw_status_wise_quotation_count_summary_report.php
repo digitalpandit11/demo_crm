@@ -10,7 +10,7 @@ if (!$_SESSION['user_name']) {
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>All Quotation Register</title>
+	<title>Stage Wise Quotation Count Summary Report</title>
 	<!-- Tell the browser to be responsive to screen width -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- Data Tables -->
@@ -50,12 +50,12 @@ if (!$_SESSION['user_name']) {
 				<div class="container-fluid">
 					<div class="card">
 						<div class="card-header">
-							<h1 class="card-title">All Quotation Register</h1>
+							<h1 class="card-title">Stage Wise Quotation Count Summary Report</h1>
 							<div class="col-sm-6">
 								<br><br>
 								<ol class="breadcrumb">
 									<li class="breadcrumb-item"><a href="<?php echo base_url() . 'dashboard' ?>">Home</a></li>
-									<li class="breadcrumb-item"><a href="<?php echo base_url() . 'create_quotation_register' ?>">Create Quotation Register</a>
+									<li class="breadcrumb-item"><a href="<?php echo base_url() . 'vw_status_wise_quotation_count_summary_report' ?>">Create Status Wise Quotation Count Summary Report</a>
 									</li>
 								</ol>
 							</div>
@@ -70,89 +70,133 @@ if (!$_SESSION['user_name']) {
 							<!-- general form elements disabled -->
 							<div class="card card-primary">
 								<div class="card-header">
-									<h3 class="card-title">All Quotation Register<strong>[ <?php echo date("d-m-Y", strtotime($timesheet_from_date)) . " to " . date("d-m-Y", strtotime($timesheet_to_date)); ?> ]</strong></h3>
+									<h3 class="card-title">Stage Wise Quotation Count Summary<strong>[ <?php //echo date("d-m-Y", strtotime($timesheet_from_date))." to ".date("d-m-Y", strtotime($timesheet_to_date)); 
+																																								?> ]</strong></h3>
 								</div>
 
 								<div class="card-body">
+									<?php
+									$this->db->select('*');
+									$this->db->from('status_master_relation');
+									$this->db->where('status_for',1);
+									$this->db->where('entity_id !=',9);
+									$this->db->where('entity_id !=',1);
+									$status_query = $this->db->get();
+									//$status_query_num_rows = $status_query->num_rows();
+									$status_list = $status_query->result();
+									?>
+
 									<div class="table-responsive">
 										<table id="example1" class="table table-bordered table-striped">
 											<thead>
 												<tr>
 													<th>Sr. No.</th>
-													<th>Quotation No. </th>
-													<th>Quotation Date </th>
-													<th>Lead No. </th>
-													<th>Company Name</th>
-													<th>Contact Person</th>
-													<th>Contact No.</th>
-													<th>Email Id.</th>
-													<th>CRM Name</th>
-													<th>RM Name</th>
-													<th>Principle Engg</th>
-													<th>Quote Stage</th>
-													<th>Followup Count</th>
-													<th>Source</th>
-													<th>Lost Reason</th>
-													<th>Quote Value</th>
-													<!-- <th>Action</th> -->
+													<th>Employee Name</th>
+													<?php
+													foreach ($status_list as $offer_status) {
+													?>
+														<th><?= $offer_status->status_name; ?></th>
+													<?php } ?>
 												</tr>
 											</thead>
 											<tbody>
 												<?php
 												$no = 0;
-
-												foreach ($offer_list as $row) {
-
+												$total_quote_num_rows = 0;
+												foreach ($employee_list as $employee) {
 													$no++;
-
-													$offer_id = $row->offer_id;
-													$Status_data = $row->offer_status;
-													//   $offer_value = number_format($row->total_amount_with_gst);
-
-													$this->db->select('COUNT(tracking_record) as tracking_count');
-													$this->db->from('enquiry_tracking_master');
-													$this->db->where('offer_id', $offer_id);
-													$query = $this->db->get();
-													$query_count = $query->row_array(); 
-													$this->db->group_by('offer_id');
+													$employee_name = $employee->emp_first_name;
+													$emp_id = $employee->entity_id;
 
 													//get offer value
-													$this->db->select('sum(offer_product_relation.total_amount_without_gst) as offer_value');
-													$this->db->from('offer_product_relation');
-													//$this->db->join('','','');
-													$where = '(offer_id = "' . $offer_id . '")';
+													$this->db->select('offer_register.offer_engg_name,offer_register.status as offer_status,sum(offer_product_relation.total_amount_without_gst) as offer_value,count(distinct(offer_register.entity_id)) as offer_count');
+													$this->db->from('offer_register');
+													$this->db->join('offer_product_relation', 'offer_product_relation.offer_id = offer_register.entity_id', 'inner');
+													$where = '(offer_register.offer_engg_name = "' . $emp_id . '" and offer_register.status != 9 and offer_register.status != 1)';
 													$this->db->where($where);
+													$this->db->group_by(['offer_register.offer_engg_name', 'offer_register.status']);
+													// $quote_query = $this->db->get_compiled_select();
+													$quote_query = $this->db->get();
+													$quote_num_rows = $quote_query->num_rows();
+													$quote_result = $quote_query->result();
+
+													// $total_quote_num_rows += $quote_num_rows;
+
+
+													$this->db->select('*');
+													$this->db->from('offer_register');
+													$this->db->join('offer_product_relation', 'offer_product_relation.offer_id = offer_register.entity_id', 'inner');
+													$where = '(offer_register.offer_engg_name = '.$emp_id.' and offer_register.status != 9  and offer_register.status != 1)';
+													$this->db->where($where);
+													$this->db->group_by('offer_register.entity_id');
 													$query = $this->db->get();
-													//$query_num_rows = $query->num_rows();
-													$offer_value_details = $query->row();
-													$offer_value = @$offer_value_details->offer_value;
+													$total_quote_num_rows = $query->num_rows();
+
+
+
+													$quote_data = [];
+													$total_offer_count = 0;
+													$total_offer_value = 0;
+													foreach ($status_list as $os) {
+
+														foreach ($quote_result as $row) {
+
+															$offer_status =  $row->offer_status;
+															$offer_value =  $row->offer_value;
+															$offer_count =  $row->offer_count;
+
+															if ($offer_status == $os->entity_id) {
+																$quote_data[$os->entity_id] =
+																	[
+																		'status' => $offer_status,
+																		'offer_value' => $offer_value,
+																		'offer_count' => $offer_count
+																	];
+															}
+														}
+													}
+
 
 												?>
 													<tr>
 														<td><?php echo $no; ?></td>
-														<td><?php echo $row->offer_no; ?></td>
-														<td><?php echo $row->offer_date; ?></td>
-														<td><?php echo $row->enquiry_no; ?></td>
-														<td><?php echo $row->customer_name; ?></td>
-														<td><?php echo $row->contact_person; ?></td>
-														<td><?php echo $row->first_contact_no; ?></td>
-														<td><?php echo $row->email_id; ?></td>
-														<td><?php echo $row->crm_name; ?></td>
-														<td><?php echo $row->rm_name; ?></td>
-														<td><?php echo $row->principle_engg_name; ?></td>
-														<td><?php echo $row->offer_status; ?></td>
-														<td><?php echo $query_count['tracking_count']; ?></td>
-														<td><?php echo $row->source_name; ?></td>
-														<td><?php echo $row->lost_reason; ?></td>
-														<td><?php echo number_format($offer_value, 0, ".", ","); ?></td>
-														<!-- <td><a href="<?php echo base_url() . "update_offer_data/" . $row->entity_id ?>"><span class="btn btn-sm btn-info"><i class="fa fa-edit"></i></span></a> 
-                                                      
-														<a href="<?php echo base_url() . "view_offer_data/" . $row->entity_id ?>"><span class="btn btn-sm btn-success"><i class="fas fa-eye"></i></span></a> 
-														
-														<a href="<?php echo base_url() . "download_offer/" . $row->entity_id ?>" target="_blank"><span class="btn btn-sm btn-secondary"><i class="fas fa-print"></i></span></a>
-														</td> -->
+														<td><a href="<?= base_url('vw_status_wise_customer_wise_quotation_count_summary_report/').$emp_id;?>" ><?php echo $employee_name; ?></a></td>
+														<?php foreach ($status_list as $st) {
+															$offer_status = $st->entity_id ?>
+															<td style="text-align: center;" >
+																<?php
+																$quote_check = isset($quote_data[$st->entity_id]['status']);
+																//get quote value
+																if($quote_check) {
+																if($quote_data[$st->entity_id]['status'] == $offer_status){
+																	$quote_value =  $quote_data[$st->entity_id]['offer_value'];
+																}else{
+																	$quote_value == 0;
+																}
+																}else{																	
+																$quote_value = 0;
+																}
+																//get quote Count
+																if($quote_check) {
+																if($quote_data[$st->entity_id]['status'] == $offer_status){
+																	$quote_count =  $quote_data[$st->entity_id]['offer_count'];
+																}else{
+																	$quote_count =0;
+																}
+																}else{																	
+																$quote_count = 0;
+																}
+																
+
+																echo "<span class='text-danger'> ".$quote_count. " </span>";
+																// echo($total_quote_num_rows)?round($quote_count*100/$total_quote_num_rows,1): 0;
+																// echo " %"; 
+																?>
+
+															</td>
+														<?php } ?>
 													</tr>
-												<?php } ?>
+												<?php  } ?>
 											</tbody>
 										</table>
 									</div>

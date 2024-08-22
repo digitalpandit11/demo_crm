@@ -746,6 +746,23 @@ class Report_controller extends CI_Controller {
 
     }
  
+    public function vw_status_wise_quotation_count_summary_report()
+    {
+      
+        $user_id = $_SESSION['user_id'];
+     
+
+        // $timesheet_from_date = $this->input->post('timesheet_from_date');
+        // $timesheet_to_date = $this->input->post('timesheet_to_date');
+        
+        // $result['timesheet_from_date'] = $timesheet_from_date;
+        // $result['timesheet_to_date'] = $timesheet_to_date;
+        $result['employee_list'] = $this->report_model->get_employee_list();
+       
+        $this->load->view('report/vw_status_wise_quotation_count_summary_report',$result);
+
+    }
+ 
     public function vw_status_wise_quotation_summary_report()
     {
       
@@ -760,6 +777,19 @@ class Report_controller extends CI_Controller {
         $result['employee_list'] = $this->report_model->get_employee_list();
        
         $this->load->view('report/vw_status_wise_quotation_summary_report',$result);
+
+    }
+ 
+    public function vw_status_wise_customer_wise_quotation_count_summary_report()
+    {
+      
+        $user_id = $_SESSION['user_id'];
+        $emp_id = $this->uri->segment(2);
+
+		$result['emp_id'] = $emp_id;
+        $result['customer_list'] = $this->report_model->get_relevant_customer_list_of_employee($emp_id);
+       
+        $this->load->view('report/vw_status_wise_customer_wise_quotation_count_summary_report',$result);
 
     }
  
