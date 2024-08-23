@@ -86,6 +86,8 @@ if (!$_SESSION['user_name']) {
 													<th>Contact Person</th>
 													<th>Contact No.</th>
 													<th>Email Id.</th>
+													<th>Quote Type</th>
+													<th>Quote Series</th>
 													<th>CRM Name</th>
 													<th>RM Name</th>
 													<th>Principle Engg</th>
@@ -137,6 +139,8 @@ if (!$_SESSION['user_name']) {
 														<td><?php echo $row->contact_person; ?></td>
 														<td><?php echo $row->first_contact_no; ?></td>
 														<td><?php echo $row->email_id; ?></td>
+														<td><?php echo $row->type; ?></td>
+														<td><?php echo $row->series; ?></td>
 														<td><?php echo $row->crm_name; ?></td>
 														<td><?php echo $row->rm_name; ?></td>
 														<td><?php echo $row->principle_engg_name; ?></td>
