@@ -748,6 +748,7 @@ public function upload_template()
                 $qty = (int)trim($row[3]);
                 $discount1 = trim($row[7]);
                 $stock = trim($row[4]);
+                $uploaded_price = trim($row[5]);
                 $delivery_period = trim($row[12]);
 
                 // Parse discount1 to extract numerical value and calculate discount
@@ -810,7 +811,7 @@ public function upload_template()
                 $price = $product_pricelist_master_result->price+1-1;
 
                 // Calculate total amount without GST
-                $total_amount_without_gst = $price * $qty;
+                $total_amount_without_gst = $uploaded_price * $qty;
                 $igst_amount = $total_amount_without_gst * $igst_percentage/100;
                 $gst_amount = $total_amount_without_gst * $gst_percentage/100;
                 $discount_amt = $total_amount_without_gst *($discount/100);
@@ -838,7 +839,7 @@ public function upload_template()
                     "rfq_qty" => $qty, 
                     "current_stock" => $stock, 
                     "delivery_period" => $delivery_period, 
-                    "price" => $price,
+                    "price" => $uploaded_price,
                     "discount" => $discount,
                     "discount_amt" =>  $discount_amt ,
                     "unit_discounted_price" => $unit_discounted_price,
@@ -4839,6 +4840,7 @@ public function upload_template()
                         $product_custom_part_no = $value_data['product_custom_part_no'];
                         $product_custom_description = $value_data['product_custom_description'];
                         $delivery_period = $value_data['delivery_period'];
+                        $stock = $value_data['current_stock'];
                         $product_price_format = $value_data['price'];
                         $product_price = number_format((float)$product_price_format, 2, '.', '');
                         $product_unit = $value_data['unit'];
@@ -4897,7 +4899,7 @@ public function upload_template()
                                         border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a;text-indent:2em;">&nbsp;'.strip_tags($product_qty).'</td>
 
                                         <td style="font-size: 7.8px;color:black; width: 12%;border-right: solid 1px #5a5a5a; 
-                                        border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a; text-indent:2em;">&nbsp;</td>
+                                        border-left: solid 1px #5a5a5a;border-top: solid 1px #5a5a5a;  border-bottom: solid 1px #5a5a5a; text-indent:2em;">'.strip_tags($stock).'</td>
 
                 
                                         <td style="font-size: 7.8px;color:black; width: 12%; text-indent:2em;border-right: solid 1px #5a5a5a; 
