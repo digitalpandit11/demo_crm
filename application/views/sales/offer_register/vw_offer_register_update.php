@@ -76,6 +76,7 @@ if (!$_SESSION['user_name']) {
 		$image_attachment_name = explode(',', $attachment_img);
 		array_pop($image_attachment_name);
 
+
 		$this->db->select('*');
 		$this->db->from('offer_register');
 		$where = '(offer_register.enquiry_id = "' . $entity_id . '" )';
@@ -274,9 +275,9 @@ if (!$_SESSION['user_name']) {
 										<div class="row">
 											<div class="col-sm-4">
 												<div class="form-group">
-													<label> <span style="color: #FF0000;">Quotation For </span><small>(Product Sales / Project Sales / Service Sales)</small> *</label>
+													<label> <span style="color: #FF0000;">Quote Type </span><small>(Product Sales / Project Sales / Service Sales)</small> *</label>
 													<select class="form-control select2bs4" style="width: 100%;" id="offer_for" name="offer_for" required>
-														<option value="">Select Product Group</option>
+														<option value="">Select Type</option>
 														<?php foreach ($offer_for_list as $row) : ?>
 															<option value="<?php echo $row->entity_id; ?>"><?php echo $row->offer_for; ?></option>
 														<?php endforeach; ?>
@@ -285,9 +286,9 @@ if (!$_SESSION['user_name']) {
 											</div>
 											<div class="col-sm-4">
 												<div class="form-group">
-													<label> <span style="color: #FF0000;">Quotation For </span><small>(Product / Brand )</small> *</label>
+													<label> <span style="color: #FF0000;">Quote Series </span><small>(Product / Brand )</small> *</label>
 													<select class="form-control select2bs4" style="width: 100%;" id="offer_for_info" name="offer_for_info" required>
-														<option value="">Select Product Group</option>
+														<option value="">Select Series</option>
 														<?php foreach ($offer_for_info_list as $row) : ?>
 															<option value="<?php echo $row->entity_id; ?>"><?php echo $row->offer_for_info; ?></option>
 														<?php endforeach; ?>
@@ -648,7 +649,10 @@ To check stock, whatsapp on below number 7796962133</textarea>
 													</div>
 													<div>
 													<p>
-															<a target="_blank" href="<?php echo base_url(); ?>assets/enquiry_attachment/<?php echo $value; ?>"><?php echo $value; ?></a>
+														<?php foreach($image_attachment_name as $offer_attachment){
+															?>
+															<a target="_blank" href="<?=base_url('assets/offer_attachment/').$offer_attachment;?>"><?= $offer_attachment ;?></a>
+															<?php } ?>
 														</p>
 													</div>
 												</div>
@@ -1564,11 +1568,14 @@ To check stock, whatsapp on below number 7796962133</textarea>
 					async: true,
 					dataType: 'json',
 					success: function(data) {
+						var href = "<?php echo base_url('assets/offer_attachment/');?>"+data[0].attachment;
 						$.each(data, function(i, item) {
 							console.log(data);
 							$val =
 								$('[name="offer_number"]').val(data[i].offer_no);
 							$('[name="offer_status"]').val(data[i].status).trigger('change');
+							$('#offer_anchor').text(data[i].attachment);
+							$('#offer_anchor').attr('href', href);
 							$('[name="enquiry_number"]').val(data[i].enquiry_no);
 
 							$('[name="customer_name"]').val(data[i].customer_id);
