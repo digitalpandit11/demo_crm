@@ -119,7 +119,7 @@ if (!$_SESSION['user_name']) {
 													$customer_id = $customer->customer_id;
 
 													//get offer value
-													$this->db->select('offer_register.offer_engg_name,offer_register.status as offer_status,count(*) as offer_count');
+													$this->db->select('offer_register.offer_engg_name,offer_register.status as offer_status,count(distinct(offer_register.entity_id)) as offer_count');
 													$this->db->from('offer_register');
 													$where = '(offer_register.offer_engg_name = "' . $emp_id . '" and offer_register.customer_id = "' . $customer_id . '" and offer_register.status != 9  and offer_register.status != 1)';
 													$this->db->where($where);
