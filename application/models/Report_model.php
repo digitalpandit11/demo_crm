@@ -742,7 +742,7 @@ class Report_model extends CI_Model{
             $where1 = '(offer_register.offer_date >= "'.$timesheet_from_date.'" and offer_register.offer_date <= "'.$timesheet_to_date.'" and offer_register.offer_engg_name = "'.$emp_id.'")';
         }
 
-            $this->db->select('*,offer_register.entity_id as offer_id,rm_master.emp_first_name as rm_name,principle_engg_master.principle_engg_name,employee_master.emp_first_name as crm_name,lost_reason_master.status_name as lost_reason,status_master_relation.status_name as offer_status');
+            $this->db->select('*,offer_register.entity_id as offer_id,rm_master.emp_first_name as rm_name,principle_engg_master.principle_engg_name,employee_master.emp_first_name as crm_name,lost_reason_master.status_name as lost_reason,status_master_relation.status_name as offer_status,offer_for_master.offer_for as type,offer_for_info.offer_for_info as series');
             $this->db->from('offer_register');
             $this->db->join('enquiry_register','enquiry_register.entity_id = offer_register.enquiry_id','left');
             $this->db->join('customer_master','customer_master.entity_id = offer_register.customer_id','left');
@@ -752,6 +752,8 @@ class Report_model extends CI_Model{
             $this->db->join('employee_master as rm_master','rm_master.entity_id = offer_register.offer_rm_employee_id','inner');
             $this->db->join('enquiry_source_master','enquiry_source_master.entity_id = offer_register.offer_source','inner');
             $this->db->join('state_master','state_master.entity_id = customer_master.state_id','inner');
+            $this->db->join('offer_for_master','offer_for_master.entity_id = offer_register.offer_for','inner');
+            $this->db->join('offer_for_info','offer_for_info.entity_id = offer_register.offer_for_info','inner');
             $this->db->join('status_master_relation','status_master_relation.entity_id = offer_register.status and status_master_relation.status_for = 1','inner');
             $this->db->join('status_master_relation as lost_reason_master','lost_reason_master.status_value = offer_register.reason_for_rejection and lost_reason_master.status_for = 2','left');
 						$where1 = '(offer_register.offer_date >= "'.$timesheet_from_date.'" and offer_register.offer_date <= "'.$timesheet_to_date.'" )';
