@@ -86,10 +86,10 @@ if (!$_SESSION['user_name']) {
 										$status_list = $status_query->result();
 
 									//customer list for selected engg
-									$this->db->select('*');
+									$this->db->select('offer_register.customer_id,customer_master.customer_name');
 									$this->db->from('offer_register');
 									$this->db->join('customer_master','customer_master.entity_id = offer_register.customer_id','inner');
-									$where = '(offer_register.offer_engg_name = "'.$emp_id.'")';
+									$where = '(offer_register.offer_engg_name = "'.$emp_id.'"and offer_register.status != 9 and offer_register.status != 1)';
 									$this->db->where($where);
 									$this->db->group_by('offer_register.customer_id');
 									$customer_query = $this->db->get();
@@ -113,7 +113,7 @@ if (!$_SESSION['user_name']) {
 											<tbody>
 												<?php
 												$no = 0;
-												foreach ($customer_list_n as $customer) {
+												foreach ($customer_list as $customer) {
 													$no++;
 													$customer_name = $customer->customer_name;
 													$customer_id = $customer->customer_id;

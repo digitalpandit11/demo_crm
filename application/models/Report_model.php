@@ -960,18 +960,19 @@ class Report_model extends CI_Model{
         return $query->result();
     }
 
+		public function get_relevant_customer_list_of_employee($emp_id)
+		{
+			$this->db->select('customer_master.entity_id as customer_id, customer_master.customer_name');
+			$this->db->from('offer_register');
+			$this->db->join('customer_master', 'customer_master.entity_id = offer_register.customer_id', 'inner');
+			$where = '(offer_register.offer_engg_name = ' . $emp_id . ' and offer_register.status != 9  and offer_register.status != 1)';
+			$this->db->where($where);
+			$this->db->group_by('customer_id');
+			$query = $this->db->get();
+			return $query->result();
+		}
 
-    
-    public function get_relevant_customer_list_of_employee($emp_id)
-    {
-        $this->db->select('customer_master.entity_id as customer_id, customer_master.customer_name');
-        $this->db->from('offer_register');
-		$this->db->join('customer_master','customer_master.entity_id = offer_register.customer_id','inner');
-		$this->db->where('offer_engg_name',$emp_id);
-		$this->db->group_by('customer_id');
-        $query = $this->db->get();
-        return $query->result();
-    }
+
 
     public function get_campaign_list()
     {

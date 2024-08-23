@@ -121,6 +121,7 @@ if (!$_SESSION['user_name']) {
 
 													// $total_quote_num_rows += $quote_num_rows;
 
+												
 
 													$this->db->select('*');
 													$this->db->from('offer_register');
@@ -141,8 +142,8 @@ if (!$_SESSION['user_name']) {
 															$offer_status =  $row->offer_status;
 															$offer_count =  $row->offer_count;
 
-															if ($offer_status == $os->entity_id) {
-																$quote_data[$os->entity_id] =
+															if ($offer_status == $os->status_value) {
+																$quote_data[$os->status_value] =
 																	[
 																		'status' => $offer_status,
 																		'offer_count' => $offer_count
@@ -157,15 +158,15 @@ if (!$_SESSION['user_name']) {
 														<td><?php echo $no; ?></td>
 														<td><a href="<?= base_url('vw_status_wise_customer_wise_quotation_count_summary_report/').$emp_id;?>" ><?php echo $employee_name; ?></a></td>
 														<?php foreach ($status_list as $st) {
-															$offer_status = $st->entity_id ?>
+															$offer_status = $st->status_value ?>
 															<td style="text-align: center;" >
 																<?php
-																$quote_check = isset($quote_data[$st->entity_id]['status']);
+																$quote_check = isset($quote_data[$st->status_value]['status']);
 															
 																//get quote Count
 																if($quote_check) {
-																if($quote_data[$st->entity_id]['status'] == $offer_status){
-																	$quote_count =  $quote_data[$st->entity_id]['offer_count'];
+																if($quote_data[$st->status_value]['status'] == $offer_status){
+																	$quote_count =  $quote_data[$st->status_value]['offer_count'];
 																}else{
 																	$quote_count =0;
 																}
