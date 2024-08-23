@@ -71,25 +71,25 @@ if (!$_SESSION['user_name']) {
 							<div class="card card-primary">
 								<div class="card-header">
 									<h3 class="card-title">Status Wise Quotation Count Summary<strong>[ <?php //echo date("d-m-Y", strtotime($timesheet_from_date))." to ".date("d-m-Y", strtotime($timesheet_to_date)); 
-																																								?> ]</strong></h3>
+																																											?> ]</strong></h3>
 								</div>
 
 								<div class="card-body">
 									<?php
-										$this->db->select('*');
-										$this->db->from('status_master_relation');
-										$this->db->where('status_for',1);
-										$this->db->where('entity_id !=',9);
-										$this->db->where('entity_id !=',1);
-										$status_query = $this->db->get();
-										//$status_query_num_rows = $status_query->num_rows();
-										$status_list = $status_query->result();
+									$this->db->select('*');
+									$this->db->from('status_master_relation');
+									$this->db->where('status_for', 1);
+									$this->db->where('entity_id !=', 9);
+									$this->db->where('entity_id !=', 1);
+									$status_query = $this->db->get();
+									//$status_query_num_rows = $status_query->num_rows();
+									$status_list = $status_query->result();
 
 									//customer list for selected engg
 									$this->db->select('offer_register.customer_id,customer_master.customer_name');
 									$this->db->from('offer_register');
-									$this->db->join('customer_master','customer_master.entity_id = offer_register.customer_id','inner');
-									$where = '(offer_register.offer_engg_name = "'.$emp_id.'"and offer_register.status != 9 and offer_register.status != 1)';
+									$this->db->join('customer_master', 'customer_master.entity_id = offer_register.customer_id', 'inner');
+									$where = '(offer_register.offer_engg_name = "' . $emp_id . '"and offer_register.status != 9 and offer_register.status != 1)';
 									$this->db->where($where);
 									$this->db->group_by('offer_register.customer_id');
 									$customer_query = $this->db->get();
@@ -119,7 +119,7 @@ if (!$_SESSION['user_name']) {
 													$customer_id = $customer->customer_id;
 
 													//get offer value
-													$this->db->select('offer_register.offer_engg_name,offer_register.status as offer_status,count(distinct(offer_register.entity_id)) as offer_count');
+													$this->db->select('offer_register.customer_id,offer_register.status as offer_status,count(distinct(offer_register.entity_id)) as offer_count');
 													$this->db->from('offer_register');
 													$where = '(offer_register.offer_engg_name = "' . $emp_id . '" and offer_register.customer_id = "' . $customer_id . '" and offer_register.status != 9  and offer_register.status != 1)';
 													$this->db->where($where);
@@ -128,6 +128,9 @@ if (!$_SESSION['user_name']) {
 													$quote_result = $this->db->get()->result();
 
 
+													echo '<pre>';
+													print_r($quote_result);
+													// die();
 
 													$quote_data = [];
 													$total_offer_count = 0;
@@ -135,13 +138,13 @@ if (!$_SESSION['user_name']) {
 
 														foreach ($quote_result as $row) {
 
-															$offer_status =  $row->offer_status;
+															$offer_status_head =  $row->offer_status;
 															$offer_count =  $row->offer_count;
 
-															if ($offer_status == $os->entity_id) {
-																$quote_data[$os->entity_id] =
+															if ($offer_status_head == $os->status_value) {
+																$quote_data[$os->status_value] =
 																	[
-																		'status' => $offer_status,
+																		'status' => $offer_status_head,
 																		'offer_count' => $offer_count
 																	];
 															}
@@ -152,13 +155,13 @@ if (!$_SESSION['user_name']) {
 												?>
 													<tr>
 														<td><?php echo $no; ?></td>
-														<td><a href="#" ><?php echo $customer_name; ?></a></td>
+														<td><a href="#"><?php echo $customer_name; ?></a></td>
 														<?php foreach ($status_list as $st) {
-															$offer_status = $st->entity_id ?>
+															$offer_status = $st->status_value ?>
 															<td>
 																<?php
-																$quote_check = isset($quote_data[$st->entity_id]['status']);
-																echo ($quote_check) ? (($quote_data[$st->entity_id]['status'] == $offer_status) ? number_format($quote_data[$st->entity_id]['offer_count'],0,".",",") : "") : ""; ?>
+																$quote_check = isset($quote_data[$st->status_value]['status']);
+																echo ($quote_check) ? (($quote_data[$st->status_value]['status'] == $offer_status_head) ? number_format($quote_data[$st->entity_id]['offer_count'], 0, ".", ",") : "") : ""; ?>
 
 															</td>
 														<?php } ?>
