@@ -79,8 +79,8 @@ if (!$_SESSION['user_name']) {
 									$this->db->select('*');
 									$this->db->from('status_master_relation');
 									$this->db->where('status_for', 1);
-									$this->db->where('entity_id !=', 9);
-									$this->db->where('entity_id !=', 1);
+									$this->db->where('status_value !=', 9);
+									$this->db->where('status_value !=', 1);
 									$status_query = $this->db->get();
 									//$status_query_num_rows = $status_query->num_rows();
 									$status_list = $status_query->result();
@@ -118,6 +118,17 @@ if (!$_SESSION['user_name']) {
 													$customer_name = $customer->customer_name;
 													$customer_id = $customer->customer_id;
 
+													$this->db->select('status,count(entity_id) as offer_count');
+													$this->db->from('offer_register');
+													$where = '(offer_register.offer_engg_name = "' . $emp_id . '" and offer_register.customer_id = "' . $customer_id . '" and offer_register.status != 9 and offer_register.status != 1)';
+													$this->db->where($where);
+													$this->db->group_by('status');
+													$quote_query = $this->db->get();
+													$quote_num_rows = $quote_query->num_rows();
+
+													if($quote_num_rows >0){
+
+													
 
 
 												?>
@@ -128,20 +139,14 @@ if (!$_SESSION['user_name']) {
 															$offer_status = $st->status_value ?>
 															<td>
 
-															<?php
+															<?php 
+															foreach($quote_query->result() as $quote_data){
+																if($offer_status == $quote_data->status){
+																	echo $quote_data->offer_count;
+																}
 
-																$this->db->select('*');
-																$this->db->from('offer_register');
-																$where = '(offer_register.offer_engg_name = "' . $emp_id . '" and offer_register.customer_id = "' . $customer_id . '" and offer_register.status = "'.$offer_status.'")';
-																$this->db->where($where);
-																$quote_query = $this->db->get();
 
-																$offer_count = $quote_query->num_rows();
-
-																echo $offer_count;
-
-																
-
+															}
 
 																?>
 																
@@ -149,7 +154,7 @@ if (!$_SESSION['user_name']) {
 															</td>
 														<?php } ?>
 													</tr>
-												<?php  } ?>
+												<?php  } } ?>
 											</tbody>
 										</table>
 									</div>
