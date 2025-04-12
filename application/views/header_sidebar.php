@@ -191,6 +191,26 @@ if (!$_SESSION['user_name']) {
 						</a>
 					</li> -->
 
+					<li class="nav-item has-treeview">
+						<a href="<?php echo base_url() . 'vw_dosage_index' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "vw_dosage_index") ? "active" : ""; ?>>
+							<ion-icon name="business-outline" style="font-size: 20px; vertical-align: middle;"></ion-icon>
+							<!-- <i class="far fa-circle nav-icon"></i> -->
+							<p>
+								&nbsp;&nbsp;Dosage Details
+							</p>
+						</a>
+					</li>
+
+
+					<li class="nav-item has-treeview">
+						<a href="<?php echo base_url() . 'vw_tnc_master_index' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "vw_tnc_master_index") ? "active" : ""; ?>>
+							<ion-icon name="business-outline" style="font-size: 20px; vertical-align: middle;"></ion-icon>
+							<!-- <i class="far fa-circle nav-icon"></i> -->
+							<p>
+								&nbsp;&nbsp;TNC Master Details
+							</p>
+						</a>
+					</li>
 
 					<li class="nav-item has-treeview">
 						<a href="<?php echo base_url() . 'vw_customer_index' ?>" class="nav-link" <?php echo ($this->uri->segment(1) == "vw_customer_index") ? "active" : ""; ?>>

@@ -181,6 +181,21 @@ $route['update_customer_master/:any'] = "master/customer_master/update_customer_
 $route['update_customer_master/:any'] = "master/customer_master/edit_customer_master";
 $route['view_customer_master/:any'] = "master/customer_master/view_customer_master";
 $route['delete_customer_master/:any'] = "master/customer_master/soft_delete_customer_master";*/
+
+//Dosage Master
+$route['vw_dosage_index'] 							= "master/dosage_master";
+$route['get_ajax_dosage_data'] 						= "master/dosage_master/ajax_dosage_index";
+$route['create_dosage_master'] 						= "master/dosage_master/create";
+$route['edit_dosage_master/:any'] 					= "master/dosage_master/edit_dosage_master";
+
+
+//TNC Master
+$route['vw_tnc_master_index'] 						= "master/tnc_master";
+$route['get_ajax_tnc_master_data'] 					= "master/tnc_master/ajax_tnc_master_index";
+$route['create_tnc_master'] 						= "master/tnc_master/create";
+$route['edit_tnc_master/:any'] 						= "master/tnc_master/edit_tnc_master";
+
+
 //Customer Master
 $route['vw_customer_index'] = "master/customer_master";
 $route['vw_erp_product_vw_customer_master'] = "master/customer_master";
