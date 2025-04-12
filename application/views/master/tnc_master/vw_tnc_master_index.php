@@ -87,6 +87,27 @@ if(!$_SESSION['user_name'])
                                                             <th>Action</th>
                                                         </tr>
                                                     </thead>
+                                                    <tbody>
+                                                        <?php
+                                                            $no = 0;
+                                                            foreach ($tnc_data as $row):
+                                                                $no++;
+                                                                $entity_id = $row->entity_id;
+                                                           ?>
+                                                            <tr>
+                                                                <td><?php echo $no;?></td>
+                                                                <td><?php echo $row->tnc_name;?></td>
+                                                                <td><?php echo ($row->status == 1) 
+        ? '<div class="badge badge-success">Active</span>' 
+        : '<div class="badge badge-danger">Inactive</span>'; ?></td>
+                                                                <td>
+                                                                    <div class="btn-group">
+                                                                        <a href="<?php echo site_url('edit_tnc_master/'.$entity_id);?>" class="btn btn-info btn-flat" style="font-size: 0.7rem;"><i class="fas fa-edit"></i></a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        <?php endforeach;?>
+                                                    </tbody>
                                                 </table>
                                             </div>
                                         </div>
@@ -129,7 +150,7 @@ if(!$_SESSION['user_name'])
         <script src="<?php echo base_url().'assets/plugins/datatables/jquery.dataTables.js'?>"></script>
         <script src="<?php echo base_url().'assets/plugins/datatables-bs4/js/dataTables.bootstrap4.js'?>"></script>
         <!-- Page script -->
-        <script>
+       <!--  <script>
     		$(document).ready(function() {
     			$('#example1').DataTable({
     				"searching": true,
@@ -143,6 +164,6 @@ if(!$_SESSION['user_name'])
     				}, // for adding serial no
     			});
     		});
-        </script>
+        </script> -->
     </body>
 </html>
