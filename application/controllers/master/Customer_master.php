@@ -733,9 +733,9 @@ class Customer_master extends CI_Controller {
         //   'host' => 'localhost'
         // );
         $sql_details = array(
-            'user' => 'u117003035_vbtek',
-            'pass' => 'S@14vbtek',
-            'db' => 'u117003035_demo_crm',
+            'user' => ($_SERVER['HTTP_HOST'] != 'localhost')?'u117003035_vbtek':'root',
+            'pass' => ($_SERVER['HTTP_HOST'] != 'localhost')?'S@14vbtek':'',
+            'db' => ($_SERVER['HTTP_HOST'] != 'localhost')?'u117003035_demo_crm':'demo_crm',
             'host' => 'localhost'
         );
         
@@ -846,9 +846,9 @@ class Customer_master extends CI_Controller {
         //  SQL server connection information
         
         $sql_details = array(
-            'user' => 'u117003035_vbtek',
-            'pass' => 'S@14vbtek',
-            'db' => 'u117003035_demo_crm',
+            'user' => ($_SERVER['HTTP_HOST'] != 'localhost')?'u117003035_vbtek':'root',
+            'pass' => ($_SERVER['HTTP_HOST'] != 'localhost')?'S@14vbtek':'',
+            'db' => ($_SERVER['HTTP_HOST'] != 'localhost')?'u117003035_demo_crm':'demo_crm',
             'host' => 'localhost'
         );
         
