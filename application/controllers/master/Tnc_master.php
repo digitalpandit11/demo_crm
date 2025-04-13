@@ -10,7 +10,8 @@ class Tnc_master extends CI_Controller {
 
 	public function index()
 	{
-        $this->load->view('master/tnc_master/vw_tnc_master_index');
+        $result['tnc_data'] = $this->tnc_master_model->get_tnc_master_details();
+        $this->load->view('master/tnc_master/vw_tnc_master_index',$result);
 	}
 
     public function ajax_tnc_master_index()
