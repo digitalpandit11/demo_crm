@@ -106,9 +106,9 @@ if ($_SERVER['HTTP_HOST'] == 'localhost') {
     $db['default'] = array(
         'dsn'	=> '',
         'hostname' => 'localhost',
-        'username' => 'u117003035_vbtek',
-        'password' => 'S@14vbtek',
-        'database' => 'u117003035_demo_crm',
+        'username' => 'ekkrwvxp_demo_crm',
+        'password' => 'S@14democrm',
+        'database' => 'ekkrwvxp_demo_crm',
         'dbdriver' => 'mysqli',
         'dbprefix' => '',
         'pconnect' => FALSE,
